@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: #f8fafc;
+    --foreground: #0f172a;
+    --primary: 24 95% 53%; /* Industrial Orange #ea580c */
+    --primary-dark: 20 90% 45%;
+  }
+
+  body {
+    font-family: var(--font-roboto), Arial, Helvetica, sans-serif;
+    background-color: #f8fafc;
+    color: #0f172a;
+  }
+}
+
+/* Slide timer progress indicator */
+@keyframes slide-progress {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+.animate-slide-progress {
+  animation: slide-progress 3s linear forwards;
+}
+
+/* Phone ringing micro-animation */
+@keyframes phone-wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  10%, 30% { transform: rotate(-18deg); }
+  20%, 40% { transform: rotate(18deg); }
+  50% { transform: rotate(0deg); }
+}
+
+.animate-phone-ring {
+  animation: phone-wiggle 2s ease-in-out infinite;
+}
+
+/* Custom scrollbar for light theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ea580c;
+}
+
+/* Light mode Glassmorphism Header */
+.glass-header-light {
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.85);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
+}

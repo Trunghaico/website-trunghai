@@ -1,0 +1,61 @@
+import { db } from "@/lib/db";
+import Header from "@/components/Header";
+import HeroSlider from "@/components/HeroSlider";
+import StatsCounter from "@/components/StatsCounter";
+import AboutSection from "@/components/AboutSection";
+import ServicesSection from "@/components/ServicesSection";
+import ProjectsSection from "@/components/ProjectsSection";
+import NewsSection from "@/components/NewsSection";
+import RecruitmentSection from "@/components/RecruitmentSection";
+import ContactSection from "@/components/ContactSection";
+import Footer from "@/components/Footer";
+
+// Revalidate data periodically or on request
+export const revalidate = 0;
+
+export default async function HomePage() {
+  const [slides, projects, news, jobs, settings] = await Promise.all([
+    db.getSlides(),
+    db.getProjects(),
+    db.getNews(),
+    db.getJobs(),
+    db.getSettings(),
+  ]);
+
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col selection:bg-orange-500 selection:text-white">
+      {/* 1. Transparent-on-top Sticky Header */}
+      <Header hotline={settings.hotline || settings.phone} />
+
+      {/* Main Content */}
+      <main className="flex-1">
+        {/* 2. Mục đầu tiên của trang chủ: Image Slider */}
+        <HeroSlider slides={slides} />
+
+        {/* 3. Thống kê năng lực cốt lõi */}
+        <StatsCounter />
+
+        {/* 4. Giới thiệu doanh nghiệp */}
+        <AboutSection />
+
+        {/* 5. Lĩnh vực hoạt động */}
+        <ServicesSection />
+
+        {/* 6. Công trình / Dự án tiêu biểu */}
+        <ProjectsSection initialProjects={projects} />
+
+        {/* 7. Tin tức & Sự kiện */}
+        <NewsSection initialNews={news} />
+
+        {/* 8. Cơ hội việc làm & Tuyển dụng */}
+        <RecruitmentSection initialJobs={jobs} />
+
+        {/* 9. Liên hệ hợp tác & Bản đồ */}
+        <ContactSection settings={settings} />
+      </main>
+
+      {/* 10. Chân trang đầy đủ thông tin pháp lý */}
+      <Footer settings={settings} />
+    </div>
+  );
+}
