@@ -140,7 +140,7 @@ export default function Header({
         <div
           className={`relative w-full transition-all duration-300 ease-in-out ${
             isSolid
-              ? "bg-white/95 backdrop-blur-md py-2.5 sm:py-3 border-b border-red-500/60 shadow-[0_4px_25px_-3px_rgba(239,68,68,0.25)]"
+              ? "bg-white/95 backdrop-blur-md py-2.5 sm:py-3 border-b border-[#ed3237] shadow-sm"
               : "bg-transparent py-3 sm:py-3.5 border-b border-white/10"
           }`}
         >
@@ -235,11 +235,6 @@ export default function Header({
               </div>
             </div>
           </div>
-
-          {/* Glowing blurred red bottom border when solid */}
-          {isSolid && (
-            <div className="absolute -bottom-[1px] left-0 right-0 h-[2px] bg-gradient-to-r from-red-500/20 via-red-600 to-red-500/20 blur-[1px] shadow-[0_0_10px_rgba(239,68,68,0.8)] pointer-events-none" />
-          )}
         </div>
       </header>
 
