@@ -4,8 +4,8 @@
   :root {
     --background: #f8fafc;
     --foreground: #0f172a;
-    --primary: 24 95% 53%; /* Industrial Orange #ea580c */
-    --primary-dark: 20 90% 45%;
+    --brand-red: #ed3237;
+    --brand-blue: #3e4095;
   }
 
   body {
@@ -49,7 +49,7 @@
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #ea580c;
+  background: #ed3237;
 }
 
 /* Light mode Glassmorphism Header */

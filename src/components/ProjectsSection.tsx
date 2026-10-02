@@ -69,14 +69,14 @@ function Project3DCard({
             ? `perspective(1000px) rotateX(${rotate.x.toFixed(2)}deg) rotateY(${rotate.y.toFixed(2)}deg) translateZ(8px) scale3d(1.012, 1.012, 1.012)`
             : "perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px) scale3d(1, 1, 1)",
           boxShadow: isHovered
-            ? `${shadowX.toFixed(1)}px ${shadowY.toFixed(1)}px 18px -4px rgba(220, 38, 38, 0.16), 0 6px 14px -3px rgba(15, 23, 42, 0.08)`
+            ? `${shadowX.toFixed(1)}px ${shadowY.toFixed(1)}px 18px -4px rgba(237, 50, 55, 0.16), 0 6px 14px -3px rgba(15, 23, 42, 0.08)`
             : "0 1px 3px 0 rgba(0, 0, 0, 0.05)",
           transition: isHovered
             ? "transform 0.12s ease-out, box-shadow 0.15s ease-out"
             : "transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1)",
           transformStyle: "preserve-3d",
         }}
-        className="group cursor-pointer rounded-[3px] bg-white border border-slate-200 hover:border-red-500/60 overflow-hidden flex flex-col justify-between shadow-sm relative select-none"
+        className="group cursor-pointer rounded-[3px] bg-white border border-slate-200 hover:border-[#ed3237]/60 overflow-hidden flex flex-col justify-between shadow-sm relative select-none"
       >
         {/* Dynamic Light Sheen Overlay */}
         <div
@@ -98,7 +98,7 @@ function Project3DCard({
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
 
-            {/* Category Pill */}
+            {/* Category Pill in Deep Blue */}
             <div
               className="absolute top-3 left-3 z-20"
               style={{
@@ -106,14 +106,14 @@ function Project3DCard({
                 transition: "transform 0.2s ease-out",
               }}
             >
-              <span className="px-2.5 py-0.5 rounded-[2px] bg-red-600 text-white text-[11px] font-bold uppercase tracking-wider shadow">
+              <span className="px-2.5 py-0.5 rounded-[2px] bg-[#3e4095] text-white text-[11px] font-bold uppercase tracking-wider shadow">
                 {project.categoryName}
               </span>
             </div>
 
             {/* Expand icon hover */}
             <div
-              className="absolute top-3 right-3 z-20 w-8 h-8 rounded-[3px] bg-white/90 text-slate-800 flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:bg-red-600 group-hover:text-white transition-all duration-300 shadow"
+              className="absolute top-3 right-3 z-20 w-8 h-8 rounded-[3px] bg-white/90 text-slate-800 flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:bg-[#ed3237] group-hover:text-white transition-all duration-300 shadow"
               style={{
                 transform: isHovered ? "translateZ(14px)" : "translateZ(0px)",
                 transition: "transform 0.2s ease-out",
@@ -131,7 +131,7 @@ function Project3DCard({
               }}
             >
               <div className="flex items-center gap-1 drop-shadow">
-                <MapPin className="w-3.5 h-3.5 text-red-400" />
+                <MapPin className="w-3.5 h-3.5 text-[#ed3237]" />
                 <span className="truncate font-medium">{project.location}</span>
               </div>
               <div className="flex items-center gap-1 drop-shadow">
@@ -145,7 +145,7 @@ function Project3DCard({
           <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3" style={{ transform: "translateZ(8px)" }}>
             <div>
               <h3
-                className="text-sm sm:text-base font-bold text-slate-900 group-hover:text-red-600 transition-colors line-clamp-2 leading-snug"
+                className="text-sm sm:text-base font-bold text-slate-900 group-hover:text-[#ed3237] transition-colors line-clamp-2 leading-snug"
                 style={{
                   transform: isHovered ? "translateZ(12px)" : "translateZ(0px)",
                   transition: "transform 0.2s ease-out",
@@ -167,7 +167,7 @@ function Project3DCard({
             >
               {project.scale && (
                 <div className="flex items-start gap-1.5 text-xs text-slate-700">
-                  <Layers className="w-3.5 h-3.5 text-red-600 shrink-0 mt-0.5" />
+                  <Layers className="w-3.5 h-3.5 text-[#3e4095] shrink-0 mt-0.5" />
                   <span className="line-clamp-1 font-medium">{project.scale}</span>
                 </div>
               )}
@@ -209,7 +209,7 @@ export default function ProjectsSection({ initialProjects }: ProjectsSectionProp
         {/* Section Heading - Compact & Modern */}
         <div className="space-y-2 max-w-3xl mb-6 sm:mb-8">
           <div>
-            <span className="inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-red-600 text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-red-600/30">
+            <span className="inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/30">
               DỰ ÁN TRỌNG ĐIỂM
             </span>
           </div>
@@ -229,7 +229,7 @@ export default function ProjectsSection({ initialProjects }: ProjectsSectionProp
               onClick={() => setFilter(cat.id)}
               className={`px-3.5 py-1.5 rounded-[3px] text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
                 filter === cat.id
-                  ? "bg-red-600 text-white shadow-md shadow-red-600/30 scale-102"
+                  ? "bg-[#ed3237] text-white shadow-md shadow-[#ed3237]/30 scale-102"
                   : "bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900 border border-slate-200"
               }`}
             >

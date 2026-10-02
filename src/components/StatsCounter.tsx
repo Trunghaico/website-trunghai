@@ -68,7 +68,7 @@ function Stat3DItem({
             ? `perspective(1000px) rotateX(${rotate.x.toFixed(2)}deg) rotateY(${rotate.y.toFixed(2)}deg) translateZ(8px) scale3d(1.012, 1.012, 1.012)`
             : "perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px) scale3d(1, 1, 1)",
           boxShadow: isHovered
-            ? `${shadowX.toFixed(1)}px ${shadowY.toFixed(1)}px 18px -4px rgba(234, 88, 12, 0.2), 0 6px 14px -3px rgba(15, 23, 42, 0.08)`
+            ? `${shadowX.toFixed(1)}px ${shadowY.toFixed(1)}px 18px -4px rgba(237, 50, 55, 0.2), 0 6px 14px -3px rgba(15, 23, 42, 0.08)`
             : "none",
           transition: isHovered
             ? "transform 0.12s ease-out, box-shadow 0.15s ease-out"
@@ -76,7 +76,7 @@ function Stat3DItem({
           transformStyle: "preserve-3d",
         }}
         className={`p-4 sm:p-5 bg-white rounded-[3px] border border-transparent transition-colors duration-200 cursor-pointer overflow-hidden relative select-none ${
-          isHovered ? "!border-orange-500/50 bg-white" : "hover:bg-orange-50/20"
+          isHovered ? "!border-[#ed3237]/50 bg-white" : "hover:bg-red-50/20"
         }`}
       >
         {/* Dynamic Light Sheen / Glare Overlay */}
@@ -84,7 +84,7 @@ function Stat3DItem({
           className="pointer-events-none absolute inset-0 z-30 transition-opacity duration-300"
           style={{
             opacity: glare.opacity,
-            background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, rgba(251, 146, 60, 0.2) 0%, rgba(255, 255, 255, 0.35) 35%, transparent 70%)`,
+            background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, rgba(237, 50, 55, 0.2) 0%, rgba(255, 255, 255, 0.35) 35%, transparent 70%)`,
           }}
         />
 
@@ -99,15 +99,15 @@ function Stat3DItem({
           <div
             className={`p-2 rounded-[3px] transition-all duration-300 ${
               isHovered
-                ? "bg-orange-600 text-white shadow-md shadow-orange-600/30 scale-106"
-                : "bg-orange-50 text-orange-600"
+                ? "bg-[#ed3237] text-white shadow-md shadow-[#ed3237]/30 scale-106"
+                : "bg-red-50 text-[#ed3237]"
             }`}
           >
             <Icon className="w-5 h-5" />
           </div>
           <div
             className={`text-2xl sm:text-3xl font-extrabold tracking-tight transition-colors duration-200 ${
-              isHovered ? "text-orange-600" : "text-slate-900"
+              isHovered ? "text-[#ed3237]" : "text-slate-900"
             }`}
           >
             {item.value}

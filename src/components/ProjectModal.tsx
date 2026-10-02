@@ -31,7 +31,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
           {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-3 right-3 z-20 p-2 rounded-[3px] bg-black/60 hover:bg-red-600 text-white backdrop-blur-md transition-colors shadow-md"
+            className="absolute top-3 right-3 z-20 p-2 rounded-[3px] bg-black/60 hover:bg-[#ed3237] text-white backdrop-blur-md transition-colors shadow-md"
             aria-label="Close"
           >
             <X className="w-5 h-5" />
@@ -48,7 +48,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/20" />
 
             <div className="absolute bottom-4 left-5 right-5 sm:bottom-6 sm:left-6 sm:right-6">
-              <span className="inline-block px-2.5 py-0.5 rounded-[2px] bg-red-600 text-white text-[11px] font-bold uppercase tracking-wider mb-2 shadow">
+              <span className="inline-block px-2.5 py-0.5 rounded-[2px] bg-[#3e4095] text-white text-[11px] font-bold uppercase tracking-wider mb-2 shadow">
                 {project.categoryName}
               </span>
               <h3 className="text-lg sm:text-2xl font-black text-white drop-shadow-md">
@@ -66,7 +66,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                   onClick={() => setSelectedImg(img)}
                   className={`relative w-18 h-12 rounded-[2px] overflow-hidden shrink-0 border-2 transition-all ${
                     currentImage === img
-                      ? "border-red-600 scale-105 shadow-md"
+                      ? "border-[#ed3237] scale-105 shadow-md"
                       : "border-transparent opacity-70 hover:opacity-100"
                   }`}
                 >
@@ -82,7 +82,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-3.5 rounded-[3px] bg-slate-50 border border-slate-200">
               <div className="space-y-1">
                 <div className="flex items-center gap-1.5 text-xs text-slate-500">
-                  <MapPin className="w-3.5 h-3.5 text-red-600" />
+                  <MapPin className="w-3.5 h-3.5 text-[#ed3237]" />
                   <span>Địa Điểm</span>
                 </div>
                 <div className="text-xs sm:text-sm font-semibold text-slate-800">
@@ -92,7 +92,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
               <div className="space-y-1">
                 <div className="flex items-center gap-1.5 text-xs text-slate-500">
-                  <Building className="w-3.5 h-3.5 text-red-600" />
+                  <Building className="w-3.5 h-3.5 text-[#ed3237]" />
                   <span>Chủ Đầu Tư</span>
                 </div>
                 <div className="text-xs sm:text-sm font-semibold text-slate-800 line-clamp-2">
@@ -102,7 +102,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
               <div className="space-y-1">
                 <div className="flex items-center gap-1.5 text-xs text-slate-500">
-                  <Calendar className="w-3.5 h-3.5 text-red-600" />
+                  <Calendar className="w-3.5 h-3.5 text-[#ed3237]" />
                   <span>Thời Gian</span>
                 </div>
                 <div className="text-xs sm:text-sm font-semibold text-slate-800">
@@ -113,10 +113,10 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               {project.value && (
                 <div className="space-y-1">
                   <div className="flex items-center gap-1.5 text-xs text-slate-500">
-                    <DollarSign className="w-3.5 h-3.5 text-red-600" />
+                    <DollarSign className="w-3.5 h-3.5 text-[#ed3237]" />
                     <span>Giá Trị Gói Thầu</span>
                   </div>
-                  <div className="text-xs sm:text-sm font-bold text-red-600">
+                  <div className="text-xs sm:text-sm font-bold text-[#ed3237]">
                     {project.value}
                   </div>
                 </div>
@@ -125,10 +125,10 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
             {/* Technical Scale */}
             {project.scale && (
-              <div className="p-3.5 rounded-[3px] bg-red-50/60 border border-red-200 flex items-start gap-3">
-                <Layers className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+              <div className="p-3.5 rounded-[3px] bg-[#3e4095]/5 border border-[#3e4095]/20 flex items-start gap-3">
+                <Layers className="w-5 h-5 text-[#3e4095] shrink-0 mt-0.5" />
                 <div>
-                  <div className="text-xs font-bold uppercase text-red-700">
+                  <div className="text-xs font-bold uppercase text-[#3e4095]">
                     Quy Mô Kỹ Thuật Công Trình
                   </div>
                   <div className="text-xs sm:text-sm text-slate-800 mt-1 font-medium">
@@ -156,7 +156,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                       key={i}
                       className="flex items-center gap-2 p-2 rounded-[3px] bg-slate-50 border border-slate-200 text-xs text-slate-700"
                     >
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#3e4095] shrink-0" />
                       <span>{h}</span>
                     </div>
                   ))}

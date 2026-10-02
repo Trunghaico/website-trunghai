@@ -6,7 +6,6 @@ import AboutSection from "@/components/AboutSection";
 import ServicesSection from "@/components/ServicesSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import NewsSection from "@/components/NewsSection";
-import RecruitmentSection from "@/components/RecruitmentSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
@@ -14,16 +13,15 @@ import Footer from "@/components/Footer";
 export const revalidate = 0;
 
 export default async function HomePage() {
-  const [slides, projects, news, jobs, settings] = await Promise.all([
+  const [slides, projects, news, settings] = await Promise.all([
     db.getSlides(),
     db.getProjects(),
     db.getNews(),
-    db.getJobs(),
     db.getSettings(),
   ]);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col selection:bg-orange-500 selection:text-white">
+    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col selection:bg-[#ed3237] selection:text-white">
       {/* 1. Transparent-on-top Sticky Header */}
       <Header hotline={settings.hotline || settings.phone} />
 
@@ -47,10 +45,7 @@ export default async function HomePage() {
         {/* 7. Tin tức & Sự kiện */}
         <NewsSection initialNews={news} />
 
-        {/* 8. Cơ hội việc làm & Tuyển dụng */}
-        <RecruitmentSection initialJobs={jobs} />
-
-        {/* 9. Liên hệ hợp tác & Bản đồ */}
+        {/* 8. Liên hệ hợp tác & Bản đồ */}
         <ContactSection settings={settings} />
       </main>
 

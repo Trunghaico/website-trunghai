@@ -295,7 +295,7 @@ export default function AdminPage() {
             <span className="font-extrabold text-sm sm:text-base text-white tracking-wide">
               TRUNG HẢI CMS
             </span>
-            <span className="text-xs px-2 py-0.5 rounded bg-orange-600/20 text-orange-400 border border-orange-500/30">
+            <span className="text-xs px-2 py-0.5 rounded bg-[#ed3237]/20 text-[#ed3237] border border-[#ed3237]/30">
               Quản Trị
             </span>
           </div>
@@ -320,7 +320,7 @@ export default function AdminPage() {
           <button
             onClick={() => { setActiveTab("dashboard"); setIsEditingProject(false); setIsEditingNews(false); setIsEditingJob(false); }}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
-              activeTab === "dashboard" ? "bg-orange-600 text-white shadow-lg shadow-orange-600/30" : "text-slate-400 hover:bg-slate-800 hover:text-white"
+              activeTab === "dashboard" ? "bg-[#ed3237] text-white shadow-lg shadow-[#ed3237]/30" : "text-slate-400 hover:bg-slate-800 hover:text-white"
             }`}
           >
             <LayoutDashboard className="w-4 h-4" />
@@ -330,7 +330,7 @@ export default function AdminPage() {
           <button
             onClick={() => { setActiveTab("projects"); setIsEditingProject(false); }}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
-              activeTab === "projects" ? "bg-orange-600 text-white shadow-lg shadow-orange-600/30" : "text-slate-400 hover:bg-slate-800 hover:text-white"
+              activeTab === "projects" ? "bg-[#ed3237] text-white shadow-lg shadow-[#ed3237]/30" : "text-slate-400 hover:bg-slate-800 hover:text-white"
             }`}
           >
             <FolderKanban className="w-4 h-4" />
@@ -340,7 +340,7 @@ export default function AdminPage() {
           <button
             onClick={() => { setActiveTab("news"); setIsEditingNews(false); }}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
-              activeTab === "news" ? "bg-orange-600 text-white shadow-lg shadow-orange-600/30" : "text-slate-400 hover:bg-slate-800 hover:text-white"
+              activeTab === "news" ? "bg-[#ed3237] text-white shadow-lg shadow-[#ed3237]/30" : "text-slate-400 hover:bg-slate-800 hover:text-white"
             }`}
           >
             <Newspaper className="w-4 h-4" />
@@ -350,7 +350,7 @@ export default function AdminPage() {
           <button
             onClick={() => { setActiveTab("jobs"); setIsEditingJob(false); }}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
-              activeTab === "jobs" ? "bg-orange-600 text-white shadow-lg shadow-orange-600/30" : "text-slate-400 hover:bg-slate-800 hover:text-white"
+              activeTab === "jobs" ? "bg-[#ed3237] text-white shadow-lg shadow-[#ed3237]/30" : "text-slate-400 hover:bg-slate-800 hover:text-white"
             }`}
           >
             <Briefcase className="w-4 h-4" />
@@ -360,7 +360,7 @@ export default function AdminPage() {
           <button
             onClick={() => setActiveTab("media")}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
-              activeTab === "media" ? "bg-orange-600 text-white shadow-lg shadow-orange-600/30" : "text-slate-400 hover:bg-slate-800 hover:text-white"
+              activeTab === "media" ? "bg-[#ed3237] text-white shadow-lg shadow-[#ed3237]/30" : "text-slate-400 hover:bg-slate-800 hover:text-white"
             }`}
           >
             <ImageIcon className="w-4 h-4" />
@@ -370,7 +370,7 @@ export default function AdminPage() {
           <button
             onClick={() => setActiveTab("settings")}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
-              activeTab === "settings" ? "bg-orange-600 text-white shadow-lg shadow-orange-600/30" : "text-slate-400 hover:bg-slate-800 hover:text-white"
+              activeTab === "settings" ? "bg-[#ed3237] text-white shadow-lg shadow-[#ed3237]/30" : "text-slate-400 hover:bg-slate-800 hover:text-white"
             }`}
           >
             <Settings className="w-4 h-4" />
@@ -401,7 +401,7 @@ export default function AdminPage() {
                         <div className="text-xs uppercase text-slate-400 font-semibold">Công Trình Đã Đăng</div>
                         <div className="text-3xl font-extrabold text-white mt-1">{projects.length}</div>
                       </div>
-                      <div className="p-3 rounded-xl bg-orange-600/10 text-orange-500">
+                      <div className="p-3 rounded-xl bg-[#ed3237]/10 text-[#ed3237]">
                         <FolderKanban className="w-6 h-6" />
                       </div>
                     </div>
@@ -411,7 +411,7 @@ export default function AdminPage() {
                         <div className="text-xs uppercase text-slate-400 font-semibold">Bài Viết Tin Tức</div>
                         <div className="text-3xl font-extrabold text-white mt-1">{news.length}</div>
                       </div>
-                      <div className="p-3 rounded-xl bg-blue-600/10 text-blue-500">
+                      <div className="p-3 rounded-xl bg-[#3e4095]/20 text-[#686bbd]">
                         <Newspaper className="w-6 h-6" />
                       </div>
                     </div>
@@ -432,7 +432,7 @@ export default function AdminPage() {
                     {/* Cloudflare D1 card */}
                     <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
                       <div className="flex items-center gap-3">
-                        <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-500">
+                        <div className="p-2.5 rounded-xl bg-[#3e4095]/20 text-[#686bbd]">
                           <Database className="w-5 h-5" />
                         </div>
                         <div>
@@ -441,8 +441,8 @@ export default function AdminPage() {
                         </div>
                       </div>
                       <p className="text-xs text-slate-300 leading-relaxed">
-                        Hệ thống tự động sử dụng Cloudflare D1 khi các biến môi trường được cấu hình trên Vercel:
-                        <code className="block mt-2 p-2 rounded bg-slate-950 text-orange-400 text-[11px] font-mono">
+                        Hệ thống tự động sử dụng Cloudflare D1 khi các biến môi trường được cấu hình:
+                        <code className="block mt-2 p-2 rounded bg-slate-950 text-sky-400 text-[11px] font-mono">
                           CLOUDFLARE_ACCOUNT_ID<br />
                           CLOUDFLARE_D1_DATABASE_ID<br />
                           CLOUDFLARE_API_TOKEN
@@ -501,7 +501,7 @@ export default function AdminPage() {
                           });
                           setIsEditingProject(true);
                         }}
-                        className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-semibold text-xs sm:text-sm shadow-lg shadow-orange-600/30 transition-all"
+                        className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs sm:text-sm shadow-lg shadow-[#ed3237]/30 transition-all"
                       >
                         <Plus className="w-4 h-4" />
                         <span>Thêm Dự Án Mới</span>
@@ -525,7 +525,7 @@ export default function AdminPage() {
                             placeholder="Dự án hầm đường bộ qua..."
                             value={projectForm.title}
                             onChange={(e) => setProjectForm({ ...projectForm, title: e.target.value })}
-                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                           />
                         </div>
 
@@ -543,7 +543,7 @@ export default function AdminPage() {
                               };
                               setProjectForm({ ...projectForm, category: val, categoryName: map[val] });
                             }}
-                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                           >
                             <option value="ham">Hầm Xuyên Núi</option>
                             <option value="cau-duong">Cầu & Đường Bộ</option>
@@ -561,7 +561,7 @@ export default function AdminPage() {
                             placeholder="Phú Yên - Khánh Hòa"
                             value={projectForm.location}
                             onChange={(e) => setProjectForm({ ...projectForm, location: e.target.value })}
-                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                           />
                         </div>
                         <div>
@@ -571,7 +571,7 @@ export default function AdminPage() {
                             placeholder="Bộ Giao thông Vận tải"
                             value={projectForm.client}
                             onChange={(e) => setProjectForm({ ...projectForm, client: e.target.value })}
-                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                           />
                         </div>
                         <div>
@@ -581,7 +581,7 @@ export default function AdminPage() {
                             placeholder="2023 - 2026"
                             value={projectForm.year}
                             onChange={(e) => setProjectForm({ ...projectForm, year: e.target.value })}
-                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                           />
                         </div>
                       </div>
@@ -594,7 +594,7 @@ export default function AdminPage() {
                             placeholder="3.500 Tỷ VNĐ"
                             value={projectForm.value}
                             onChange={(e) => setProjectForm({ ...projectForm, value: e.target.value })}
-                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                           />
                         </div>
                         <div>
@@ -604,7 +604,7 @@ export default function AdminPage() {
                             placeholder="Hầm đôi 4 làn xe, dài 2.500m"
                             value={projectForm.scale}
                             onChange={(e) => setProjectForm({ ...projectForm, scale: e.target.value })}
-                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                           />
                         </div>
                       </div>
@@ -621,10 +621,10 @@ export default function AdminPage() {
                             placeholder="https://..."
                             value={projectForm.thumbnail}
                             onChange={(e) => setProjectForm({ ...projectForm, thumbnail: e.target.value })}
-                            className="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                            className="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                           />
                           <label className="cursor-pointer px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1.5 border border-slate-700 shrink-0">
-                            <Upload className="w-4 h-4 text-orange-400" />
+                            <Upload className="w-4 h-4 text-[#ed3237]" />
                             <span>{isUploading ? "Đang tải..." : "Tải ảnh lên"}</span>
                             <input
                               type="file"
@@ -642,14 +642,14 @@ export default function AdminPage() {
                           rows={4}
                           value={projectForm.description}
                           onChange={(e) => setProjectForm({ ...projectForm, description: e.target.value })}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                         />
                       </div>
 
                       <div className="flex items-center gap-3 pt-4">
                         <button
                           type="submit"
-                          className="px-6 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-semibold text-sm shadow-lg shadow-orange-600/30 transition-all"
+                          className="px-6 py-2.5 rounded-xl bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-sm shadow-lg shadow-[#ed3237]/30 transition-all"
                         >
                           Lưu Dự Án
                         </button>
@@ -687,7 +687,7 @@ export default function AdminPage() {
                                 </td>
                                 <td className="py-3 px-4 font-semibold text-white max-w-xs truncate">{p.title}</td>
                                 <td className="py-3 px-4">
-                                  <span className="px-2 py-0.5 rounded-full bg-orange-600/20 text-orange-400 text-xs">
+                                  <span className="px-2 py-0.5 rounded-full bg-[#3e4095]/20 text-[#686bbd] text-xs">
                                     {p.categoryName}
                                   </span>
                                 </td>
@@ -745,7 +745,7 @@ export default function AdminPage() {
                           });
                           setIsEditingNews(true);
                         }}
-                        className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-semibold text-xs sm:text-sm shadow-lg shadow-orange-600/30 transition-all"
+                        className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs sm:text-sm shadow-lg shadow-[#ed3237]/30 transition-all"
                       >
                         <Plus className="w-4 h-4" />
                         <span>Đăng Bài Viết Mới</span>
@@ -766,7 +766,7 @@ export default function AdminPage() {
                           required
                           value={newsForm.title}
                           onChange={(e) => setNewsForm({ ...newsForm, title: e.target.value })}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                         />
                       </div>
 
@@ -785,7 +785,7 @@ export default function AdminPage() {
                               };
                               setNewsForm({ ...newsForm, category: val, categoryName: map[val] });
                             }}
-                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                           >
                             <option value="du-an">Tin Dự Án</option>
                             <option value="doanh-nghiep">Tin Doanh Nghiệp</option>
@@ -799,7 +799,7 @@ export default function AdminPage() {
                             type="text"
                             value={newsForm.author}
                             onChange={(e) => setNewsForm({ ...newsForm, author: e.target.value })}
-                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                           />
                         </div>
                       </div>
@@ -812,10 +812,10 @@ export default function AdminPage() {
                             required
                             value={newsForm.thumbnail}
                             onChange={(e) => setNewsForm({ ...newsForm, thumbnail: e.target.value })}
-                            className="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                            className="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                           />
                           <label className="cursor-pointer px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1.5 border border-slate-700 shrink-0">
-                            <Upload className="w-4 h-4 text-orange-400" />
+                            <Upload className="w-4 h-4 text-[#ed3237]" />
                             <span>Tải ảnh</span>
                             <input
                               type="file"
@@ -833,7 +833,7 @@ export default function AdminPage() {
                           rows={2}
                           value={newsForm.summary}
                           onChange={(e) => setNewsForm({ ...newsForm, summary: e.target.value })}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                         />
                       </div>
 
@@ -843,14 +843,14 @@ export default function AdminPage() {
                           rows={6}
                           value={newsForm.content}
                           onChange={(e) => setNewsForm({ ...newsForm, content: e.target.value })}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none font-mono"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none font-mono"
                         />
                       </div>
 
                       <div className="flex items-center gap-3 pt-4">
                         <button
                           type="submit"
-                          className="px-6 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-semibold text-sm shadow-lg shadow-orange-600/30 transition-all"
+                          className="px-6 py-2.5 rounded-xl bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-sm shadow-lg shadow-[#ed3237]/30 transition-all"
                         >
                           Lưu Bài Viết
                         </button>
@@ -872,7 +872,7 @@ export default function AdminPage() {
                           </div>
                           <div className="flex-1 flex flex-col justify-between">
                             <div>
-                              <span className="text-[11px] font-bold text-orange-400">{item.categoryName}</span>
+                              <span className="text-[11px] font-bold text-[#686bbd]">{item.categoryName}</span>
                               <h4 className="text-sm font-bold text-white line-clamp-2 mt-1">{item.title}</h4>
                             </div>
                             <div className="flex items-center justify-between pt-2">
@@ -925,7 +925,7 @@ export default function AdminPage() {
                           });
                           setIsEditingJob(true);
                         }}
-                        className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-semibold text-xs sm:text-sm shadow-lg shadow-orange-600/30 transition-all"
+                        className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs sm:text-sm shadow-lg shadow-[#ed3237]/30 transition-all"
                       >
                         <Plus className="w-4 h-4" />
                         <span>Thêm Vị Trí Mới</span>
@@ -946,7 +946,7 @@ export default function AdminPage() {
                           required
                           value={jobForm.title}
                           onChange={(e) => setJobForm({ ...jobForm, title: e.target.value })}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                         />
                       </div>
 
@@ -957,7 +957,7 @@ export default function AdminPage() {
                             type="text"
                             value={jobForm.location}
                             onChange={(e) => setJobForm({ ...jobForm, location: e.target.value })}
-                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                           />
                         </div>
                         <div>
@@ -966,7 +966,7 @@ export default function AdminPage() {
                             type="text"
                             value={jobForm.salary}
                             onChange={(e) => setJobForm({ ...jobForm, salary: e.target.value })}
-                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                           />
                         </div>
                         <div>
@@ -975,7 +975,7 @@ export default function AdminPage() {
                             type="text"
                             value={jobForm.deadline}
                             onChange={(e) => setJobForm({ ...jobForm, deadline: e.target.value })}
-                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                           />
                         </div>
                       </div>
@@ -983,7 +983,7 @@ export default function AdminPage() {
                       <div className="flex items-center gap-3 pt-4">
                         <button
                           type="submit"
-                          className="px-6 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-semibold text-sm shadow-lg shadow-orange-600/30 transition-all"
+                          className="px-6 py-2.5 rounded-xl bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-sm shadow-lg shadow-[#ed3237]/30 transition-all"
                         >
                           Lưu Tin Tuyển Dụng
                         </button>
@@ -1002,7 +1002,7 @@ export default function AdminPage() {
                         <div key={job.id} className="p-5 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between">
                           <div>
                             <div className="flex items-center gap-2">
-                              <span className="text-xs font-bold text-orange-400">{job.department}</span>
+                              <span className="text-xs font-bold text-[#686bbd]">{job.department}</span>
                               <span className="text-xs text-slate-500">• {job.type}</span>
                             </div>
                             <h4 className="text-base font-bold text-white mt-1">{job.title}</h4>
@@ -1040,8 +1040,8 @@ export default function AdminPage() {
                   </div>
 
                   {/* Uploader Box */}
-                  <div className="p-8 rounded-3xl bg-slate-900 border-2 border-dashed border-slate-700 hover:border-orange-500/50 text-center space-y-4">
-                    <div className="w-16 h-16 rounded-2xl bg-orange-600/10 text-orange-500 flex items-center justify-center mx-auto">
+                  <div className="p-8 rounded-3xl bg-slate-900 border-2 border-dashed border-slate-700 hover:border-[#ed3237]/50 text-center space-y-4">
+                    <div className="w-16 h-16 rounded-2xl bg-[#ed3237]/10 text-[#ed3237] flex items-center justify-center mx-auto">
                       <ImageIcon className="w-8 h-8" />
                     </div>
                     <div>
@@ -1049,7 +1049,7 @@ export default function AdminPage() {
                       <p className="text-xs text-slate-400 mt-1">Hỗ trợ PNG, JPG, WEBP chất lượng cao</p>
                     </div>
                     <div>
-                      <label className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-semibold text-sm cursor-pointer shadow-lg shadow-orange-600/30 transition-all">
+                      <label className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-sm cursor-pointer shadow-lg shadow-[#ed3237]/30 transition-all">
                         <Upload className="w-4 h-4" />
                         <span>{isUploading ? "Đang xử lý tải lên..." : "Chọn Ảnh Từ Máy Tính"}</span>
                         <input type="file" accept="image/*" className="hidden" onChange={(e) => handleFileUpload(e)} />
@@ -1069,7 +1069,7 @@ export default function AdminPage() {
                           type="text"
                           readOnly
                           value={uploadedUrl}
-                          className="flex-1 px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-orange-400 text-xs font-mono"
+                          className="flex-1 px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sky-400 text-xs font-mono"
                         />
                         <button
                           onClick={() => {
@@ -1104,7 +1104,7 @@ export default function AdminPage() {
                         type="text"
                         value={settings.name}
                         onChange={(e) => setSettings({ ...settings, name: e.target.value })}
-                        className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                        className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                       />
                     </div>
 
@@ -1115,7 +1115,7 @@ export default function AdminPage() {
                           type="text"
                           value={settings.taxCode}
                           onChange={(e) => setSettings({ ...settings, taxCode: e.target.value })}
-                          className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                          className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                         />
                       </div>
                       <div>
@@ -1124,7 +1124,7 @@ export default function AdminPage() {
                           type="text"
                           value={settings.hotline}
                           onChange={(e) => setSettings({ ...settings, hotline: e.target.value })}
-                          className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                          className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                         />
                       </div>
                     </div>
@@ -1136,7 +1136,7 @@ export default function AdminPage() {
                           type="text"
                           value={settings.phone}
                           onChange={(e) => setSettings({ ...settings, phone: e.target.value })}
-                          className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                          className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                         />
                       </div>
                       <div>
@@ -1145,7 +1145,7 @@ export default function AdminPage() {
                           type="email"
                           value={settings.email}
                           onChange={(e) => setSettings({ ...settings, email: e.target.value })}
-                          className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                          className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                         />
                       </div>
                     </div>
@@ -1156,14 +1156,14 @@ export default function AdminPage() {
                         type="text"
                         value={settings.address}
                         onChange={(e) => setSettings({ ...settings, address: e.target.value })}
-                        className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-orange-500 focus:outline-none"
+                        className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-[#ed3237] focus:outline-none"
                       />
                     </div>
 
                     <div className="pt-4">
                       <button
                         type="submit"
-                        className="px-8 py-3 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-semibold text-sm shadow-xl shadow-orange-600/30 transition-all"
+                        className="px-8 py-3 rounded-xl bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-sm shadow-xl shadow-[#ed3237]/30 transition-all"
                       >
                         Lưu Thay Đổi
                       </button>

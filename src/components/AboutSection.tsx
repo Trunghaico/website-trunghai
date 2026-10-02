@@ -24,7 +24,7 @@ export default function AboutSection() {
             </div>
 
             {/* Overlapping Solid Red Badge with Hover Float & Glow Animation */}
-            <div className="absolute bottom-0 right-0 sm:-bottom-3 sm:-right-2 bg-red-600 text-white p-4 sm:p-6 rounded-[3px] shadow-xl shadow-red-600/30 min-w-[170px] sm:min-w-[200px] z-10 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-red-600/50 cursor-default">
+            <div className="absolute bottom-0 right-0 sm:-bottom-3 sm:-right-2 bg-[#ed3237] text-white p-4 sm:p-6 rounded-[3px] shadow-xl shadow-[#ed3237]/30 min-w-[170px] sm:min-w-[200px] z-10 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[#ed3237]/50 cursor-default">
               <div className="text-2xl sm:text-4xl font-extrabold tracking-tight">
                 12+
               </div>
@@ -38,7 +38,7 @@ export default function AboutSection() {
           <div className="lg:col-span-6 space-y-4 sm:space-y-5">
             {/* Tag Badge */}
             <div>
-              <span className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-red-600 text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-red-600/30">
+              <span className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/30">
                 <span className="w-2 h-2 rounded-full bg-white animate-ping" />
                 <span>VỀ CHÚNG TÔI</span>
               </span>
@@ -61,9 +61,9 @@ export default function AboutSection() {
 
             {/* Vision & Mission 2-column Grid with Hover Shift & Border Thickening */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-              {/* Tầm nhìn (Red border with hover animation) */}
-              <div className="group/item border-l-2 hover:border-l-4 border-red-600 pl-4 py-1 space-y-1 hover:bg-slate-50/80 rounded-r-[3px] transition-all duration-300 hover:translate-x-1">
-                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wide group-hover/item:text-red-600 transition-colors">
+              {/* Tầm nhìn (Brand Red border with hover animation) */}
+              <div className="group/item border-l-2 hover:border-l-4 border-[#ed3237] pl-4 py-1 space-y-1 hover:bg-slate-50/80 rounded-r-[3px] transition-all duration-300 hover:translate-x-1">
+                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wide group-hover/item:text-[#ed3237] transition-colors">
                   TẦM NHÌN
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
@@ -71,9 +71,9 @@ export default function AboutSection() {
                 </p>
               </div>
 
-              {/* Sứ mệnh (Amber/Orange border with hover animation) */}
-              <div className="group/item border-l-2 hover:border-l-4 border-amber-500 pl-4 py-1 space-y-1 hover:bg-slate-50/80 rounded-r-[3px] transition-all duration-300 hover:translate-x-1">
-                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wide group-hover/item:text-amber-600 transition-colors">
+              {/* Sứ mệnh (Brand Blue border with hover animation) */}
+              <div className="group/item border-l-2 hover:border-l-4 border-[#3e4095] pl-4 py-1 space-y-1 hover:bg-slate-50/80 rounded-r-[3px] transition-all duration-300 hover:translate-x-1">
+                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wide group-hover/item:text-[#3e4095] transition-colors">
                   SỨ MỆNH
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
@@ -85,8 +85,8 @@ export default function AboutSection() {
             {/* CTA Outline Button with Arrow animation */}
             <div className="pt-3">
               <Link
-                href="#projects"
-                className="inline-flex items-center gap-2.5 px-7 py-3.5 border border-slate-900 bg-white text-slate-900 hover:bg-slate-900 hover:text-white rounded-[3px] text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 group"
+                href="/gioi-thieu"
+                className="inline-flex items-center gap-2.5 px-7 py-3.5 border border-[#3e4095] bg-white text-[#3e4095] hover:bg-[#3e4095] hover:text-white rounded-[3px] text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 group"
               >
                 <span>TÌM HIỂU THÊM VỀ TRUNG HẢI</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />

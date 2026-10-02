@@ -34,7 +34,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi" className={`${roboto.variable} scroll-smooth`}>
-      <body className="min-h-screen bg-slate-50 font-sans text-slate-800 antialiased selection:bg-orange-500 selection:text-white">
+      <body className="min-h-screen bg-slate-50 font-sans text-slate-800 antialiased selection:bg-[#ed3237] selection:text-white">
         {children}
       </body>
     </html>

@@ -73,14 +73,14 @@ function Service3DCard({
             ? `perspective(1200px) rotateX(${rotate.x.toFixed(2)}deg) rotateY(${rotate.y.toFixed(2)}deg) translateZ(8px) scale3d(1.012, 1.012, 1.012)`
             : "perspective(1200px) rotateX(0deg) rotateY(0deg) translateZ(0px) scale3d(1, 1, 1)",
           boxShadow: isHovered
-            ? `${shadowX.toFixed(1)}px ${shadowY.toFixed(1)}px 18px -4px rgba(220, 38, 38, 0.16), 0 6px 14px -3px rgba(15, 23, 42, 0.08)`
+            ? `${shadowX.toFixed(1)}px ${shadowY.toFixed(1)}px 18px -4px rgba(237, 50, 55, 0.16), 0 6px 14px -3px rgba(15, 23, 42, 0.08)`
             : "0 1px 3px 0 rgba(0, 0, 0, 0.05)",
           transition: isHovered
             ? "transform 0.12s ease-out, box-shadow 0.15s ease-out"
             : "transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1)",
           transformStyle: "preserve-3d",
         }}
-        className="relative bg-white rounded-[3px] border border-slate-200 hover:border-red-500/60 overflow-hidden flex flex-col justify-between group cursor-pointer select-none"
+        className="relative bg-white rounded-[3px] border border-slate-200 hover:border-[#ed3237]/60 overflow-hidden flex flex-col justify-between group cursor-pointer select-none"
       >
         {/* Dynamic 3D Glare / Sheen Layer */}
         <div
@@ -103,7 +103,7 @@ function Service3DCard({
             {/* Dark gradient vignette over image bottom */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
 
-            {/* Red Badge popping out on Z axis */}
+            {/* Blue Brand Badge popping out on Z axis */}
             <div
               className="absolute top-2.5 left-2.5 z-20"
               style={{
@@ -111,7 +111,7 @@ function Service3DCard({
                 transition: "transform 0.2s ease-out",
               }}
             >
-              <span className="px-2.5 py-0.5 bg-red-600 text-white text-[11px] font-bold uppercase tracking-wider rounded-[2px] shadow-md inline-block">
+              <span className="px-2.5 py-0.5 bg-[#3e4095] text-white text-[11px] font-bold uppercase tracking-wider rounded-[2px] shadow-md inline-block">
                 {item.tag}
               </span>
             </div>
@@ -121,7 +121,7 @@ function Service3DCard({
           <div className="p-3.5 sm:p-4 space-y-2.5" style={{ transform: "translateZ(8px)" }}>
             {/* Icon popping out */}
             <div
-              className="w-7 h-7 rounded-[3px] bg-red-50 text-red-600 flex items-center justify-center transition-all duration-300 group-hover:scale-108 group-hover:bg-red-600 group-hover:text-white group-hover:shadow-md"
+              className="w-7 h-7 rounded-[3px] bg-red-50 text-[#ed3237] flex items-center justify-center transition-all duration-300 group-hover:scale-108 group-hover:bg-[#ed3237] group-hover:text-white group-hover:shadow-md"
               style={{
                 transform: isHovered ? "translateZ(12px)" : "translateZ(0px)",
               }}
@@ -131,7 +131,7 @@ function Service3DCard({
 
             {/* Title */}
             <h3
-              className="text-sm sm:text-base font-bold text-slate-900 group-hover:text-red-600 transition-colors leading-snug line-clamp-1"
+              className="text-sm sm:text-base font-bold text-slate-900 group-hover:text-[#ed3237] transition-colors leading-snug line-clamp-1"
               style={{
                 transform: isHovered ? "translateZ(10px)" : "translateZ(0px)",
               }}
@@ -151,7 +151,7 @@ function Service3DCard({
                   key={bIdx}
                   className="flex items-start gap-1.5 text-[11px] sm:text-xs text-slate-600 font-normal"
                 >
-                  <Check className="w-3.5 h-3.5 text-red-600 shrink-0 mt-0.5" />
+                  <Check className="w-3.5 h-3.5 text-[#3e4095] shrink-0 mt-0.5" />
                   <span className="leading-tight">{b}</span>
                 </div>
               ))}
@@ -169,7 +169,7 @@ function Service3DCard({
         >
           <Link
             href={item.link}
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-red-600 hover:text-red-700 uppercase tracking-wider transition-all group-hover:gap-2.5"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#ed3237] hover:text-[#3e4095] uppercase tracking-wider transition-all group-hover:gap-2.5"
           >
             <span>XEM CHI TIẾT</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
@@ -242,7 +242,7 @@ export default function ServicesSection() {
         {/* Section Header with compact spacing */}
         <div className="text-center max-w-3xl mx-auto space-y-2 mb-6 sm:mb-8">
           <div>
-            <span className="inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-red-600 text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-red-600/30">
+            <span className="inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/30">
               NĂNG LỰC CỐT LÕI
             </span>
           </div>

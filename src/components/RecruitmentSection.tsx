@@ -37,7 +37,7 @@ export default function RecruitmentSection({ initialJobs }: RecruitmentSectionPr
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-orange-600 text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-50 border border-red-200 text-[#ed3237] text-xs font-bold uppercase tracking-wider">
             Gia Nhập Đội Ngũ Trung Hải
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
@@ -58,7 +58,7 @@ export default function RecruitmentSection({ initialJobs }: RecruitmentSectionPr
                   key={job.id}
                   className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
                     isExpanded
-                      ? "bg-white border-orange-500/60 shadow-xl shadow-orange-500/5"
+                      ? "bg-white border-[#ed3237]/60 shadow-xl shadow-[#ed3237]/5"
                       : "bg-slate-50 border-slate-200 hover:border-slate-300"
                   }`}
                 >
@@ -69,17 +69,17 @@ export default function RecruitmentSection({ initialJobs }: RecruitmentSectionPr
                   >
                     <div className="space-y-2">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="px-2.5 py-0.5 rounded-md bg-orange-100 text-orange-700 text-xs font-bold">
+                        <span className="px-2.5 py-0.5 rounded-md bg-[#3e4095]/10 text-[#3e4095] text-xs font-bold">
                           {job.type}
                         </span>
                         <span className="text-xs text-slate-500 font-medium">{job.department}</span>
                       </div>
-                      <h3 className="text-lg sm:text-xl font-bold text-slate-900 hover:text-orange-600 transition-colors">
+                      <h3 className="text-lg sm:text-xl font-bold text-slate-900 hover:text-[#ed3237] transition-colors">
                         {job.title}
                       </h3>
                       <div className="flex items-center gap-4 text-xs text-slate-600 flex-wrap">
                         <span className="flex items-center gap-1">
-                          <MapPin className="w-3.5 h-3.5 text-orange-600" />
+                          <MapPin className="w-3.5 h-3.5 text-[#ed3237]" />
                           {job.location}
                         </span>
                         <span className="flex items-center gap-1 text-emerald-600 font-bold">
@@ -91,7 +91,7 @@ export default function RecruitmentSection({ initialJobs }: RecruitmentSectionPr
 
                     <div
                       className={`p-2 rounded-xl transition-transform duration-300 shrink-0 ${
-                        isExpanded ? "rotate-180 bg-orange-600 text-white" : "bg-slate-200 text-slate-600"
+                        isExpanded ? "rotate-180 bg-[#ed3237] text-white" : "bg-slate-200 text-slate-600"
                       }`}
                     >
                       <ChevronDown className="w-5 h-5" />
@@ -130,7 +130,7 @@ export default function RecruitmentSection({ initialJobs }: RecruitmentSectionPr
 
                       <div className="pt-2 flex items-center justify-between text-xs text-slate-500">
                         <span className="flex items-center gap-1">
-                          <Clock className="w-3.5 h-3.5 text-orange-600" />
+                          <Clock className="w-3.5 h-3.5 text-[#ed3237]" />
                           Hạn nộp hồ sơ: {job.deadline}
                         </span>
                         <button
@@ -139,7 +139,7 @@ export default function RecruitmentSection({ initialJobs }: RecruitmentSectionPr
                             const formEl = document.getElementById("apply-form");
                             formEl?.scrollIntoView({ behavior: "smooth" });
                           }}
-                          className="px-4 py-2 rounded-lg bg-orange-600 hover:bg-orange-500 text-white font-semibold text-xs shadow-sm transition-colors"
+                          className="px-4 py-2 rounded-lg bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs shadow-sm transition-colors"
                         >
                           Ứng Tuyển Vị Trí Này
                         </button>
@@ -179,7 +179,7 @@ export default function RecruitmentSection({ initialJobs }: RecruitmentSectionPr
                       placeholder="Nguyễn Văn A"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 text-sm focus:border-orange-500 focus:outline-none"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 text-sm focus:border-[#ed3237] focus:outline-none"
                     />
                   </div>
 
@@ -194,7 +194,7 @@ export default function RecruitmentSection({ initialJobs }: RecruitmentSectionPr
                         placeholder="0908xxxxxx"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 text-sm focus:border-orange-500 focus:outline-none"
+                        className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 text-sm focus:border-[#ed3237] focus:outline-none"
                       />
                     </div>
                     <div>
@@ -207,7 +207,7 @@ export default function RecruitmentSection({ initialJobs }: RecruitmentSectionPr
                         placeholder="email@example.com"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 text-sm focus:border-orange-500 focus:outline-none"
+                        className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 text-sm focus:border-[#ed3237] focus:outline-none"
                       />
                     </div>
                   </div>
@@ -219,7 +219,7 @@ export default function RecruitmentSection({ initialJobs }: RecruitmentSectionPr
                     <select
                       value={formData.job}
                       onChange={(e) => setFormData({ ...formData, job: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 text-sm focus:border-orange-500 focus:outline-none"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 text-sm focus:border-[#ed3237] focus:outline-none"
                     >
                       {initialJobs.map((j) => (
                         <option key={j.id} value={j.title}>
@@ -240,13 +240,13 @@ export default function RecruitmentSection({ initialJobs }: RecruitmentSectionPr
                       placeholder="Dán link CV hoặc ghi tóm tắt số năm kinh nghiệm thi công cầu đường/hầm..."
                       value={formData.cvNote}
                       onChange={(e) => setFormData({ ...formData, cvNote: e.target.value })}
-                      className="w-full px-4 py-2 rounded-xl bg-white border border-slate-300 text-slate-900 text-sm focus:border-orange-500 focus:outline-none"
+                      className="w-full px-4 py-2 rounded-xl bg-white border border-slate-300 text-slate-900 text-sm focus:border-[#ed3237] focus:outline-none"
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full py-3 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-semibold text-sm shadow-md shadow-orange-600/20 flex items-center justify-center gap-2 transition-all"
+                    className="w-full py-3 rounded-xl bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-sm shadow-md shadow-[#ed3237]/20 flex items-center justify-center gap-2 transition-all"
                   >
                     <Send className="w-4 h-4" />
                     <span>Nộp Đơn Ứng Tuyển</span>

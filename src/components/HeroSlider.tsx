@@ -101,7 +101,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
         type="button"
         onClick={prevSlide}
         aria-label="Previous Slide"
-        className="absolute left-6 top-1/2 -translate-y-1/2 z-30 p-3.5 rounded-full bg-white/70 hover:bg-orange-600 text-slate-800 hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-xl flex items-center justify-center group active:scale-95"
+        className="absolute left-6 top-1/2 -translate-y-1/2 z-30 p-3.5 rounded-full bg-white/70 hover:bg-[#ed3237] text-slate-800 hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-xl flex items-center justify-center group active:scale-95"
       >
         <ChevronLeft className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" />
       </button>
@@ -110,7 +110,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
         type="button"
         onClick={nextSlide}
         aria-label="Next Slide"
-        className="absolute right-6 top-1/2 -translate-y-1/2 z-30 p-3.5 rounded-full bg-white/70 hover:bg-orange-600 text-slate-800 hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-xl flex items-center justify-center group active:scale-95"
+        className="absolute right-6 top-1/2 -translate-y-1/2 z-30 p-3.5 rounded-full bg-white/70 hover:bg-[#ed3237] text-slate-800 hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-xl flex items-center justify-center group active:scale-95"
       >
         <ChevronRight className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
       </button>
@@ -135,7 +135,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
               }`}
             >
               {isCurrent && (
-                <span className="absolute inset-0 bg-orange-600 rounded-full animate-slide-progress" />
+                <span className="absolute inset-0 bg-[#ed3237] rounded-full animate-slide-progress" />
               )}
             </button>
           );
@@ -143,7 +143,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
       </div>
 
       {/* Accent Ribbon */}
-      <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-orange-600 via-amber-500 to-orange-600 z-30" />
+      <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#ed3237] via-[#3e4095] to-[#ed3237] z-30" />
     </section>
   );
 }
