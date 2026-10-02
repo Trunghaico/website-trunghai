@@ -4,7 +4,7 @@ import "./globals.css";
 import ScrollObserver from "@/components/ScrollObserver";
 
 const roboto = Roboto({
-  weight: ["300", "400", "500", "700", "900"],
+  weight: ["100", "300", "400", "500", "700", "900"],
   subsets: ["latin", "vietnamese"],
   variable: "--font-roboto",
   display: "swap",
@@ -34,8 +34,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" className={`${roboto.variable} scroll-smooth`}>
-      <body className="min-h-screen bg-slate-50 font-sans text-slate-800 antialiased selection:bg-[#ed3237] selection:text-white">
+    <html lang="vi" className={`${roboto.variable} ${roboto.className} scroll-smooth`}>
+      <body className={`${roboto.className} min-h-screen bg-slate-50 text-slate-800 antialiased selection:bg-[#ed3237] selection:text-white`}>
         <ScrollObserver />
         {children}
       </body>
