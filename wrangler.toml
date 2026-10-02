@@ -1,0 +1,9 @@
+name = "website-trunghai"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".open-next/assets"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "trunghai-db"
+database_id = "29fc183a-7dbd-4763-acd1-686d01886113"
