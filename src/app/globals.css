@@ -1,16 +1,13 @@
 @import "tailwindcss";
 
-@theme {
-  --font-sans: var(--font-roboto), "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  --font-roboto: var(--font-roboto), "Roboto", sans-serif;
-}
-
 @layer base {
   :root {
     --background: #f8fafc;
     --foreground: #0f172a;
     --brand-red: #ed3237;
     --brand-blue: #3e4095;
+    --font-sans: var(--font-roboto), "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    --font-roboto: var(--font-roboto), "Roboto", sans-serif;
   }
 
   *, ::before, ::after {
