@@ -240,7 +240,7 @@ export default function ServicesSection() {
     <section id="services" className="py-6 sm:py-8 lg:py-10 bg-slate-50/70 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header with compact spacing */}
-        <div className="text-center max-w-3xl mx-auto space-y-2 mb-6 sm:mb-8">
+        <div className="text-center max-w-3xl mx-auto space-y-2 mb-6 sm:mb-8 reveal-on-scroll">
           <div>
             <span className="inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/30">
               NĂNG LỰC CỐT LÕI
@@ -257,7 +257,9 @@ export default function ServicesSection() {
         {/* 4 Columns Grid with 3D Tilt Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {services.map((item, idx) => (
-            <Service3DCard key={idx} item={item} />
+            <div key={idx} className={`reveal-on-scroll delay-${(idx + 1) * 100}`}>
+              <Service3DCard item={item} />
+            </div>
           ))}
         </div>
       </div>

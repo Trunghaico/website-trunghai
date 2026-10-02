@@ -274,13 +274,13 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
   ];
 
   return (
-    <div className="bg-white text-slate-800 pt-24 sm:pt-28 selection:bg-[#ed3237] selection:text-white">
+    <div className="bg-white text-slate-800 pt-20 sm:pt-24 selection:bg-[#ed3237] selection:text-white">
       {/* 1. TỔNG QUAN DOANH NGHIỆP (PHẦN 1 - KHỚP 100% HÌNH 1) */}
       <section className="pt-6 sm:pt-10 pb-14 sm:pb-20 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             {/* Left Content Column */}
-            <div className="lg:col-span-7 space-y-5">
+            <div className="lg:col-span-7 space-y-5 reveal-fade-left">
               {/* Badge matching Image 1: TỔNG QUAN DOANH NGHIỆP */}
               <div>
                 <span className="inline-block px-4 py-1.5 rounded-[3px] bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/25">
@@ -334,7 +334,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
             </div>
 
             {/* Right Column: 3D High-Tech Graphic Card with Crane Blueprint & Floating 380+ Badge matching Image 1 */}
-            <div className="lg:col-span-5 relative">
+            <div className="lg:col-span-5 relative reveal-fade-right">
               <TiltCard className="rounded-[4px] overflow-hidden bg-[#111827] border border-slate-800 shadow-2xl">
                 <div className="relative p-6 sm:p-8 min-h-[380px] sm:min-h-[420px] flex flex-col justify-between overflow-hidden">
                   {/* Subtle Grid blueprint background */}
@@ -408,7 +408,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
       <section className="py-14 sm:py-18 lg:py-20 bg-slate-50/80 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header matching Image 2 */}
-          <div className="text-center max-w-3xl mx-auto space-y-2.5 mb-10 sm:mb-14">
+          <div className="text-center max-w-3xl mx-auto space-y-2.5 mb-10 sm:mb-14 reveal-on-scroll">
             <div>
               <span className="inline-block px-4 py-1.5 rounded-[2px] bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/30">
                 TRIẾT LÝ PHÁT TRIỂN
@@ -425,63 +425,69 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
           {/* 3 Pillars Grid with 3D Tilt Cards matching Image 2 */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             {/* Card 1: TẦM NHÌN (Red Top Border) */}
-            <TiltCard className="bg-white rounded-[3px] border border-slate-200 border-t-4 border-t-[#ed3237] p-6 sm:p-8 flex flex-col justify-between shadow-sm">
-              <div className="space-y-4" style={{ transform: "translateZ(10px)" }}>
-                {/* Red Target/Eye Icon */}
-                <div className="w-12 h-12 rounded-full bg-red-50 text-[#ed3237] flex items-center justify-center">
-                  <Eye className="w-6 h-6 stroke-[2.5]" />
+            <div className="reveal-on-scroll delay-100">
+              <TiltCard className="bg-white rounded-[3px] border border-slate-200 border-t-4 border-t-[#ed3237] p-6 sm:p-8 flex flex-col justify-between shadow-sm h-full">
+                <div className="space-y-4" style={{ transform: "translateZ(10px)" }}>
+                  {/* Red Target/Eye Icon */}
+                  <div className="w-12 h-12 rounded-full bg-red-50 text-[#ed3237] flex items-center justify-center">
+                    <Eye className="w-6 h-6 stroke-[2.5]" />
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-black text-slate-900 uppercase tracking-tight">
+                    TẦM NHÌN
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    Trở thành một trong những tổng thầu xây lắp công trình dân dụng & công nghiệp hàng đầu khu vực miền Nam, tiên phong áp dụng kỹ thuật số BIM và vật liệu xây dựng bền vững, thân thiện với môi trường.
+                  </p>
                 </div>
-                <h3 className="text-lg sm:text-xl font-black text-slate-900 uppercase tracking-tight">
-                  TẦM NHÌN
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                  Trở thành một trong những tổng thầu xây lắp công trình dân dụng & công nghiệp hàng đầu khu vực miền Nam, tiên phong áp dụng kỹ thuật số BIM và vật liệu xây dựng bền vững, thân thiện với môi trường.
-                </p>
-              </div>
-            </TiltCard>
+              </TiltCard>
+            </div>
 
             {/* Card 2: SỨ MỆNH (Amber/Gold Top Border matching Image 2) */}
-            <TiltCard className="bg-white rounded-[3px] border border-slate-200 border-t-4 border-t-amber-500 p-6 sm:p-8 flex flex-col justify-between shadow-sm">
-              <div className="space-y-4" style={{ transform: "translateZ(10px)" }}>
-                {/* Bullseye Icon in Amber */}
-                <div className="w-12 h-12 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center">
-                  <Target className="w-6 h-6 stroke-[2.5]" />
+            <div className="reveal-on-scroll delay-200">
+              <TiltCard className="bg-white rounded-[3px] border border-slate-200 border-t-4 border-t-amber-500 p-6 sm:p-8 flex flex-col justify-between shadow-sm h-full">
+                <div className="space-y-4" style={{ transform: "translateZ(10px)" }}>
+                  {/* Bullseye Icon in Amber */}
+                  <div className="w-12 h-12 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center">
+                    <Target className="w-6 h-6 stroke-[2.5]" />
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-black text-slate-900 uppercase tracking-tight">
+                    SỨ MỆNH
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    Kiến tạo không gian sống và sản xuất an toàn, kiên cố; mang đến giá trị gia tăng vượt trội và tối ưu hóa ngân sách cho Chủ đầu tư; xây dựng môi trường làm việc chuyên nghiệp, nhân văn cho người lao động.
+                  </p>
                 </div>
-                <h3 className="text-lg sm:text-xl font-black text-slate-900 uppercase tracking-tight">
-                  SỨ MỆNH
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                  Kiến tạo không gian sống và sản xuất an toàn, kiên cố; mang đến giá trị gia tăng vượt trội và tối ưu hóa ngân sách cho Chủ đầu tư; xây dựng môi trường làm việc chuyên nghiệp, nhân văn cho người lao động.
-                </p>
-              </div>
-            </TiltCard>
+              </TiltCard>
+            </div>
 
             {/* Card 3: GIÁ TRỊ CỐT LÕI (Dark Slate Top Border matching Image 2) */}
-            <TiltCard className="bg-white rounded-[3px] border border-slate-200 border-t-4 border-t-slate-900 p-6 sm:p-8 flex flex-col justify-between shadow-sm">
-              <div className="space-y-4" style={{ transform: "translateZ(10px)" }}>
-                {/* Diamond Icon */}
-                <div className="w-12 h-12 rounded-full bg-slate-100 text-slate-900 flex items-center justify-center">
-                  <Gem className="w-6 h-6 stroke-[2.5]" />
+            <div className="reveal-on-scroll delay-300">
+              <TiltCard className="bg-white rounded-[3px] border border-slate-200 border-t-4 border-t-slate-900 p-6 sm:p-8 flex flex-col justify-between shadow-sm h-full">
+                <div className="space-y-4" style={{ transform: "translateZ(10px)" }}>
+                  {/* Diamond Icon */}
+                  <div className="w-12 h-12 rounded-full bg-slate-100 text-slate-900 flex items-center justify-center">
+                    <Gem className="w-6 h-6 stroke-[2.5]" />
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-black text-slate-900 uppercase tracking-tight">
+                    GIÁ TRỊ CỐT LÕI
+                  </h3>
+                  <ul className="space-y-2 text-xs sm:text-sm text-slate-600 font-normal">
+                    <li className="leading-snug">
+                      <strong className="text-slate-900 font-bold uppercase">UY TÍN:</strong> Giữ trọn chữ tín với đối tác.
+                    </li>
+                    <li className="leading-snug">
+                      <strong className="text-slate-900 font-bold uppercase">TIẾN ĐỘ:</strong> Cam kết đúng hẹn từng hạng mục.
+                    </li>
+                    <li className="leading-snug">
+                      <strong className="text-slate-900 font-bold uppercase">CHẤT LƯỢNG:</strong> Chuẩn mực kỹ thuật là sống còn.
+                    </li>
+                    <li className="leading-snug">
+                      <strong className="text-slate-900 font-bold uppercase">AN TOÀN:</strong> Sinh mệnh con người là trên hết.
+                    </li>
+                  </ul>
                 </div>
-                <h3 className="text-lg sm:text-xl font-black text-slate-900 uppercase tracking-tight">
-                  GIÁ TRỊ CỐT LÕI
-                </h3>
-                <ul className="space-y-2 text-xs sm:text-sm text-slate-600 font-normal">
-                  <li className="leading-snug">
-                    <strong className="text-slate-900 font-bold uppercase">UY TÍN:</strong> Giữ trọn chữ tín với đối tác.
-                  </li>
-                  <li className="leading-snug">
-                    <strong className="text-slate-900 font-bold uppercase">TIẾN ĐỘ:</strong> Cam kết đúng hẹn từng hạng mục.
-                  </li>
-                  <li className="leading-snug">
-                    <strong className="text-slate-900 font-bold uppercase">CHẤT LƯỢNG:</strong> Chuẩn mực kỹ thuật là sống còn.
-                  </li>
-                  <li className="leading-snug">
-                    <strong className="text-slate-900 font-bold uppercase">AN TOÀN:</strong> Sinh mệnh con người là trên hết.
-                  </li>
-                </ul>
-              </div>
-            </TiltCard>
+              </TiltCard>
+            </div>
           </div>
         </div>
       </section>
@@ -490,7 +496,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
       <section className="py-14 sm:py-18 lg:py-20 bg-white relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header matching Image 3 */}
-          <div className="text-center max-w-3xl mx-auto space-y-2.5 mb-10 sm:mb-14">
+          <div className="text-center max-w-3xl mx-auto space-y-2.5 mb-10 sm:mb-14 reveal-on-scroll">
             <div>
               <span className="inline-block px-4 py-1.5 rounded-[2px] bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/30">
                 DẤU ẤN PHÁT TRIỂN
@@ -507,22 +513,23 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
           {/* 4 Timeline Columns Grid matching Image 3 */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {timelineMilestones.map((item, idx) => (
-              <TiltCard
-                key={idx}
-                className="bg-white rounded-[3px] border border-slate-200 hover:border-[#ed3237]/50 p-6 flex flex-col justify-between shadow-sm"
-              >
-                <div className="space-y-3" style={{ transform: "translateZ(10px)" }}>
-                  <div className={`text-3xl sm:text-4xl font-black tracking-tight ${item.yearColor}`}>
-                    {item.year}
+              <div key={idx} className={`reveal-on-scroll delay-${(idx + 1) * 100}`}>
+                <TiltCard
+                  className="bg-white rounded-[3px] border border-slate-200 hover:border-[#ed3237]/50 p-6 flex flex-col justify-between shadow-sm h-full"
+                >
+                  <div className="space-y-3" style={{ transform: "translateZ(10px)" }}>
+                    <div className={`text-3xl sm:text-4xl font-black tracking-tight ${item.yearColor}`}>
+                      {item.year}
+                    </div>
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900 leading-snug">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                      {item.desc}
+                    </p>
                   </div>
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900 leading-snug">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                    {item.desc}
-                  </p>
-                </div>
-              </TiltCard>
+                </TiltCard>
+              </div>
             ))}
           </div>
         </div>
@@ -532,7 +539,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
       <section className="py-14 sm:py-18 lg:py-20 bg-slate-50/80 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header matching Image 4 */}
-          <div className="text-center max-w-3xl mx-auto space-y-2.5 mb-10 sm:mb-14">
+          <div className="text-center max-w-3xl mx-auto space-y-2.5 mb-10 sm:mb-14 reveal-on-scroll">
             <div>
               <span className="inline-block px-4 py-1.5 rounded-[2px] bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/30">
                 NĂNG LỰC CƠ GIỚI
@@ -549,25 +556,26 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
           {/* 3 Heavy Equipment Cards matching Image 4 */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             {machineryItems.map((item, idx) => (
-              <TiltCard
-                key={idx}
-                className="bg-white rounded-[3px] border border-slate-200 overflow-hidden flex flex-col justify-between shadow-sm group cursor-pointer"
-              >
-                <div>
-                  {/* Top Graphic Blueprint Banner matching Image 4 */}
-                  <EquipmentBlueprint item={item} />
+              <div key={idx} className={`reveal-scale delay-${(idx + 1) * 150}`}>
+                <TiltCard
+                  className="bg-white rounded-[3px] border border-slate-200 overflow-hidden flex flex-col justify-between shadow-sm group cursor-pointer h-full"
+                >
+                  <div>
+                    {/* Top Graphic Blueprint Banner matching Image 4 */}
+                    <EquipmentBlueprint item={item} />
 
-                  {/* Body Content below matching Image 4 */}
-                  <div className="p-5 sm:p-6 space-y-2" style={{ transform: "translateZ(8px)" }}>
-                    <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-[#ed3237] transition-colors leading-snug">
-                      {item.title}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                      {item.desc}
-                    </p>
+                    {/* Body Content below matching Image 4 */}
+                    <div className="p-5 sm:p-6 space-y-2" style={{ transform: "translateZ(8px)" }}>
+                      <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-[#ed3237] transition-colors leading-snug">
+                        {item.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                        {item.desc}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </TiltCard>
+                </TiltCard>
+              </div>
             ))}
           </div>
         </div>

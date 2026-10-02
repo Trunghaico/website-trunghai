@@ -127,15 +127,37 @@ export default function Footer({ settings }: FooterProps) {
             <div className="space-y-3 text-sm text-slate-300">
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-[#ed3237] shrink-0 mt-1" />
-                <span className="leading-snug">{settings.address}</span>
+                <span className="leading-snug">{settings.address || "12-14 Đường D5, Khu phố 12, Phường An Khánh, Tp. Hồ Chí Minh"}</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-[#ed3237] shrink-0" />
-                <span className="font-semibold text-white">{settings.phone} / {settings.hotline}</span>
+                {settings.phone && settings.hotline && settings.phone !== settings.hotline ? (
+                  <span className="font-semibold text-white">
+                    <a href={`tel:${settings.phone.replace(/[^0-9]/g, "")}`} className="hover:text-red-400 transition-colors">
+                      {settings.phone}
+                    </a>{" "}
+                    /{" "}
+                    <a href={`tel:${settings.hotline.replace(/[^0-9]/g, "")}`} className="hover:text-red-400 transition-colors">
+                      {settings.hotline}
+                    </a>
+                  </span>
+                ) : (
+                  <a
+                    href={`tel:${(settings.hotline || settings.phone || "0966.700.045").replace(/[^0-9]/g, "")}`}
+                    className="font-semibold text-white hover:text-red-400 transition-colors"
+                  >
+                    {settings.hotline || settings.phone || "0966.700.045"}
+                  </a>
+                )}
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-[#ed3237] shrink-0" />
-                <span className="text-slate-200">{settings.email}</span>
+                <a
+                  href={`mailto:${settings.email || "info@trunghaico.vn"}`}
+                  className="text-slate-200 hover:text-white transition-colors"
+                >
+                  {settings.email || "info@trunghaico.vn"}
+                </a>
               </div>
             </div>
 

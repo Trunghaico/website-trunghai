@@ -15,13 +15,14 @@ interface HeaderProps {
 }
 
 export default function Header({
-  hotline = "0908 266 889",
-  phoneDisplay = "(028) 3553 2345 / 0903 123 456",
-  address = "22A Vũ Ngọc Phan, P. 13, Q. Bình Thạnh, TP. Hồ Chí Minh",
+  hotline = "0966.700.045",
+  phoneDisplay = "0966.700.045",
+  address = "12-14 Đường D5, Khu phố 12, Phường An Khánh, Tp. Hồ Chí Minh",
   workingHours = "Thứ 2 – Thứ 7: 08:00 – 17:30",
-  email = "thanhphuhcns@gmail.com",
+  email = "info@trunghaico.vn",
 }: HeaderProps) {
   const pathname = usePathname();
+  const isHomePage = pathname === "/" || pathname === "";
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -55,14 +56,15 @@ export default function Header({
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out">
-        {/* Topbar: Disappears smoothly on scroll */}
-        <div
-          className={`w-full bg-[#18202c] text-slate-300 text-xs sm:text-[13px] border-b border-white/[0.08] transition-all duration-300 ease-in-out overflow-hidden z-20 ${
-            isScrolled
-              ? "max-h-0 opacity-0 -translate-y-full py-0 border-b-0 pointer-events-none"
-              : "max-h-12 opacity-100 translate-y-0 py-1.5 sm:py-2"
-          }`}
-        >
+        {/* Topbar: Only appears on Homepage, disappears smoothly on scroll */}
+        {isHomePage && (
+          <div
+            className={`w-full bg-[#18202c] text-slate-300 text-xs sm:text-[13px] border-b border-white/[0.08] transition-all duration-300 ease-in-out overflow-hidden z-20 ${
+              isScrolled
+                ? "max-h-0 opacity-0 -translate-y-full py-0 border-b-0 pointer-events-none"
+                : "max-h-12 opacity-100 translate-y-0 py-1.5 sm:py-2"
+            }`}
+          >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between gap-4">
               {/* Left Group: Address & Working Hours */}
@@ -132,6 +134,7 @@ export default function Header({
             </div>
           </div>
         </div>
+        )}
 
         {/* Main Navbar */}
         <div

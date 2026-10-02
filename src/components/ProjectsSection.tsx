@@ -207,7 +207,7 @@ export default function ProjectsSection({ initialProjects }: ProjectsSectionProp
     <section id="projects" className="py-6 sm:py-8 lg:py-10 bg-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Heading - Compact & Modern */}
-        <div className="space-y-2 max-w-3xl mb-6 sm:mb-8">
+        <div className="space-y-2 max-w-3xl mb-6 sm:mb-8 reveal-on-scroll">
           <div>
             <span className="inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/30">
               DỰ ÁN TRỌNG ĐIỂM
@@ -222,7 +222,7 @@ export default function ProjectsSection({ initialProjects }: ProjectsSectionProp
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex flex-wrap gap-2 pb-5 sm:pb-6">
+        <div className="flex flex-wrap gap-2 pb-5 sm:pb-6 reveal-on-scroll delay-100">
           {categories.map((cat) => (
             <button
               key={cat.id}
@@ -240,12 +240,13 @@ export default function ProjectsSection({ initialProjects }: ProjectsSectionProp
 
         {/* Projects Grid with 3D Tilt Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {filteredProjects.map((project) => (
-            <Project3DCard
-              key={project.id}
-              project={project}
-              onClick={() => setActiveProject(project)}
-            />
+          {filteredProjects.map((project, idx) => (
+            <div key={project.id} className={`reveal-scale delay-${((idx % 3) + 1) * 100}`}>
+              <Project3DCard
+                project={project}
+                onClick={() => setActiveProject(project)}
+              />
+            </div>
           ))}
         </div>
       </div>

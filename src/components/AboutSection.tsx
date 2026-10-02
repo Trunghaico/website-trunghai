@@ -10,7 +10,7 @@ export default function AboutSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left Column: Image with animated overlapping red experience card */}
-          <div className="lg:col-span-6 relative pb-5 sm:pb-7 pr-4 sm:pr-6 group">
+          <div className="lg:col-span-6 relative pb-5 sm:pb-7 pr-4 sm:pr-6 group reveal-fade-left">
             {/* Image Box with zoom on hover */}
             <div className="relative rounded-[3px] overflow-hidden shadow-lg aspect-[16/11] w-full bg-slate-100 border border-slate-200">
               <Image
@@ -35,7 +35,7 @@ export default function AboutSection() {
           </div>
 
           {/* Right Column: Company Story with balanced compact spacing */}
-          <div className="lg:col-span-6 space-y-4 sm:space-y-5">
+          <div className="lg:col-span-6 space-y-4 sm:space-y-5 reveal-fade-right">
             {/* Tag Badge */}
             <div>
               <span className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/30">

@@ -169,10 +169,12 @@ export default function StatsCounter() {
   ];
 
   return (
-    <section className="relative z-20 py-3 sm:py-5 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative z-20 py-3 sm:py-5 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal-on-scroll">
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-0 bg-white border border-slate-200 rounded-[3px] shadow-sm divide-x divide-y lg:divide-y-0 divide-slate-200">
         {stats.map((item, idx) => (
-          <Stat3DItem key={idx} item={item} />
+          <div key={idx} className={`reveal-on-scroll delay-${(idx + 1) * 100}`}>
+            <Stat3DItem item={item} />
+          </div>
         ))}
       </div>
     </section>

@@ -31,7 +31,7 @@ export default function ContactSection({ settings }: ContactSectionProps) {
     <section id="contact" className="py-6 sm:py-8 lg:py-10 bg-slate-100/70 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Heading - Compact & Modern */}
-        <div className="space-y-2 max-w-3xl mb-6 sm:mb-8">
+        <div className="space-y-2 max-w-3xl mb-6 sm:mb-8 reveal-on-scroll">
           <div>
             <span className="inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/30">
               KẾT NỐI HỢP TÁC
@@ -47,7 +47,7 @@ export default function ContactSection({ settings }: ContactSectionProps) {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
           {/* Left Column: Contact Info Cards */}
-          <div className="lg:col-span-5 space-y-4">
+          <div className="lg:col-span-5 space-y-4 reveal-fade-left">
             <div className="p-5 sm:p-6 rounded-[3px] bg-white border border-slate-200 space-y-5 shadow-sm">
               <h3 className="text-base sm:text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">
                 Thông Tin Trụ Sở Chính
@@ -71,7 +71,9 @@ export default function ContactSection({ settings }: ContactSectionProps) {
                   </div>
                   <div>
                     <div className="text-[11px] uppercase text-slate-500 font-semibold">Địa Chỉ Trụ Sở</div>
-                    <div className="text-xs sm:text-sm text-slate-700 mt-0.5 leading-relaxed">{settings.address}</div>
+                    <div className="text-xs sm:text-sm text-slate-700 mt-0.5 leading-relaxed">
+                      {settings.address || "12-14 Đường D5, Khu phố 12, Phường An Khánh, Tp. Hồ Chí Minh"}
+                    </div>
                   </div>
                 </div>
 
@@ -82,7 +84,9 @@ export default function ContactSection({ settings }: ContactSectionProps) {
                   <div>
                     <div className="text-[11px] uppercase text-slate-500 font-semibold">Điện Thoại / Hotline</div>
                     <div className="text-xs sm:text-sm font-bold text-slate-900 mt-0.5">
-                      {settings.phone} - {settings.hotline}
+                      {settings.phone && settings.hotline && settings.phone !== settings.hotline
+                        ? `${settings.phone} - ${settings.hotline}`
+                        : settings.hotline || settings.phone || "0966.700.045"}
                     </div>
                   </div>
                 </div>
@@ -93,7 +97,9 @@ export default function ContactSection({ settings }: ContactSectionProps) {
                   </div>
                   <div>
                     <div className="text-[11px] uppercase text-slate-500 font-semibold">Thư Điện Tử</div>
-                    <div className="text-xs sm:text-sm text-slate-700 mt-0.5">{settings.email}</div>
+                    <div className="text-xs sm:text-sm text-slate-700 mt-0.5">
+                      {settings.email || "info@trunghaico.vn"}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -115,7 +121,7 @@ export default function ContactSection({ settings }: ContactSectionProps) {
           </div>
 
           {/* Right Column: Contact Message Form */}
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-7 reveal-fade-right">
             <div className="p-6 sm:p-8 rounded-[3px] bg-white border border-slate-200 shadow-sm relative">
               <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-1.5">Gửi Tin Nhắn / Yêu Cầu Hợp Tác</h3>
               <p className="text-xs text-slate-500 mb-6 font-normal">

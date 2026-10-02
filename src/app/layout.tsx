@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
+import ScrollObserver from "@/components/ScrollObserver";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700", "900"],
@@ -35,6 +36,7 @@ export default function RootLayout({
   return (
     <html lang="vi" className={`${roboto.variable} scroll-smooth`}>
       <body className="min-h-screen bg-slate-50 font-sans text-slate-800 antialiased selection:bg-[#ed3237] selection:text-white">
+        <ScrollObserver />
         {children}
       </body>
     </html>

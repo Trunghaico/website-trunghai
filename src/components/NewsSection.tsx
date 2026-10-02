@@ -16,7 +16,7 @@ export default function NewsSection({ initialNews }: NewsSectionProps) {
     <section id="news" className="py-6 sm:py-8 lg:py-10 bg-slate-100/70 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Heading - Compact & Modern with Brand Colors */}
-        <div className="space-y-2 max-w-3xl mb-6 sm:mb-8">
+        <div className="space-y-2 max-w-3xl mb-6 sm:mb-8 reveal-on-scroll">
           <div>
             <span className="inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/30">
               THÔNG TIN & SỰ KIỆN
@@ -32,11 +32,11 @@ export default function NewsSection({ initialNews }: NewsSectionProps) {
 
         {/* News Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-          {initialNews.map((post) => (
+          {initialNews.map((post, idx) => (
             <article
               key={post.id}
               onClick={() => setSelectedPost(post)}
-              className="cursor-pointer group rounded-[3px] bg-white border border-slate-200 hover:border-[#ed3237]/60 hover:shadow-xl hover:shadow-[#ed3237]/10 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-sm"
+              className={`cursor-pointer group rounded-[3px] bg-white border border-slate-200 hover:border-[#ed3237]/60 hover:shadow-xl hover:shadow-[#ed3237]/10 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-sm reveal-on-scroll delay-${((idx % 3) + 1) * 100}`}
             >
               <div>
                 <div className="relative h-44 sm:h-48 w-full overflow-hidden bg-slate-100">
