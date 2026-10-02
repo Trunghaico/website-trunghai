@@ -274,7 +274,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
   ];
 
   return (
-    <div className="bg-white text-slate-800 pt-20 sm:pt-24 selection:bg-[#ed3237] selection:text-white">
+    <div className="bg-white text-slate-800 pt-24 sm:pt-28 selection:bg-[#ed3237] selection:text-white">
       {/* 1. TỔNG QUAN DOANH NGHIỆP (PHẦN 1 - KHỚP 100% HÌNH 1) */}
       <section className="pt-6 sm:pt-10 pb-14 sm:pb-20 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
