@@ -70,7 +70,7 @@ export default function Footer({ settings }: FooterProps) {
                 </Link>
               </li>
               <li>
-                <Link href="/#projects" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
+                <Link href="/cong-trinh" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
                   <ChevronRight className="w-3.5 h-3.5 text-[#ed3237]" />
                   <span>Công trình tiêu biểu</span>
                 </Link>

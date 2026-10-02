@@ -2,7 +2,8 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
-import { MapPin, ArrowUpRight, Calendar, Layers } from "lucide-react";
+import Link from "next/link";
+import { MapPin, ArrowUpRight, Calendar, Layers, ArrowRight } from "lucide-react";
 import { Project } from "@/types";
 import ProjectModal from "./ProjectModal";
 
@@ -248,6 +249,17 @@ export default function ProjectsSection({ initialProjects }: ProjectsSectionProp
               />
             </div>
           ))}
+        </div>
+
+        {/* Link to Dedicated Projects Page */}
+        <div className="text-center pt-8 sm:pt-10 reveal-on-scroll">
+          <Link
+            href="/cong-trinh"
+            className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-[3px] bg-slate-900 hover:bg-[#ed3237] text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-[#ed3237]/25 group"
+          >
+            <span>Xem Toàn Bộ Danh Sách Công Trình</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
       </div>
 

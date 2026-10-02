@@ -195,6 +195,81 @@ export const initialProjects: Project[] = [
     ],
     featured: false,
   },
+  {
+    id: "proj-7",
+    title: "Cầu vượt sông khẩu độ lớn & Tuyến tránh Đô thị",
+    slug: "cau-vuot-song-khau-do-lon-tuyen-tranh",
+    category: "cau-duong",
+    categoryName: "Cầu & Đường Bộ",
+    client: "Sở Giao thông Vận tải & Ban QLDA Đầu tư Xây dựng",
+    location: "Bình Dương – Đồng Nai",
+    year: "2021 - 2024",
+    value: "1.450 Tỷ VNĐ",
+    scale: "Cầu dầm hộp liên tục đúc hẫng cân bằng, chiều dài 1.150m, 4 làn xe cơ giới",
+    thumbnail: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80",
+    gallery: [
+      "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1545558014-8692077e9b5c?auto=format&fit=crop&w=1200&q=80",
+    ],
+    description:
+      "Công trình cầu vượt sông kết hợp tuyến tránh đô thị nhằm giải tỏa ùn tắc giao thông cửa ngõ, kết nối các khu công nghiệp trọng điểm với hệ thống cảng cạn quốc tế.",
+    highlights: [
+      "Thi công móng cọc khoan nhồi sâu 55m dưới lòng sông",
+      "Đúc hẫng nhịp chính dài 120m đảm bảo tĩnh không thông thuyền",
+      "Hệ thống cáp dự ứng lực cường độ cao kiểm soát biến dạng tự động",
+    ],
+    featured: true,
+  },
+  {
+    id: "proj-8",
+    title: "Cao tốc Bắc – Nam đoạn qua địa hình đồi núi dốc phức tạp",
+    slug: "cao-toc-bac-nam-dia-hinh-doi-nui",
+    category: "quoc-lo",
+    categoryName: "Quốc Lộ & Cao Tốc",
+    client: "Ban Quản lý Dự án Đường Hồ Chí Minh",
+    location: "Quảng Trị – Thừa Thiên Huế",
+    year: "2020 - 2023",
+    value: "2.150 Tỷ VNĐ",
+    scale: "Tuyến đường cao tốc 4 làn xe, vận tốc thiết kế 80-100km/h, nền đường rộng 23m",
+    thumbnail: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
+    gallery: [
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?auto=format&fit=crop&w=1200&q=80",
+    ],
+    description:
+      "Gói thầu thi công xuyên suốt vùng đồi núi có độ dốc cao và thời tiết mưa lũ khắc nghiệt. Trung Hải áp dụng các giải pháp nổ mìn định hướng, bạt núi hạ cốt và thảm bê tông nhựa chịu nhiệt chống lún.",
+    highlights: [
+      "Khối lượng đào đắp đất đá hơn 3.2 triệu m3",
+      "Hệ thống cống hộp thoát nước lũ khẩu độ lớn chống xói trôi",
+      "Đạt chuẩn nghiệm thu loại A từ Hội đồng nghiệm thu Nhà nước",
+    ],
+    featured: true,
+  },
+  {
+    id: "proj-9",
+    title: "Hạ tầng kỹ thuật Khu công nghiệp & Cảng cạn Logistics",
+    slug: "ha-tang-khu-cong-nghiep-cang-can-logistics",
+    category: "ha-tang",
+    categoryName: "Hạ Tầng Kỹ Thuật",
+    client: "Tập đoàn Đầu tư Bất động sản Công nghiệp",
+    location: "Bà Rịa – Vũng Tàu",
+    year: "2022 - 2025",
+    value: "1.880 Tỷ VNĐ",
+    scale: "Quy mô 250 ha, đường nội bộ tải trọng H30, trạm xử lý nước thải 10.000 m3/ngày đêm",
+    thumbnail: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&q=80",
+    gallery: [
+      "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80",
+    ],
+    description:
+      "Tổng thầu thi công hạ tầng khung khu công nghiệp xanh và trung tâm tiếp vận cảng biển nước sâu. Dự án đồng bộ mạng lưới đường bê tông asphalt, cấp thoát nước, trạm xử lý nước thải và hệ thống điện ngầm trung thế.",
+    highlights: [
+      "Xử lý nền đất yếu bằng phương pháp bấc thấm kết hợp hút chân không",
+      "Bê tông nhựa sợi gia cường kháng mài mòn cho xe container siêu tải trọng",
+      "Chứng nhận tiêu chuẩn công trình hạ tầng xanh thân thiện môi trường",
+    ],
+    featured: false,
+  },
 ];
 
 export const initialNews: NewsPost[] = [

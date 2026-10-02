@@ -44,7 +44,7 @@ export default function Header({
     { name: "Trang chủ", href: "/" },
     { name: "Giới thiệu", href: "/gioi-thieu" },
     { name: "Lĩnh vực hoạt động", href: "/#services" },
-    { name: "Công trình", href: "/#projects" },
+    { name: "Công trình", href: "/cong-trinh" },
     { name: "Tin tức", href: "/#news" },
   ];
 
