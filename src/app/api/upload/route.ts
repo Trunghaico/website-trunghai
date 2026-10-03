@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { uploadToCloudinary, isCloudinaryConfigured } from "@/lib/cloudinary";
+import { uploadToCloudinary, deleteFromCloudinary, isCloudinaryConfigured } from "@/lib/cloudinary";
 
 export async function POST(req: Request) {
   try {
@@ -31,6 +31,24 @@ export async function POST(req: Request) {
         message: "Chạy chế độ preview (Chưa cấu hình Cloudinary Cloud Name trong .env)",
       });
     }
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: Request) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const url = searchParams.get("url");
+    const publicId = searchParams.get("publicId");
+
+    const target = url || publicId;
+    if (!target) {
+      return NextResponse.json({ error: "Vui lòng cung cấp url hoặc publicId của ảnh cần xóa" }, { status: 400 });
+    }
+
+    const result = await deleteFromCloudinary(target);
+    return NextResponse.json(result);
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }

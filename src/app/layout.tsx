@@ -15,8 +15,13 @@ export const metadata: Metadata = {
   description:
     "Nhà thầu hàng đầu Việt Nam về thi công hạ tầng giao thông, hầm đường bộ qua Đèo Cả, Cù Mông, Phước Tượng - Phú Gia, Quốc lộ 1 và các công trình giao thông trọng điểm.",
   icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/icon.png", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
   openGraph: {
     title: "CÔNG TY CỔ PHẦN XÂY DỰNG VÀ ĐẦU TƯ TRUNG HẢI",

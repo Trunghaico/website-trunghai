@@ -2,14 +2,16 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { HeroSlide } from "@/types";
 
 interface HeroSliderProps {
   slides: HeroSlide[];
+  intervalSeconds?: number;
 }
 
-export default function HeroSlider({ slides }: HeroSliderProps) {
+export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderProps) {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState<"next" | "prev">("next");
   const prevIndexRef = useRef(0);
@@ -28,13 +30,15 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
     setCurrent((prev) => (prev - 1 + total) % total);
   }, [current, total]);
 
+  const intervalMs = Math.max(2, intervalSeconds) * 1000;
+
   useEffect(() => {
     if (total <= 1) return;
-    const interval = setInterval(() => {
+    const timer = setInterval(() => {
       nextSlide();
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [nextSlide, total]);
+    }, intervalMs);
+    return () => clearInterval(timer);
+  }, [nextSlide, total, intervalMs]);
 
   if (!slides || slides.length === 0) return null;
 
@@ -87,9 +91,73 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
                 </div>
 
                 {/* Subtle top shade so transparent header stays legible */}
-                <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-black/60 to-transparent pointer-events-none" />
-                {/* Subtle bottom shade */}
-                <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
+                <div className="absolute top-0 left-0 right-0 h-44 bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none z-10" />
+
+                {/* Cinematic bottom shade for text contrast */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent pointer-events-none z-10" />
+
+                {/* Slide Caption Overlay (Tag, Title, Subtitle, Stats) */}
+                <div className="absolute inset-0 z-20 flex flex-col justify-end pb-20 sm:pb-24 lg:pb-28 pointer-events-none">
+                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pointer-events-auto">
+                    <div
+                      className={`max-w-4xl transition-all duration-700 delay-150 transform ${
+                        isActive
+                          ? "translate-y-0 opacity-100"
+                          : "translate-y-8 opacity-0 pointer-events-none"
+                      }`}
+                    >
+                      {/* Tag badge */}
+                      {slide.tag && (
+                        <div className="mb-2 sm:mb-3">
+                          <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-[2px] bg-[#ed3237] text-white text-xs sm:text-[13px] font-black uppercase tracking-wider shadow-lg shadow-[#ed3237]/40">
+                            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                            <span>{slide.tag}</span>
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Main Title */}
+                      {slide.title && (
+                        <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white uppercase tracking-tight leading-snug sm:leading-tight drop-shadow-xl">
+                          {slide.title}
+                        </h1>
+                      )}
+
+                      {/* Subtitle */}
+                      {slide.subtitle && (
+                        <p className="mt-2.5 sm:mt-3.5 text-xs sm:text-base lg:text-lg text-slate-100/90 font-normal leading-relaxed max-w-3xl drop-shadow-md line-clamp-3">
+                          {slide.subtitle}
+                        </p>
+                      )}
+
+                      {/* Stats badge & Project Link */}
+                      {((slide.stats?.label && slide.stats?.value) || slide.projectLink) && (
+                        <div className="mt-4 sm:mt-6 flex flex-wrap items-center gap-3 sm:gap-4">
+                          {slide.stats?.label && slide.stats?.value && (
+                            <div className="inline-flex items-center gap-2.5 px-3.5 sm:px-4 py-2 rounded-[3px] bg-black/60 backdrop-blur-md border border-white/20 text-white shadow-xl">
+                              <span className="text-xs sm:text-sm text-slate-300 font-medium">
+                                {slide.stats.label}:
+                              </span>
+                              <span className="text-sm sm:text-base font-black text-amber-400">
+                                {slide.stats.value}
+                              </span>
+                            </div>
+                          )}
+
+                          {slide.projectLink && (
+                            <Link
+                              href={slide.projectLink}
+                              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white text-xs sm:text-sm font-bold uppercase tracking-wider shadow-xl shadow-[#ed3237]/30 transition-all hover:gap-3"
+                            >
+                              <span>Khám phá công trình</span>
+                              <ArrowRight className="w-4 h-4" />
+                            </Link>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           );

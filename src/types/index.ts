@@ -20,7 +20,7 @@ export interface NewsPost {
   id: string;
   title: string;
   slug: string;
-  category: "du-an" | "doanh-nghiep" | "an-toan" | "tuyen-dung";
+  category: string;
   categoryName: string;
   summary: string;
   content: string;
@@ -28,6 +28,7 @@ export interface NewsPost {
   author: string;
   thumbnail: string;
   featured?: boolean;
+  published?: boolean;
 }
 
 export interface JobPosting {
@@ -46,12 +47,13 @@ export interface JobPosting {
 
 export interface HeroSlide {
   id: string;
-  title: string;
-  subtitle: string;
-  tag: string;
+  title?: string;
+  subtitle?: string;
+  tag?: string;
   image: string;
   projectLink?: string;
   stats?: { label: string; value: string };
+  orderIndex?: number;
 }
 
 export interface CompanySettings {
@@ -66,4 +68,15 @@ export interface CompanySettings {
   facebook: string;
   youtube: string;
   profilePdfUrl: string;
+  slideInterval?: number;
 }
+
+export interface User {
+  id: string;
+  username: string;
+  passwordHash: string;
+  name: string;
+  role: "admin" | "editor";
+  createdAt?: string;
+}
+

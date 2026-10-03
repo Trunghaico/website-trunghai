@@ -28,7 +28,7 @@ export default async function HomePage() {
       {/* Main Content */}
       <main className="flex-1">
         {/* 2. Mục đầu tiên của trang chủ: Image Slider */}
-        <HeroSlider slides={slides} />
+        <HeroSlider slides={slides} intervalSeconds={settings.slideInterval || 5} />
 
         {/* 3. Thống kê năng lực cốt lõi */}
         <StatsCounter />

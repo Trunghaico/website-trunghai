@@ -45,7 +45,7 @@ export default function Header({
     { name: "Giới thiệu", href: "/gioi-thieu" },
     { name: "Lĩnh vực hoạt động", href: "/#services" },
     { name: "Công trình", href: "/cong-trinh" },
-    { name: "Tin tức", href: "/#news" },
+    { name: "Tin tức", href: "/tin-tuc" },
   ];
 
   // Header should be solid on subpages or when scrolled

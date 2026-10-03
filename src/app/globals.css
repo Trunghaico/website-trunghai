@@ -135,5 +135,29 @@
 .delay-250 { transition-delay: 250ms; }
 .delay-300 { transition-delay: 300ms; }
 .delay-400 { transition-delay: 400ms; }
-.delay-500 { transition-delay: 500ms; }
+/* Quill Editor Light Theme customizations */
+.quill-wrapper .ql-toolbar.ql-snow {
+  border: none;
+  border-bottom: 1px solid #e2e8f0;
+  background: #f8fafc;
+  padding: 8px 10px;
+}
+
+.quill-wrapper .ql-container.ql-snow {
+  border: none;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.quill-wrapper .ql-editor {
+  min-height: 280px;
+  line-height: 1.7;
+  color: #1e293b;
+}
+
+.quill-wrapper .ql-editor.ql-blank::before {
+  color: #94a3b8;
+  font-style: normal;
+  font-size: 13px;
+}
 

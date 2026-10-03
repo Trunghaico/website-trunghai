@@ -1,4 +1,15 @@
-import { Project, NewsPost, JobPosting, HeroSlide, CompanySettings } from "@/types";
+import { Project, NewsPost, JobPosting, HeroSlide, CompanySettings, User } from "@/types";
+
+export const initialUsers: User[] = [
+  {
+    id: "user-admin-1",
+    username: "admin",
+    passwordHash: "03f2abc18e5d21007000b9c04c17edfea0800450ab1198a72fc535d589baf506",
+    name: "Quản Trị Viên Trung Hải",
+    role: "admin",
+    createdAt: "2026-10-02 00:00:00",
+  },
+];
 
 export const initialCompanySettings: CompanySettings = {
   name: "CÔNG TY CỔ PHẦN XÂY DỰNG VÀ ĐẦU TƯ TRUNG HẢI",
@@ -12,6 +23,7 @@ export const initialCompanySettings: CompanySettings = {
   facebook: "https://facebook.com/trunghaico.vn",
   youtube: "https://youtube.com/@trunghaico",
   profilePdfUrl: "#",
+  slideInterval: 5,
 };
 
 export const initialHeroSlides: HeroSlide[] = [

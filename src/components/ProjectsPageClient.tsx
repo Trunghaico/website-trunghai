@@ -11,13 +11,15 @@ import {
   Search,
   SlidersHorizontal,
   ChevronRight,
-  ShieldCheck,
   CheckCircle2,
-  Phone,
-  Sparkles,
   Layers,
   ArrowRight,
   RotateCcw,
+  Home,
+  Mountain,
+  Route,
+  Milestone,
+  HardHat,
 } from "lucide-react";
 import { Project, CompanySettings } from "@/types";
 import ProjectModal from "@/components/ProjectModal";
@@ -260,11 +262,11 @@ export default function ProjectsPageClient({
   }, [initialProjects]);
 
   const categories = [
-    { id: "all", label: "Tất Cả Dự Án", count: categoryCounts.all },
-    { id: "ham", label: "Hầm Xuyên Núi", count: categoryCounts.ham },
-    { id: "cau-duong", label: "Cầu & Đường Bộ", count: categoryCounts["cau-duong"] },
-    { id: "quoc-lo", label: "Quốc Lộ & Cao Tốc", count: categoryCounts["quoc-lo"] },
-    { id: "ha-tang", label: "Hạ Tầng Kỹ Thuật", count: categoryCounts["ha-tang"] },
+    { id: "all", label: "Tất cả", icon: Layers, count: categoryCounts.all },
+    { id: "ham", label: "Hầm xuyên núi", icon: Mountain, count: categoryCounts.ham },
+    { id: "cau-duong", label: "Cầu & Đường bộ", icon: Route, count: categoryCounts["cau-duong"] },
+    { id: "quoc-lo", label: "Quốc lộ & Cao tốc", icon: Milestone, count: categoryCounts["quoc-lo"] },
+    { id: "ha-tang", label: "Hạ tầng kỹ thuật", icon: HardHat, count: categoryCounts["ha-tang"] },
   ];
 
   // Filter and sort logic
@@ -301,246 +303,230 @@ export default function ProjectsPageClient({
   };
 
   return (
-    <div className="bg-white text-slate-800 pt-20 sm:pt-24 selection:bg-[#ed3237] selection:text-white">
-      {/* 1. HERO BANNER WITH BLUEPRINT GRAPHIC & KEY STATS */}
-      <section className="relative bg-[#111827] text-white py-14 sm:py-20 overflow-hidden border-b border-slate-800">
-        {/* Subtle grid blueprint pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f293d_1px,transparent_1px),linear-gradient(to_bottom,#1f293d_1px,transparent_1px)] bg-[size:32px_32px] opacity-40 pointer-events-none" />
-
-        {/* Ambient colored lighting glows */}
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#3e4095]/25 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-10 w-96 h-96 bg-[#ed3237]/15 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* Breadcrumb Navigation */}
-          <nav className="flex items-center gap-2 text-xs text-slate-400 mb-6 reveal-on-scroll">
-            <Link href="/" className="hover:text-white transition-colors">
-              Trang chủ
-            </Link>
-            <ChevronRight className="w-3.5 h-3.5 text-slate-500" />
-            <span className="text-[#ed3237] font-semibold">Công trình & Dự án</span>
-          </nav>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left Header Description */}
-            <div className="lg:col-span-8 space-y-4 reveal-fade-left">
-              <div>
-                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-[3px] bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/30">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>HỒ SƠ NĂNG LỰC THI CÔNG</span>
-                </span>
-              </div>
-
-              <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white uppercase tracking-tight leading-[1.15]">
-                TỔNG HỢP CÁC ĐẠI CÔNG TRÌNH & DỰ ÁN TRỌNG ĐIỂM
-              </h1>
-
-              <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal max-w-3xl">
-                Khẳng định vị thế tổng thầu tiên phong qua hàng loạt dự án hầm xuyên núi hiểm trở bậc nhất Việt Nam, các tuyến quốc lộ huyết mạch và công trình hạ tầng kỹ thuật đạt chuẩn mực an toàn quốc tế.
-              </p>
-            </div>
-
-            {/* Right Side Metric Highlights Card */}
-            <div className="lg:col-span-4 reveal-fade-right">
-              <div className="p-5 sm:p-6 rounded-[3px] bg-[#182133]/90 border border-slate-700 backdrop-blur-md shadow-2xl space-y-4">
-                <div className="text-xs font-bold uppercase tracking-wider text-[#f59e0b] border-b border-slate-700/80 pb-2.5 flex items-center justify-between">
-                  <span>THÀNH TỰU THI CÔNG</span>
-                  <ShieldCheck className="w-4 h-4 text-[#ed3237]" />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1">
-                    <div className="text-2xl sm:text-3xl font-black text-white">12+</div>
-                    <div className="text-[11px] text-slate-400 font-medium">Năm kinh nghiệm</div>
-                  </div>
-                  <div className="space-y-1">
-                    <div className="text-2xl sm:text-3xl font-black text-[#ed3237]">380+</div>
-                    <div className="text-[11px] text-slate-400 font-medium">Công trình hoàn thành</div>
-                  </div>
-                  <div className="space-y-1">
-                    <div className="text-2xl sm:text-3xl font-black text-[#3e4095] text-blue-400">30+ Km</div>
-                    <div className="text-[11px] text-slate-400 font-medium">Hầm & cầu cạn</div>
-                  </div>
-                  <div className="space-y-1">
-                    <div className="text-2xl sm:text-3xl font-black text-[#f59e0b]">5.000+</div>
-                    <div className="text-[11px] text-slate-400 font-medium">Tỷ đồng gói thầu</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 2. FILTER & SEARCH CONTROLS SECTION */}
-      <section className="bg-slate-50 border-b border-slate-200 py-6 sm:py-8 sticky top-16 z-30 shadow-sm backdrop-blur-md bg-slate-50/95">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between">
-            {/* Search Input Box */}
-            <div className="relative flex-1 max-w-md">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Tìm theo tên công trình, địa điểm, chủ đầu tư..."
-                className="w-full pl-10 pr-4 py-2.5 rounded-[3px] bg-white border border-slate-300 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#ed3237] focus:ring-1 focus:ring-[#ed3237] transition-all shadow-sm"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery("")}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-700"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-
-            {/* Filter by Category Buttons */}
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0 scrollbar-none">
-              {categories.map((cat) => (
-                <button
-                  key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
-                  className={`whitespace-nowrap px-3.5 py-2 rounded-[3px] text-xs font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1.5 shrink-0 ${
-                    selectedCategory === cat.id
-                      ? "bg-[#ed3237] text-white shadow-md shadow-[#ed3237]/25"
-                      : "bg-white text-slate-700 hover:bg-slate-100 hover:text-slate-900 border border-slate-200"
-                  }`}
-                >
-                  <span>{cat.label}</span>
-                  <span
-                    className={`px-1.5 py-0.2 rounded-full text-[10px] font-extrabold ${
-                      selectedCategory === cat.id
-                        ? "bg-white/20 text-white"
-                        : "bg-slate-100 text-slate-500"
-                    }`}
-                  >
-                    {cat.count}
-                  </span>
-                </button>
-              ))}
-            </div>
-
-            {/* Sort Dropdown */}
-            <div className="flex items-center gap-2 shrink-0">
-              <SlidersHorizontal className="w-4 h-4 text-slate-500 shrink-0" />
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
-                className="px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-xs font-semibold text-slate-700 focus:outline-none focus:border-[#ed3237] shadow-sm cursor-pointer"
-              >
-                <option value="default">Sắp xếp: Mặc định</option>
-                <option value="featured">Công trình tiêu biểu</option>
-                <option value="newest">Năm thi công mới nhất</option>
-              </select>
-            </div>
-          </div>
-
-          {/* Active Filter Indicator */}
-          <div className="pt-3 flex items-center justify-between text-xs text-slate-500">
-            <div>
-              Hiển thị <span className="font-bold text-slate-900">{filteredProjects.length}</span> / {initialProjects.length} công trình
-              {searchQuery && (
-                <span className="ml-1 text-slate-600">
-                  khớp với từ khóa &ldquo;<span className="text-[#ed3237] font-semibold">{searchQuery}</span>&rdquo;
-                </span>
-              )}
-            </div>
-
-            {(searchQuery || selectedCategory !== "all" || sortBy !== "default") && (
-              <button
-                onClick={handleResetFilters}
-                className="inline-flex items-center gap-1 text-[#ed3237] hover:underline font-semibold text-xs"
-              >
-                <RotateCcw className="w-3 h-3" />
-                <span>Đặt lại bộ lọc</span>
-              </button>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* 3. MAIN PROJECTS GRID WITH 3D TILT ANIMATION */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-white min-h-[500px]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {filteredProjects.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-              {filteredProjects.map((project, idx) => (
-                <div
-                  key={project.id}
-                  className={`reveal-scale delay-${((idx % 3) + 1) * 100}`}
-                >
-                  <Project3DItem
-                    project={project}
-                    onClick={() => setActiveModalProject(project)}
-                  />
-                </div>
-              ))}
-            </div>
-          ) : (
-            /* Empty State */
-            <div className="text-center py-16 px-4 max-w-md mx-auto space-y-4">
-              <div className="w-16 h-16 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto">
-                <Search className="w-8 h-8" />
-              </div>
-              <h3 className="text-lg font-bold text-slate-900">
-                Không tìm thấy công trình phù hợp
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
-                Rất tiếc, không có dự án nào khớp với tiêu chí tìm kiếm hiện tại của bạn. Vui lòng thử tìm với từ khóa khác hoặc đặt lại bộ lọc.
-              </p>
-              <button
-                onClick={handleResetFilters}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[3px] bg-[#ed3237] text-white text-xs font-bold uppercase tracking-wider hover:opacity-95 shadow-md shadow-[#ed3237]/25 transition-all"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-                <span>Xem Tất Cả Công Trình</span>
-              </button>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* 4. CALL TO ACTION: READY FOR NEW MEGA PROJECTS */}
-      <section className="py-12 sm:py-16 bg-slate-900 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(237,50,55,0.15),transparent_50%)]" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
-            <div className="space-y-2 max-w-2xl text-center lg:text-left">
-              <span className="text-xs font-bold text-[#f59e0b] uppercase tracking-wider">
-                ĐỒNG HÀNH KIẾN TẠO TƯƠNG LAI
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tight">
-                SẴN SÀNG HỢP TÁC TRÊN MỌI CÔNG TRÌNH TRỌNG ĐIỂM
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-                Trung Hải cam kết mang đến giải pháp thi công tối ưu, thiết bị cơ giới hiện đại và đảm bảo tiến độ khắt khe nhất của từng dự án.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap items-center justify-center gap-4 shrink-0">
-              <a
-                href={`tel:${settings.hotline.replace(/[^0-9]/g, "")}`}
-                className="inline-flex items-center gap-2.5 px-6 py-3 rounded-[3px] bg-[#ed3237] text-white text-xs sm:text-sm font-bold uppercase tracking-wider hover:bg-red-600 transition-all shadow-lg shadow-[#ed3237]/30"
-              >
-                <Phone className="w-4 h-4 animate-phone-ring" />
-                <span>Hotline: {settings.hotline}</span>
-              </a>
-
+    <div className="bg-slate-50/60 min-h-screen text-slate-800 pt-20 sm:pt-24 selection:bg-[#ed3237] selection:text-white pb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* 1. TOP BREADCRUMB */}
+        <nav aria-label="Breadcrumb" className="mb-6">
+          <h1 className="sr-only">Công trình & Dự án - Trung Hải JSC</h1>
+          <ol className="flex items-center flex-wrap gap-1.5 text-xs text-slate-500 font-medium">
+            <li className="flex items-center gap-1.5">
               <Link
-                href="/#contact"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-[3px] bg-slate-800 hover:bg-slate-700 text-white text-xs sm:text-sm font-bold uppercase tracking-wider border border-slate-700 transition-all"
+                href="/"
+                className="flex items-center gap-1 text-slate-600 hover:text-[#ed3237] transition-colors"
               >
-                <span>Gửi Yêu Cầu Hợp Tác</span>
-                <ArrowRight className="w-4 h-4" />
+                <Home className="w-3.5 h-3.5" />
+                <span>Trang chủ</span>
               </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+            </li>
+            <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+            <li className="text-[#ed3237] font-semibold">Công trình & Dự án</li>
+          </ol>
+        </nav>
 
-      {/* 5. INTERACTIVE PROJECT DETAILS MODAL */}
+        {/* 2. TWO-COLUMN LAYOUT: LEFT SIDEBAR (3 COLS) + RIGHT PROJECTS (9 COLS) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+          {/* LEFT SIDEBAR */}
+          <aside className="lg:col-span-3 space-y-4 lg:sticky lg:top-24">
+            <div className="bg-white rounded-[3px] border border-slate-200 p-4 sm:p-5 shadow-2xs space-y-5">
+              {/* Search Box */}
+              <div>
+                <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">
+                  Tìm kiếm dự án
+                </label>
+                <div className="relative">
+                  <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Tên, địa điểm, chủ đầu tư..."
+                    className="w-full pl-8 pr-7 py-2 rounded-[3px] bg-slate-50 hover:bg-slate-100/70 focus:bg-white border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#ed3237] focus:ring-1 focus:ring-[#ed3237]/20 transition-all shadow-2xs"
+                  />
+                  {searchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setSearchQuery("")}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-700 px-1 cursor-pointer"
+                      title="Xóa tìm kiếm"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Category Filter List */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                    Danh mục thi công
+                  </label>
+                  <span className="text-[10px] font-bold text-slate-400">
+                    {categories.length} mục
+                  </span>
+                </div>
+
+                <div className="space-y-1">
+                  {categories.map((cat) => {
+                    const isActive = selectedCategory === cat.id;
+                    const Icon = cat.icon;
+
+                    return (
+                      <button
+                        key={cat.id}
+                        type="button"
+                        onClick={() => setSelectedCategory(cat.id)}
+                        className={`w-full text-left px-3 py-2 rounded-[3px] text-xs font-bold transition-all duration-200 flex items-center justify-between group cursor-pointer ${
+                          isActive
+                            ? "bg-[#ed3237] text-white shadow-xs"
+                            : "bg-slate-50/70 hover:bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-100 hover:border-slate-200"
+                        }`}
+                      >
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <Icon
+                            className={`w-4 h-4 shrink-0 transition-transform group-hover:scale-110 ${
+                              isActive ? "text-white" : "text-slate-500 group-hover:text-[#ed3237]"
+                            }`}
+                          />
+                          <span className="truncate">{cat.label}</span>
+                        </div>
+
+                        <span
+                          className={`ml-2 px-1.5 py-0.2 rounded-full text-[10px] font-extrabold shrink-0 ${
+                            isActive
+                              ? "bg-white/25 text-white"
+                              : "bg-slate-200/80 text-slate-600 group-hover:bg-slate-300/80"
+                          }`}
+                        >
+                          {cat.count}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Sort Options */}
+              <div>
+                <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">
+                  Sắp xếp hiển thị
+                </label>
+                <div className="relative">
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value as any)}
+                    className="w-full pl-3 pr-8 py-2 rounded-[3px] bg-slate-50 hover:bg-slate-100/70 border border-slate-200 text-xs font-semibold text-slate-700 focus:outline-none focus:border-[#ed3237] cursor-pointer appearance-none shadow-2xs"
+                  >
+                    <option value="default">Mặc định</option>
+                    <option value="featured">Công trình tiêu biểu</option>
+                    <option value="newest">Năm hoàn thành mới nhất</option>
+                  </select>
+                  <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                </div>
+              </div>
+
+              {/* Reset Filter Button */}
+              {(searchQuery || selectedCategory !== "all" || sortBy !== "default") && (
+                <button
+                  type="button"
+                  onClick={handleResetFilters}
+                  className="w-full py-2 px-3 rounded-[3px] bg-red-50 hover:bg-red-100 border border-red-200 text-[#ed3237] font-bold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  <span>Đặt lại bộ lọc</span>
+                </button>
+              )}
+            </div>
+          </aside>
+
+          {/* RIGHT CONTENT: PROJECTS GRID */}
+          <main className="lg:col-span-9 space-y-5">
+            {/* Top Bar above grid: Result Summary */}
+            <div className="bg-white rounded-[3px] border border-slate-200 px-4 py-3 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-slate-600">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span>
+                  Hiển thị <strong className="text-slate-900 font-bold">{filteredProjects.length}</strong> / {initialProjects.length} công trình
+                </span>
+                {selectedCategory !== "all" && (
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[2px] bg-red-50 text-[#ed3237] font-semibold border border-red-200 text-[11px]">
+                    {categories.find((c) => c.id === selectedCategory)?.label}
+                    <button
+                      type="button"
+                      onClick={() => setSelectedCategory("all")}
+                      className="hover:text-red-800 ml-0.5 cursor-pointer"
+                    >
+                      ✕
+                    </button>
+                  </span>
+                )}
+                {searchQuery && (
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[2px] bg-slate-100 text-slate-700 font-semibold border border-slate-200 text-[11px]">
+                    &ldquo;{searchQuery}&rdquo;
+                    <button
+                      type="button"
+                      onClick={() => setSearchQuery("")}
+                      className="hover:text-slate-900 ml-0.5 cursor-pointer"
+                    >
+                      ✕
+                    </button>
+                  </span>
+                )}
+              </div>
+
+              {(searchQuery || selectedCategory !== "all" || sortBy !== "default") && (
+                <button
+                  type="button"
+                  onClick={handleResetFilters}
+                  className="text-xs text-[#ed3237] hover:underline font-semibold flex items-center gap-1 cursor-pointer shrink-0"
+                >
+                  <RotateCcw className="w-3 h-3" />
+                  <span>Xóa bộ lọc</span>
+                </button>
+              )}
+            </div>
+
+            {/* Projects Grid */}
+            {filteredProjects.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6">
+                {filteredProjects.map((project, idx) => (
+                  <div
+                    key={project.id}
+                    className={`reveal-scale delay-${((idx % 3) + 1) * 100}`}
+                  >
+                    <Project3DItem
+                      project={project}
+                      onClick={() => setActiveModalProject(project)}
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              /* Empty State */
+              <div className="text-center py-16 px-4 bg-white rounded-[3px] border border-slate-200 space-y-4 shadow-2xs">
+                <div className="w-16 h-16 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto">
+                  <Search className="w-8 h-8" />
+                </div>
+                <h3 className="text-base font-bold text-slate-900">
+                  Không tìm thấy công trình phù hợp
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-500 leading-relaxed max-w-sm mx-auto">
+                  Không có dự án nào khớp với tiêu chí tìm kiếm hoặc chuyên mục hiện tại của bạn.
+                </p>
+                <button
+                  type="button"
+                  onClick={handleResetFilters}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[3px] bg-[#ed3237] text-white text-xs font-bold uppercase tracking-wider hover:opacity-95 shadow-md shadow-[#ed3237]/25 transition-all cursor-pointer"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  <span>Xem Tất Cả Công Trình</span>
+                </button>
+              </div>
+            )}
+          </main>
+        </div>
+      </div>
+
+      {/* INTERACTIVE PROJECT DETAILS MODAL */}
       <ProjectModal
         project={activeModalProject}
         onClose={() => setActiveModalProject(null)}
