@@ -1392,7 +1392,7 @@ export default function AdminPage() {
                             {newsForm.id ? "Chỉnh sửa bài viết" : "Đăng bài viết mới"}
                           </h3>
                           <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded-[2px] uppercase">
-                            Quill.js 2.0 & SEO Link
+                            TinyMCE & SEO Link
                           </span>
                         </div>
                         <button
