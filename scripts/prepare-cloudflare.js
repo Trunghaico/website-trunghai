@@ -70,33 +70,40 @@ export default {
   console.warn("⚠ .open-next/worker.js not found!");
 }
 
-// 2. Patch handler.mjs to prevent "Cannot read properties of undefined (reading 'require')" on Cloudflare Pages
+// 2. Neutralize require_require_hook in handler.mjs (eliminate node require-hook in workerd)
 const handlerPath = path.join(openNextDir, "server-functions", "default", "handler.mjs");
 if (fs.existsSync(handlerPath)) {
   let handlerCode = fs.readFileSync(handlerPath, "utf8");
-  const targetPattern = 'mod3=require("module"),originalRequire=mod3.prototype.require,resolveFilename3=mod3._resolveFilename';
-  const replacement = 'mod3=require("module"),_dummy=(mod3.prototype=mod3.prototype||{}),originalRequire=(mod3.prototype.require=mod3.prototype.require||function(r){return typeof require==="function"?require(r):{}}),resolveFilename3=(mod3._resolveFilename=mod3._resolveFilename||function(r){return r})';
-  if (handlerCode.includes(targetPattern)) {
-    handlerCode = handlerCode.replace(targetPattern, replacement);
+  const startStr = "var require_require_hook=";
+  const endStr = "var require_setup_node_env_external=";
+  const start = handlerCode.indexOf(startStr);
+  const end = handlerCode.indexOf(endStr);
+  if (start !== -1 && end !== -1 && end > start) {
+    const dummyHook = 'var require_require_hook=__commonJS({".open-next/server-functions/default/node_modules/next/dist/server/require-hook.js"(exports){"use strict";Object.defineProperty(exports,"__esModule",{value:!0});exports.addHookAliases=function(){};exports.defaultOverrides={};exports.hookPropertyMap=new Map();}});';
+    handlerCode = handlerCode.slice(0, start) + dummyHook + handlerCode.slice(end);
     fs.writeFileSync(handlerPath, handlerCode, "utf8");
-    console.log("✓ Patched handler.mjs module.prototype for Cloudflare Pages");
+    console.log("✓ Neutralized require_require_hook in handler.mjs");
   } else {
-    console.warn("⚠ Target pattern in handler.mjs not found, skipping patch");
+    console.warn("⚠ require_require_hook bounds not found in handler.mjs");
   }
 }
 
-// 3. Patch require-hook.js in server-functions node_modules if present
+// 3. Overwrite require-hook.js on the filesystem with safe dummy no-op
 const requireHookPath = path.join(openNextDir, "server-functions", "default", "node_modules", "next", "dist", "server", "require-hook.js");
 if (fs.existsSync(requireHookPath)) {
-  let hookCode = fs.readFileSync(requireHookPath, "utf8");
-  if (hookCode.includes("const originalRequire = mod.prototype.require;")) {
-    hookCode = hookCode.replace(
-      "const originalRequire = mod.prototype.require;",
-      "if (!mod.prototype) mod.prototype = {};\nconst originalRequire = mod.prototype.require || function(r){ return typeof require === 'function' ? require(r) : {}; };"
-    );
-    fs.writeFileSync(requireHookPath, hookCode, "utf8");
-    console.log("✓ Patched require-hook.js for Cloudflare Pages");
-  }
+  const dummyFile = `"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.addHookAliases = function() {};
+exports.defaultOverrides = {};
+exports.hookPropertyMap = new Map();
+module.exports = {
+  addHookAliases: function() {},
+  defaultOverrides: {},
+  hookPropertyMap: new Map()
+};
+`;
+  fs.writeFileSync(requireHookPath, dummyFile, "utf8");
+  console.log("✓ Overwrote require-hook.js with no-op for Cloudflare Pages");
 }
 
 // 4. Copy static assets from .open-next/assets to .open-next root so Cloudflare Pages serves them
