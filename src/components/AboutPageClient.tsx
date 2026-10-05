@@ -290,16 +290,16 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
 
               {/* Title matching Image 1 */}
               <h1 className="text-2xl sm:text-3xl lg:text-[40px] font-black text-slate-900 tracking-tight leading-[1.2] uppercase">
-                HƠN 15 NĂM ĐỒNG HÀNH KIẾN TẠO DIỆN MẠO ĐÔ THỊ
+                Hành trình kiến tạo và phát triển
               </h1>
 
               {/* Paragraphs matching Image 1 */}
               <div className="space-y-4 text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
                 <p>
-                  Công ty Cổ phần Đầu tư Xây lắp Trung Hải (tiền thân là Công ty Cổ phần Xây dựng TTNT Trung Hải) được thành lập và hoạt động với sứ mệnh trở thành đối tác tổng thầu tin cậy trong các dự án công trình dân dụng, hạ tầng kỹ thuật và công nghiệp.
+                  Sự ra đời và phát triển của <strong className="font-bold text-slate-900">Công ty Cổ phần Xây dựng và Đầu tư Trung Hải</strong> là dấu mốc khẳng định hành trình nỗ lực, học hỏi, lao động và sáng tạo không ngừng của <strong className="font-bold text-slate-900">Chủ tịch Văn Phú Thành</strong> cùng những cộng sự đồng hành.
                 </p>
                 <p>
-                  Từ những ngày đầu khởi nghiệp với các công trình quy mô vừa, Trung Hải không ngừng tái đầu tư công nghệ, hoàn thiện hệ thống máy móc cơ giới hiện đại và bồi dưỡng nguồn nhân lực kỹ sư chất lượng cao. Đến nay, công ty đã thực hiện thành công hơn 380 công trình trên khắp cả nước, khẳng định vị thế thương hiệu xây dựng uy tín, chuyên nghiệp.
+                  Trải qua nhiều thăng trầm, Trung Hải đã biến khó khăn thành cơ hội, thử thách thành động lực, từng bước khẳng định vị thế bằng bản lĩnh, niềm tin và khát vọng vươn lên. Từ những nền tảng ban đầu, tập thể Trung Hải hôm nay tiếp tục đồng lòng tiến về phía trước, viết tiếp hành trình phát triển và những giá trị bền vững cho tương lai.
                 </p>
               </div>
 
