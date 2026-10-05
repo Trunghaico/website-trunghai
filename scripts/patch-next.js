@@ -47,9 +47,7 @@ module.exports = {
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require('path');
 const mod = require('module');
-const originalRequire = mod && mod.prototype ? mod.prototype.require : undefined;
-const resolveFilename = mod && mod._resolveFilename ? mod._resolveFilename : undefined;
-let resolve = process.env.NEXT_MINIMAL ? (typeof __non_webpack_require__ !== 'undefined' ? __non_webpack_require__.resolve : require.resolve) : require.resolve;
+let resolve = require.resolve;
 const hookPropertyMap = new Map();
 const defaultOverrides = {};
 try {
@@ -64,14 +62,17 @@ function addHookAliases(aliases = []) {
         hookPropertyMap.set(key, value);
     }
 }
-if (mod && mod.prototype && originalRequire) {
-    mod.prototype.require = function(request) {
-        if (hookPropertyMap.has(request)) {
-            return originalRequire.call(this, hookPropertyMap.get(request));
-        }
-        return originalRequire.call(this, request);
-    };
-}
+try {
+  if (mod && mod.prototype && typeof mod.prototype.require === 'function') {
+      const originalRequire = mod.prototype.require;
+      mod.prototype.require = function(request) {
+          if (hookPropertyMap.has(request)) {
+              return originalRequire.call(this, hookPropertyMap.get(request));
+          }
+          return originalRequire.call(this, request);
+      };
+  }
+} catch (_) {}
 exports.addHookAliases = addHookAliases;
 exports.defaultOverrides = defaultOverrides;
 exports.hookPropertyMap = hookPropertyMap;
@@ -86,14 +87,18 @@ module.exports = {
         }
       } else if (entry.name === "setup-node-env.external.js") {
         const safeEnv = `"use strict";
-if (process.env.NEXT_RUNTIME !== 'edge') {
-  try { require('next/dist/server/node-environment'); } catch (_) {}
-  try { require('next/dist/server/require-hook'); } catch (_) {}
-  try { require('next/dist/server/node-polyfill-crypto'); } catch (_) {}
-}
+module.exports = {};
 `;
         fs.writeFileSync(fullPath, safeEnv, "utf8");
         console.log("✓ Patched setup-node-env:", fullPath);
+      } else if (entry.name === "app-page.runtime.prod.js") {
+        let content = fs.readFileSync(fullPath, "utf8");
+        const setupEnvRequire = 'require("next/dist/build/adapter/setup-node-env.external.js")';
+        if (content.includes(setupEnvRequire)) {
+          content = content.replaceAll(setupEnvRequire, '({})');
+          fs.writeFileSync(fullPath, content, "utf8");
+          console.log("✓ Removed setup-node-env require from app-page.runtime.prod.js:", fullPath);
+        }
       } else if (entry.name === "base-server.js") {
         let content = fs.readFileSync(fullPath, "utf8");
         const pattern = /await\s+components\.ComponentMod\.handler\s*\(\s*handlerReq\s*,\s*handlerRes\s*,\s*\{\s*waitUntil:\s*this\.getWaitUntil\(\)\s*\}\s*\);/g;
@@ -122,7 +127,13 @@ if (fs.existsSync(nextDir)) {
   walkAndPatch(nextDir);
 }
 
-// 2. Patch OpenNext require-hook plugin filter to catch all require-hook occurrences
+// 2. Patch inside .open-next if exists
+const openNextDir = path.join(process.cwd(), ".open-next");
+if (fs.existsSync(openNextDir)) {
+  walkAndPatch(openNextDir);
+}
+
+// 3. Patch OpenNext require-hook plugin filter to catch all require-hook occurrences
 const openNextPlugin = path.join(process.cwd(), "node_modules", "@opennextjs", "cloudflare", "dist", "cli", "build", "patches", "plugins", "require-hook.js");
 if (fs.existsSync(openNextPlugin)) {
   const cleanPlugin = `import { join } from "node:path";

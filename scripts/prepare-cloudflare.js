@@ -36,6 +36,14 @@ module.exports = {};
 `;
         fs.writeFileSync(fullPath, dummyEnv, "utf8");
         console.log("✓ Patched setup-node-env in .open-next:", fullPath);
+      } else if (entry.name === "app-page.runtime.prod.js") {
+        let content = fs.readFileSync(fullPath, "utf8");
+        const setupEnvRequire = 'require("next/dist/build/adapter/setup-node-env.external.js")';
+        if (content.includes(setupEnvRequire)) {
+          content = content.replaceAll(setupEnvRequire, '({})');
+          fs.writeFileSync(fullPath, content, "utf8");
+          console.log("✓ Removed setup-node-env require from app-page.runtime.prod.js in .open-next:", fullPath);
+        }
       }
     }
   }
@@ -50,14 +58,14 @@ if (fs.existsSync(handlerPath)) {
   let handlerCode = fs.readFileSync(handlerPath, "utf8");
 
   // Neutralize require_require_hook
-  const hookPattern = /var require_require_hook\s*=\s*__commonJS\([^)]+\)\);/g;
+  const hookPattern = /var require_require_hook\s*=\s*__commonJS\(\{[\s\S]*?require-hook\.js[\s\S]*?\}\}\);/g;
   if (hookPattern.test(handlerCode)) {
     handlerCode = handlerCode.replace(hookPattern, 'var require_require_hook=()=>({addHookAliases(){},defaultOverrides:{},hookPropertyMap:new Map()});');
     console.log("✓ Neutralized require_require_hook in handler.mjs");
   }
 
   // Neutralize require_setup_node_env_external
-  const setupEnvPattern = /var require_setup_node_env_external\s*=\s*__commonJS\([^)]+\)\);/g;
+  const setupEnvPattern = /var require_setup_node_env_external\s*=\s*__commonJS\(\{[\s\S]*?setup-node-env\.external\.js[\s\S]*?\}\}\);/g;
   if (setupEnvPattern.test(handlerCode)) {
     handlerCode = handlerCode.replace(setupEnvPattern, 'var require_setup_node_env_external=()=>{};');
     console.log("✓ Neutralized require_setup_node_env_external in handler.mjs");
@@ -79,21 +87,10 @@ if (fs.existsSync(handlerPath)) {
 if (fs.existsSync(workerSrc)) {
   let content = fs.readFileSync(workerSrc, "utf8");
 
-  // Inject node:module polyfill at top of _worker.js
-  const topPolyfill = `
-import * as _cf_mod from "node:module";
-try {
-  if (!_cf_mod.prototype) _cf_mod.prototype = {};
-  if (!_cf_mod.prototype.require) {
-    _cf_mod.prototype.require = function(r) { return typeof require === "function" ? require(r) : {}; };
-  }
-} catch (_) {}
-`;
-
   const debugWrapper = `
 const defaultWorker = {
 `;
-  content = topPolyfill + content.replace("export default {", debugWrapper);
+  content = content.replace("export default {", debugWrapper);
 
   const errorInterceptor = `
 export default {
