@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS jobs (
   location TEXT,
   salary TEXT,
   deadline TEXT,
+  working_hours TEXT,
   type TEXT,
   description TEXT, -- JSON array
   requirements TEXT, -- JSON array

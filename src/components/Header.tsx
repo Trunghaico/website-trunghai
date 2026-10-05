@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Phone, ChevronRight } from "lucide-react";
+import { Menu, X, Phone, ChevronRight, ChevronDown } from "lucide-react";
 
 interface HeaderProps {
   hotline?: string;
@@ -12,6 +12,12 @@ interface HeaderProps {
   address?: string;
   workingHours?: string;
   email?: string;
+}
+
+interface NavItem {
+  name: string;
+  href: string;
+  children?: { name: string; href: string }[];
 }
 
 export default function Header({
@@ -25,6 +31,13 @@ export default function Header({
   const isHomePage = pathname === "/" || pathname === "";
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
+  const [mobileAboutOpen, setMobileAboutOpen] = useState(true);
+
+  useEffect(() => {
+    setAboutDropdownOpen(false);
+    setMobileMenuOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,12 +53,19 @@ export default function Header({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navLinks = [
+  const navLinks: NavItem[] = [
     { name: "Trang chủ", href: "/" },
-    { name: "Giới thiệu", href: "/gioi-thieu" },
-    { name: "Lĩnh vực hoạt động", href: "/#services" },
+    {
+      name: "Giới thiệu",
+      href: "/gioi-thieu",
+      children: [
+        { name: "Tổng quan doanh nghiệp", href: "/gioi-thieu" },
+        { name: "Lĩnh vực hoạt động", href: "/linh-vuc-hoat-dong" },
+      ],
+    },
     { name: "Công trình", href: "/cong-trinh" },
     { name: "Tin tức", href: "/tin-tuc" },
+    { name: "Tuyển dụng", href: "/tuyen-dung" },
   ];
 
   // Header should be solid on subpages or when scrolled
@@ -160,8 +180,87 @@ export default function Header({
               </Link>
 
               {/* Desktop Navigation - Centered Exactly in the Middle */}
-              <nav className="hidden lg:flex items-center space-x-1 xl:space-x-3 absolute left-1/2 -translate-x-1/2">
+              <nav className="hidden lg:flex items-center space-x-0.5 xl:space-x-2 2xl:space-x-3 absolute left-1/2 -translate-x-1/2">
                 {navLinks.map((item) => {
+                  if (item.children) {
+                    const isDropdownActive =
+                      pathname.startsWith("/gioi-thieu") ||
+                      pathname.startsWith("/linh-vuc-hoat-dong");
+
+                    return (
+                      <div
+                        key={item.name}
+                        className="relative group py-2"
+                        onMouseEnter={() => setAboutDropdownOpen(true)}
+                        onMouseLeave={() => setAboutDropdownOpen(false)}
+                      >
+                        <button
+                          type="button"
+                          onClick={() => setAboutDropdownOpen(!aboutDropdownOpen)}
+                          className={`group/btn relative whitespace-nowrap px-2.5 xl:px-3.5 py-1.5 text-[13px] xl:text-sm 2xl:text-[15px] font-semibold tracking-tight xl:tracking-normal transition-all duration-300 rounded-[3px] hover:text-[#ed3237] flex items-center gap-1 cursor-pointer ${
+                            isDropdownActive
+                              ? "text-[#ed3237] font-bold"
+                              : isSolid
+                              ? "text-slate-700 hover:bg-slate-50"
+                              : "text-white drop-shadow hover:text-[#ed3237]"
+                          }`}
+                        >
+                          <span>{item.name}</span>
+                          <ChevronDown
+                            className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                              aboutDropdownOpen
+                                ? "rotate-180 text-[#ed3237]"
+                                : isDropdownActive
+                                ? "text-[#ed3237]"
+                                : isSolid
+                                ? "text-slate-400 group-hover/btn:text-[#ed3237]"
+                                : "text-white/80 group-hover/btn:text-[#ed3237]"
+                            }`}
+                          />
+                          {/* Animated underline micro-interaction */}
+                          <span
+                            className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[#ed3237] rounded-full transition-all duration-300 ease-out ${
+                              isDropdownActive || aboutDropdownOpen ? "w-4/5" : "w-0 group-hover/btn:w-4/5"
+                            }`}
+                          />
+                        </button>
+
+                        {/* Dropdown Menu */}
+                        <div
+                          className={`absolute left-0 top-full pt-1.5 min-w-[215px] transition-all duration-200 z-50 ${
+                            aboutDropdownOpen
+                              ? "opacity-100 translate-y-0 pointer-events-auto"
+                              : "opacity-0 -translate-y-2 pointer-events-none"
+                          }`}
+                        >
+                          <div className="bg-white rounded-[3px] border border-slate-200 shadow-xl shadow-slate-900/10 py-1.5 overflow-hidden">
+                            {item.children.map((sub) => {
+                              const isSubActive = pathname === sub.href;
+
+                              return (
+                                <Link
+                                  key={sub.name}
+                                  href={sub.href}
+                                  onClick={() => setAboutDropdownOpen(false)}
+                                  className={`flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-[13px] font-semibold transition-all ${
+                                    isSubActive
+                                      ? "text-[#ed3237] bg-red-50/70 font-bold"
+                                      : "text-slate-700 hover:text-[#ed3237] hover:bg-red-50/50"
+                                  }`}
+                                >
+                                  <span>{sub.name}</span>
+                                  {isSubActive && (
+                                    <span className="w-1.5 h-1.5 rounded-full bg-[#ed3237]" />
+                                  )}
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }
+
                   const isActive =
                     item.href === "/"
                       ? pathname === "/"
@@ -171,7 +270,7 @@ export default function Header({
                     <Link
                       key={item.name}
                       href={item.href}
-                      className={`group relative whitespace-nowrap px-3.5 py-1.5 text-sm xl:text-[15px] font-semibold tracking-wide transition-all duration-300 rounded-lg hover:text-[#ed3237] ${
+                      className={`group relative whitespace-nowrap px-2.5 xl:px-3.5 py-1.5 text-[13px] xl:text-sm 2xl:text-[15px] font-semibold tracking-tight xl:tracking-normal transition-all duration-300 rounded-[3px] hover:text-[#ed3237] ${
                         isActive
                           ? "text-[#ed3237] font-bold"
                           : isSolid
@@ -266,6 +365,61 @@ export default function Header({
 
               <div className="mt-6 flex flex-col space-y-1">
                 {navLinks.map((item) => {
+                  if (item.children) {
+                    const isDropdownActive =
+                      pathname.startsWith("/gioi-thieu") ||
+                      pathname.startsWith("/linh-vuc-hoat-dong");
+
+                    return (
+                      <div key={item.name} className="flex flex-col">
+                        <button
+                          type="button"
+                          onClick={() => setMobileAboutOpen(!mobileAboutOpen)}
+                          className={`flex items-center justify-between px-4 py-3 rounded-[3px] text-base font-semibold transition-all ${
+                            isDropdownActive
+                              ? "text-[#ed3237] bg-red-50/70 font-bold"
+                              : "text-slate-700 hover:text-[#ed3237] hover:bg-red-50/50"
+                          }`}
+                        >
+                          <span>{item.name}</span>
+                          <ChevronDown
+                            className={`w-4 h-4 transition-transform duration-200 ${
+                              mobileAboutOpen ? "rotate-180 text-[#ed3237]" : "text-slate-400"
+                            }`}
+                          />
+                        </button>
+
+                        {mobileAboutOpen && (
+                          <div className="ml-3 pl-3 border-l-2 border-red-100 my-1 flex flex-col space-y-1">
+                            {item.children.map((sub) => {
+                              const isSubActive = pathname === sub.href;
+
+                              return (
+                                <Link
+                                  key={sub.name}
+                                  href={sub.href}
+                                  onClick={() => setMobileMenuOpen(false)}
+                                  className={`flex items-center justify-between px-3 py-2.5 rounded-[3px] text-sm font-semibold transition-all ${
+                                    isSubActive
+                                      ? "text-[#ed3237] bg-red-50/70 font-bold"
+                                      : "text-slate-600 hover:text-[#ed3237] hover:bg-red-50/50"
+                                  }`}
+                                >
+                                  <span>{sub.name}</span>
+                                  {isSubActive ? (
+                                    <span className="w-1.5 h-1.5 rounded-full bg-[#ed3237]" />
+                                  ) : (
+                                    <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                                  )}
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  }
+
                   const isActive =
                     item.href === "/"
                       ? pathname === "/"
@@ -276,7 +430,7 @@ export default function Header({
                       key={item.name}
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`flex items-center justify-between px-4 py-3 rounded-xl text-base font-semibold transition-all ${
+                      className={`flex items-center justify-between px-4 py-3 rounded-[3px] text-base font-semibold transition-all ${
                         isActive
                           ? "text-[#ed3237] bg-red-50/70 font-bold"
                           : "text-slate-700 hover:text-[#ed3237] hover:bg-red-50/50"

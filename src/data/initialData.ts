@@ -340,6 +340,7 @@ export const initialJobs: JobPosting[] = [
     location: "Duyên hải Miền Trung (Khánh Hòa, Phú Yên, Huế)",
     salary: "18.000.000 - 28.000.000 VNĐ",
     deadline: "30/11/2026",
+    workingHours: "Thứ 2 – Thứ 7: 07:30 – 17:30 (Nghỉ trưa 1.5h)",
     type: "Toàn thời gian",
     description: [
       "Trực tiếp giám sát và chỉ đạo thi công các hạng mục cầu đường, hầm đường bộ theo bản vẽ thiết kế.",
@@ -367,6 +368,7 @@ export const initialJobs: JobPosting[] = [
     location: "Miền Trung / TP. Hồ Chí Minh",
     salary: "35.000.000 - 55.000.000 VNĐ",
     deadline: "15/12/2026",
+    workingHours: "Giờ hành chính & Điều hành linh hoạt theo ca công trường",
     type: "Toàn thời gian",
     description: [
       "Chịu trách nhiệm toàn diện về tiến độ, chất lượng, chi phí và an toàn của toàn bộ gói thầu.",
@@ -392,6 +394,7 @@ export const initialJobs: JobPosting[] = [
     location: "Công trường các tỉnh miền Trung",
     salary: "15.000.000 - 22.000.000 VNĐ",
     deadline: "20/11/2026",
+    workingHours: "Thứ 2 – Thứ 7: 07:30 – 17:30 (Nghỉ trưa 1.5h)",
     type: "Toàn thời gian",
     description: [
       "Đo đạc, định vị tim tuyến đường, trắc dọc, trắc ngang và tọa độ hầm xuyên núi.",

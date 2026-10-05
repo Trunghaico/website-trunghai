@@ -22,7 +22,6 @@ import {
   HardHat,
 } from "lucide-react";
 import { Project, CompanySettings } from "@/types";
-import ProjectModal from "@/components/ProjectModal";
 
 interface ProjectsPageClientProps {
   initialProjects: Project[];
@@ -32,10 +31,8 @@ interface ProjectsPageClientProps {
 // 3D Tilt Card Component with Mouse Parallax & Dynamic Light Sheen
 function Project3DItem({
   project,
-  onClick,
 }: {
   project: Project;
-  onClick: () => void;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [rotate, setRotate] = useState({ x: 0, y: 0 });
@@ -75,13 +72,13 @@ function Project3DItem({
   const shadowY = rotate.x * 1.2 + 10;
 
   return (
-    <div
+    <Link
+      href={`/cong-trinh/${project.slug}`}
       style={{ perspective: "1200px" }}
-      className={`h-full ${isHovered ? "z-30" : "z-10"}`}
+      className={`block h-full cursor-pointer ${isHovered ? "z-30" : "z-10"}`}
     >
       <div
         ref={cardRef}
-        onClick={onClick}
         onMouseEnter={handleMouseEnter}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
@@ -97,7 +94,7 @@ function Project3DItem({
             : "transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1)",
           transformStyle: "preserve-3d",
         }}
-        className="group cursor-pointer rounded-[3px] bg-white border border-slate-200 hover:border-[#ed3237]/60 overflow-hidden flex flex-col justify-between shadow-sm relative select-none h-full transition-colors"
+        className="group rounded-[3px] bg-white border border-slate-200 hover:border-[#ed3237]/60 overflow-hidden flex flex-col justify-between shadow-sm relative select-none h-full transition-colors"
       >
         {/* Dynamic Light Sheen Overlay */}
         <div
@@ -231,7 +228,7 @@ function Project3DItem({
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -242,7 +239,6 @@ export default function ProjectsPageClient({
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortBy, setSortBy] = useState<"default" | "featured" | "newest">("default");
-  const [activeModalProject, setActiveModalProject] = useState<Project | null>(null);
 
   // Category counts
   const categoryCounts = useMemo(() => {
@@ -495,7 +491,6 @@ export default function ProjectsPageClient({
                   >
                     <Project3DItem
                       project={project}
-                      onClick={() => setActiveModalProject(project)}
                     />
                   </div>
                 ))}
@@ -525,12 +520,6 @@ export default function ProjectsPageClient({
           </main>
         </div>
       </div>
-
-      {/* INTERACTIVE PROJECT DETAILS MODAL */}
-      <ProjectModal
-        project={activeModalProject}
-        onClose={() => setActiveModalProject(null)}
-      />
     </div>
   );
 }

@@ -183,12 +183,16 @@ export default function AdminPage() {
     location: "Miền Trung / TP.HCM",
     salary: "Thỏa thuận",
     deadline: "30/12/2026",
+    workingHours: "Thứ 2 – Thứ 7: 08:00 – 17:30",
     type: "Toàn thời gian",
-    description: [""],
-    requirements: [""],
-    benefits: [""],
+    description: [],
+    requirements: [],
+    benefits: [],
     active: true,
   });
+  const [jobDescText, setJobDescText] = useState("");
+  const [jobReqText, setJobReqText] = useState("");
+  const [jobBenefitText, setJobBenefitText] = useState("");
 
   // Media upload state
   const [uploadedUrl, setUploadedUrl] = useState<string>("");
@@ -541,15 +545,42 @@ export default function AdminPage() {
   const handleSaveJob = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      const payload: JobPosting = {
+        id: jobForm.id || "job-" + Date.now(),
+        title: (jobForm.title || "").trim(),
+        department: (jobForm.department || "Ban Quản lý Thi công").trim(),
+        location: (jobForm.location || "").trim(),
+        salary: (jobForm.salary || "Thỏa thuận").trim(),
+        deadline: (jobForm.deadline || "").trim(),
+        workingHours: (jobForm.workingHours || "").trim(),
+        type: jobForm.type || "Toàn thời gian",
+        description: jobDescText
+          .split("\n")
+          .map((s) => s.trim())
+          .filter(Boolean),
+        requirements: jobReqText
+          .split("\n")
+          .map((s) => s.trim())
+          .filter(Boolean),
+        benefits: jobBenefitText
+          .split("\n")
+          .map((s) => s.trim())
+          .filter(Boolean),
+        active: jobForm.active !== false,
+      };
+
       const res = await fetch("/api/jobs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(jobForm),
+        body: JSON.stringify(payload),
       });
+      const data = await res.json();
       if (res.ok) {
         showNotice("Đã lưu tin tuyển dụng thành công!");
         setIsEditingJob(false);
-        loadData();
+        await loadData();
+      } else {
+        showNotice(data.error || "Lỗi khi lưu tin tuyển dụng", "error");
       }
     } catch (err: any) {
       showNotice(err.message, "error");
@@ -560,9 +591,12 @@ export default function AdminPage() {
     if (!confirm("Bạn có chắc muốn xóa vị trí tuyển dụng này?")) return;
     try {
       const res = await fetch(`/api/jobs?id=${id}`, { method: "DELETE" });
+      const data = await res.json();
       if (res.ok) {
         showNotice("Đã xóa tin tuyển dụng thành công");
-        loadData();
+        await loadData();
+      } else {
+        showNotice(data.error || "Lỗi khi xóa tin tuyển dụng", "error");
       }
     } catch (err: any) {
       showNotice(err.message, "error");
@@ -2294,18 +2328,22 @@ export default function AdminPage() {
                           setJobForm({
                             title: "",
                             department: "Ban Quản lý Thi công",
-                            location: "Công trường Miền Trung",
-                            salary: "18.000.000 - 25.000.000 VNĐ",
-                            deadline: "30/12/2026",
+                            location: "",
+                            salary: "Thỏa thuận",
+                            deadline: "",
+                            workingHours: "Thứ 2 – Thứ 7: 08:00 – 17:30",
                             type: "Toàn thời gian",
-                            description: ["Giám sát thi công hầm và cầu đường"],
-                            requirements: ["Tốt nghiệp Đại học Cầu đường"],
-                            benefits: ["Bao ăn ở tại công trường, BHXH đầy đủ"],
+                            description: [],
+                            requirements: [],
+                            benefits: [],
                             active: true,
                           });
+                          setJobDescText("");
+                          setJobReqText("");
+                          setJobBenefitText("");
                           setIsEditingJob(true);
                         }}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs shadow-2xs transition-colors shrink-0"
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs shadow-2xs transition-colors shrink-0 cursor-pointer"
                       >
                         <Plus className="w-3.5 h-3.5" />
                         <span>Thêm vị trí</span>
@@ -2317,69 +2355,190 @@ export default function AdminPage() {
                     <form onSubmit={handleSaveJob} className="p-5 rounded-[3px] bg-white border border-slate-200 shadow-2xs space-y-4">
                       <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                         <h3 className="text-sm font-bold text-slate-900">
-                          {jobForm.id ? "Chỉnh sửa tin tuyển dụng" : "Đăng vị trí mới"}
+                          {jobForm.id ? "Chỉnh sửa bài đăng tuyển dụng" : "Thêm bài đăng tuyển dụng mới"}
                         </h3>
                         <button
                           type="button"
                           onClick={() => setIsEditingJob(false)}
-                          className="text-slate-400 hover:text-slate-600 text-xs"
+                          className="text-slate-400 hover:text-slate-600 text-xs cursor-pointer p-1"
                         >
                           <X className="w-4 h-4" />
                         </button>
                       </div>
 
+                      {/* 1. Chức danh / vị trí */}
                       <div>
-                        <label className="block text-xs font-semibold text-slate-700 mb-1">Chức danh / Vị trí *</label>
+                        <label className="block text-xs font-semibold text-slate-700 mb-1">
+                          Chức danh / Vị trí tuyển dụng *
+                        </label>
                         <input
                           type="text"
                           required
-                          value={jobForm.title}
+                          placeholder="Ví dụ: Kỹ sư Cầu đường / Kỹ sư Hiện trường Công trình"
+                          value={jobForm.title || ""}
                           onChange={(e) => setJobForm({ ...jobForm, title: e.target.value })}
                           className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
                         />
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                      {/* 2. Địa điểm làm việc & 3. Mức lương */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                         <div>
-                          <label className="block text-xs font-semibold text-slate-700 mb-1">Địa điểm</label>
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">
+                            Địa điểm làm việc *
+                          </label>
                           <input
                             type="text"
-                            value={jobForm.location}
+                            required
+                            placeholder="Ví dụ: Khánh Hòa, Phú Yên, TP. Hồ Chí Minh..."
+                            value={jobForm.location || ""}
                             onChange={(e) => setJobForm({ ...jobForm, location: e.target.value })}
                             className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
                           />
                         </div>
                         <div>
-                          <label className="block text-xs font-semibold text-slate-700 mb-1">Mức lương</label>
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">
+                            Mức lương *
+                          </label>
                           <input
                             type="text"
-                            value={jobForm.salary}
+                            required
+                            placeholder="Ví dụ: 18.000.000 - 28.000.000 VNĐ hoặc Thỏa thuận"
+                            value={jobForm.salary || ""}
                             onChange={(e) => setJobForm({ ...jobForm, salary: e.target.value })}
-                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-xs font-semibold text-slate-700 mb-1">Hạn nộp</label>
-                          <input
-                            type="text"
-                            value={jobForm.deadline}
-                            onChange={(e) => setJobForm({ ...jobForm, deadline: e.target.value })}
                             className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
                           />
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-2 pt-2 border-t border-slate-100">
+                      {/* 4. Hạn nộp & 8. Thời gian làm việc */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <div>
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">
+                            Hạn nộp hồ sơ *
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            placeholder="Ví dụ: 30/12/2026 hoặc Tuyển liên tục"
+                            value={jobForm.deadline || ""}
+                            onChange={(e) => setJobForm({ ...jobForm, deadline: e.target.value })}
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">
+                            Thời gian làm việc *
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            placeholder="Ví dụ: Thứ 2 – Thứ 7: 08:00 – 17:30 hoặc Theo tiến độ công trường"
+                            value={jobForm.workingHours || ""}
+                            onChange={(e) => setJobForm({ ...jobForm, workingHours: e.target.value })}
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Bổ trợ: Phòng ban & Trạng thái hoạt động */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <div>
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">
+                            Phòng ban / Bộ phận
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="Ví dụ: Ban Quản lý Thi công, Phòng Kỹ thuật..."
+                            value={jobForm.department || ""}
+                            onChange={(e) => setJobForm({ ...jobForm, department: e.target.value })}
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                          />
+                        </div>
+                        <div className="flex items-center gap-2 pt-5">
+                          <label className="flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer">
+                            <input
+                              type="checkbox"
+                              checked={jobForm.active !== false}
+                              onChange={(e) => setJobForm({ ...jobForm, active: e.target.checked })}
+                              className="rounded-[2px] text-[#ed3237] focus:ring-[#ed3237]"
+                            />
+                            <span>Đang tuyển dụng (Hiển thị ra trang chủ & trang tuyển dụng)</span>
+                          </label>
+                        </div>
+                      </div>
+
+                      {/* 5. Mô tả công việc */}
+                      <div>
+                        <div className="flex items-center justify-between mb-1">
+                          <label className="block text-xs font-semibold text-slate-700">
+                            Mô tả công việc *
+                          </label>
+                          <span className="text-[11px] text-slate-400">
+                            (Mỗi dòng là 1 gạch đầu dòng)
+                          </span>
+                        </div>
+                        <textarea
+                          rows={4}
+                          required
+                          placeholder="Trực tiếp giám sát và chỉ đạo thi công các hạng mục cầu đường, hầm đường bộ&#10;Triển khai biện pháp thi công, kiểm soát chất lượng vật liệu&#10;Lập tiến độ thi công tuần, tháng và báo cáo Chỉ huy trưởng"
+                          value={jobDescText}
+                          onChange={(e) => setJobDescText(e.target.value)}
+                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none leading-relaxed font-sans"
+                        />
+                      </div>
+
+                      {/* 6. Yêu cầu ứng viên */}
+                      <div>
+                        <div className="flex items-center justify-between mb-1">
+                          <label className="block text-xs font-semibold text-slate-700">
+                            Yêu cầu ứng viên *
+                          </label>
+                          <span className="text-[11px] text-slate-400">
+                            (Mỗi dòng là 1 gạch đầu dòng)
+                          </span>
+                        </div>
+                        <textarea
+                          rows={4}
+                          required
+                          placeholder="Tốt nghiệp Đại học chuyên ngành Cầu đường, Xây dựng Giao thông&#10;Kinh nghiệm từ 3 năm trở lên tại các dự án đường bộ, cầu hoặc thi công hầm&#10;Thành thạo AutoCAD, MS Project và các phần mềm chuyên ngành"
+                          value={jobReqText}
+                          onChange={(e) => setJobReqText(e.target.value)}
+                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none leading-relaxed font-sans"
+                        />
+                      </div>
+
+                      {/* 7. Quyền lợi ứng viên */}
+                      <div>
+                        <div className="flex items-center justify-between mb-1">
+                          <label className="block text-xs font-semibold text-slate-700">
+                            Quyền lợi ứng viên *
+                          </label>
+                          <span className="text-[11px] text-slate-400">
+                            (Mỗi dòng là 1 gạch đầu dòng)
+                          </span>
+                        </div>
+                        <textarea
+                          rows={4}
+                          required
+                          placeholder="Lương cạnh tranh + Thưởng tiến độ dự án + Phụ cấp công trình xa nhà đầy đủ&#10;Bao ăn ở tại khu nhà điều hành công trường tiện nghi&#10;Đóng BHXH, BHYT đầy đủ theo quy định, bảo hiểm tai nạn 24/7&#10;Cơ hội thăng tiến lên Chỉ huy phó / Chỉ huy trưởng công trường"
+                          value={jobBenefitText}
+                          onChange={(e) => setJobBenefitText(e.target.value)}
+                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none leading-relaxed font-sans"
+                        />
+                      </div>
+
+                      <div className="flex items-center gap-2 pt-3 border-t border-slate-100">
                         <button
                           type="submit"
-                          className="px-4 py-2 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs shadow-2xs transition-colors"
+                          className="px-4 py-2 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs shadow-2xs transition-colors cursor-pointer"
                         >
-                          Lưu tin tuyển dụng
+                          Lưu bài đăng tuyển dụng
                         </button>
                         <button
                           type="button"
                           onClick={() => setIsEditingJob(false)}
-                          className="px-3 py-2 rounded-[3px] bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium"
+                          className="px-3 py-2 rounded-[3px] bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium cursor-pointer"
                         >
                           Hủy
                         </button>
@@ -2392,23 +2551,38 @@ export default function AdminPage() {
                           key={job.id}
                           className="p-3.5 rounded-[3px] bg-white border border-slate-200 shadow-2xs flex items-center justify-between hover:border-slate-300 transition-colors"
                         >
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <span className="text-[11px] font-bold text-slate-500 uppercase">{job.department}</span>
-                              <span className="text-[11px] text-slate-400">• {job.type}</span>
+                          <div className="space-y-1">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="text-[11px] font-bold text-slate-500 uppercase">{job.department || "Khối Thi công"}</span>
+                              <span className="text-[11px] text-slate-400">• {job.type || "Toàn thời gian"}</span>
+                              {job.active === false ? (
+                                <span className="px-1.5 py-0.2 rounded-full bg-slate-100 text-slate-500 text-[10px] font-semibold">
+                                  Đã đóng
+                                </span>
+                              ) : (
+                                <span className="px-1.5 py-0.2 rounded-full bg-emerald-50 text-emerald-600 text-[10px] font-bold">
+                                  Đang tuyển
+                                </span>
+                              )}
                             </div>
-                            <h4 className="text-xs sm:text-sm font-bold text-slate-900 mt-0.5">{job.title}</h4>
-                            <div className="text-[11px] text-slate-500 mt-0.5">
-                              {job.location} | Lương: {job.salary} | Hạn: {job.deadline}
+                            <h4 className="text-xs sm:text-sm font-bold text-slate-900">{job.title}</h4>
+                            <div className="text-[11px] text-slate-500 flex items-center gap-2 flex-wrap">
+                              <span>📍 {job.location}</span>
+                              <span>• 💰 {job.salary}</span>
+                              <span>• 📅 Hạn: {job.deadline}</span>
+                              {job.workingHours && <span>• ⏰ {job.workingHours}</span>}
                             </div>
                           </div>
                           <div className="flex items-center gap-1.5 shrink-0">
                             <button
                               onClick={() => {
                                 setJobForm(job);
+                                setJobDescText((job.description || []).join("\n"));
+                                setJobReqText((job.requirements || []).join("\n"));
+                                setJobBenefitText((job.benefits || []).join("\n"));
                                 setIsEditingJob(true);
                               }}
-                              className="p-1.5 rounded-[3px] border border-slate-200 hover:bg-slate-100 text-slate-600"
+                              className="p-1.5 rounded-[3px] border border-slate-200 hover:bg-slate-100 text-slate-600 cursor-pointer"
                               title="Sửa"
                             >
                               <Edit3 className="w-3.5 h-3.5" />

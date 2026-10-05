@@ -101,6 +101,11 @@ export const db = {
     return list.find((p) => p.id === id);
   },
 
+  async getProjectBySlug(slug: string): Promise<Project | undefined> {
+    const list = await this.getProjects();
+    return list.find((p) => p.slug === slug || p.id === slug);
+  },
+
   async saveProject(project: Project): Promise<Project> {
     if (isCloudflareD1Configured) {
       try {
@@ -240,14 +245,40 @@ export const db = {
   async getJobs(): Promise<JobPosting[]> {
     if (isCloudflareD1Configured) {
       try {
-        const rows = await executeD1Query<any>("SELECT * FROM jobs ORDER BY id DESC");
-        return rows.map((r) => ({
-          ...r,
-          description: typeof r.description === "string" ? JSON.parse(r.description) : r.description || [],
-          requirements: typeof r.requirements === "string" ? JSON.parse(r.requirements) : r.requirements || [],
-          benefits: typeof r.benefits === "string" ? JSON.parse(r.benefits) : r.benefits || [],
-          active: Boolean(r.active),
-        }));
+        const rows = await executeD1Query<any>("SELECT * FROM jobs ORDER BY created_at DESC, id DESC");
+        if (rows && rows.length > 0) {
+          return rows.map((r) => ({
+            ...r,
+            workingHours: r.working_hours || r.workingHours || "",
+            description: typeof r.description === "string" ? JSON.parse(r.description) : r.description || [],
+            requirements: typeof r.requirements === "string" ? JSON.parse(r.requirements) : r.requirements || [],
+            benefits: typeof r.benefits === "string" ? JSON.parse(r.benefits) : r.benefits || [],
+            active: Boolean(r.active),
+          }));
+        } else {
+          // Auto-seed initial jobs into Cloudflare D1
+          for (const j of initialJobs) {
+            await executeD1Query(
+              `INSERT OR REPLACE INTO jobs (id, title, department, location, salary, deadline, working_hours, type, description, requirements, benefits, active)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+              [
+                j.id,
+                j.title,
+                j.department || "",
+                j.location || "",
+                j.salary || "",
+                j.deadline || "",
+                j.workingHours || "",
+                j.type || "Toàn thời gian",
+                JSON.stringify(j.description || []),
+                JSON.stringify(j.requirements || []),
+                JSON.stringify(j.benefits || []),
+                j.active !== false ? 1 : 0,
+              ]
+            );
+          }
+          return initialJobs;
+        }
       } catch (err) {
         console.warn("Cloudflare D1 get jobs error:", err);
       }
@@ -256,6 +287,27 @@ export const db = {
   },
 
   async saveJob(job: JobPosting): Promise<JobPosting> {
+    if (isCloudflareD1Configured) {
+      await executeD1Query(
+        `INSERT OR REPLACE INTO jobs (id, title, department, location, salary, deadline, working_hours, type, description, requirements, benefits, active)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+          job.id,
+          job.title,
+          job.department || "",
+          job.location || "",
+          job.salary || "",
+          job.deadline || "",
+          job.workingHours || "",
+          job.type || "Toàn thời gian",
+          JSON.stringify(job.description || []),
+          JSON.stringify(job.requirements || []),
+          JSON.stringify(job.benefits || []),
+          job.active !== false ? 1 : 0,
+        ]
+      );
+    }
+
     const index = memoryStore.jobs.findIndex((j) => j.id === job.id);
     if (index >= 0) {
       memoryStore.jobs[index] = job;
@@ -266,6 +318,10 @@ export const db = {
   },
 
   async deleteJob(id: string): Promise<boolean> {
+    if (isCloudflareD1Configured) {
+      await executeD1Query("DELETE FROM jobs WHERE id = ?", [id]);
+    }
+
     const idx = memoryStore.jobs.findIndex((j) => j.id === id);
     if (idx >= 0) {
       memoryStore.jobs.splice(idx, 1);

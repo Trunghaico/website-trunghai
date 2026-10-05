@@ -33,16 +33,17 @@ export interface NewsPost {
 
 export interface JobPosting {
   id: string;
-  title: string;
-  department: string;
-  location: string;
-  salary: string;
-  deadline: string;
-  type: "Toàn thời gian" | "Theo dự án";
-  description: string[];
-  requirements: string[];
-  benefits: string[];
-  active: boolean;
+  title: string; // Chức danh / vị trí
+  department?: string; // Phòng ban
+  location: string; // Địa điểm làm việc
+  salary: string; // Mức lương
+  deadline: string; // Hạn nộp
+  workingHours?: string; // Thời gian làm việc
+  type?: string; // Hình thức (Toàn thời gian / Theo dự án)
+  description: string[]; // Mô tả công việc
+  requirements: string[]; // Yêu cầu ứng viên
+  benefits: string[]; // Quyền lợi ứng viên
+  active?: boolean;
 }
 
 export interface HeroSlide {

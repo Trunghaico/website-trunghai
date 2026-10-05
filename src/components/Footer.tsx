@@ -64,7 +64,7 @@ export default function Footer({ settings }: FooterProps) {
                 </Link>
               </li>
               <li>
-                <Link href="/#services" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
+                <Link href="/linh-vuc-hoat-dong" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
                   <ChevronRight className="w-3.5 h-3.5 text-[#ed3237]" />
                   <span>Lĩnh vực hoạt động</span>
                 </Link>
@@ -76,9 +76,15 @@ export default function Footer({ settings }: FooterProps) {
                 </Link>
               </li>
               <li>
-                <Link href="/#news" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
+                <Link href="/tin-tuc" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
                   <ChevronRight className="w-3.5 h-3.5 text-[#ed3237]" />
                   <span>Tin tức & Sự kiện</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/tuyen-dung" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
+                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237]" />
+                  <span>Cơ hội tuyển dụng</span>
                 </Link>
               </li>
             </ul>

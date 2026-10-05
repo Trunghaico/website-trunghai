@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { MapPin, ArrowUpRight, Calendar, Layers, ArrowRight } from "lucide-react";
 import { Project } from "@/types";
-import ProjectModal from "./ProjectModal";
 
 interface ProjectsSectionProps {
   initialProjects: Project[];
@@ -14,10 +13,8 @@ interface ProjectsSectionProps {
 // Interactive 3D Project Card Component with Parallax Depth and Dynamic Sheen
 function Project3DCard({
   project,
-  onClick,
 }: {
   project: Project;
-  onClick: () => void;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [rotate, setRotate] = useState({ x: 0, y: 0 });
@@ -58,10 +55,9 @@ function Project3DCard({
   const shadowY = rotate.x * 0.8 + 8;
 
   return (
-    <div style={{ perspective: "1000px" }} className="w-full">
+    <Link href={`/cong-trinh/${project.slug}`} style={{ perspective: "1000px" }} className="block w-full cursor-pointer">
       <div
         ref={cardRef}
-        onClick={onClick}
         onMouseEnter={handleMouseEnter}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
@@ -183,13 +179,12 @@ function Project3DCard({
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
 export default function ProjectsSection({ initialProjects }: ProjectsSectionProps) {
   const [filter, setFilter] = useState<string>("all");
-  const [activeProject, setActiveProject] = useState<Project | null>(null);
 
   const categories = [
     { id: "all", label: "Tất Cả Công Trình" },
@@ -245,7 +240,6 @@ export default function ProjectsSection({ initialProjects }: ProjectsSectionProp
             <div key={project.id} className={`reveal-scale delay-${((idx % 3) + 1) * 100}`}>
               <Project3DCard
                 project={project}
-                onClick={() => setActiveProject(project)}
               />
             </div>
           ))}
@@ -262,12 +256,6 @@ export default function ProjectsSection({ initialProjects }: ProjectsSectionProp
           </Link>
         </div>
       </div>
-
-      {/* Detail Modal */}
-      <ProjectModal
-        project={activeProject}
-        onClose={() => setActiveProject(null)}
-      />
     </section>
   );
 }
