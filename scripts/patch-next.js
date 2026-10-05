@@ -94,6 +94,23 @@ if (process.env.NEXT_RUNTIME !== 'edge') {
 `;
         fs.writeFileSync(fullPath, safeEnv, "utf8");
         console.log("✓ Patched setup-node-env:", fullPath);
+      } else if (entry.name === "base-server.js") {
+        let content = fs.readFileSync(fullPath, "utf8");
+        const pattern = /await\s+components\.ComponentMod\.handler\s*\(\s*handlerReq\s*,\s*handlerRes\s*,\s*\{\s*waitUntil:\s*this\.getWaitUntil\(\)\s*\}\s*\);/g;
+        if (pattern.test(content)) {
+          const safeCode = `const _h = (components.ComponentMod && typeof components.ComponentMod.handler === "function" ? components.ComponentMod.handler.bind(components.ComponentMod) : null)
+          || (components.routeModule && typeof components.routeModule.handle === "function" ? (q, s, x) => components.routeModule.handle(q, s, x) : null)
+          || (components.ComponentMod && components.ComponentMod.routeModule && typeof components.ComponentMod.routeModule.handle === "function" ? (q, s, x) => components.ComponentMod.routeModule.handle(q, s, x) : null)
+          || (components.ComponentMod && typeof components.ComponentMod.default === "function" ? components.ComponentMod.default : null);
+        if (_h) {
+          await _h(handlerReq, handlerRes, {
+            waitUntil: this.getWaitUntil()
+          });
+        }`;
+          content = content.replace(pattern, safeCode);
+          fs.writeFileSync(fullPath, content, "utf8");
+          console.log("✓ Patched base-server.js with ComponentMod fallback:", fullPath);
+        }
       }
     }
   }

@@ -64,11 +64,11 @@ if (fs.existsSync(handlerPath)) {
   }
 
   // Add robust fallback for ComponentMod.handler in Next.js 16
-  const targetCall = "return await components.ComponentMod.handler(handlerReq,handlerRes,{waitUntil:this.getWaitUntil()}),null";
   const safeCall = `const _h=(components.ComponentMod&&typeof components.ComponentMod.handler==="function"?components.ComponentMod.handler.bind(components.ComponentMod):null)||(components.routeModule&&typeof components.routeModule.handle==="function"?(q,s,x)=>components.routeModule.handle(q,s,x):null)||(components.ComponentMod&&components.ComponentMod.routeModule&&typeof components.ComponentMod.routeModule.handle==="function"?(q,s,x)=>components.ComponentMod.routeModule.handle(q,s,x):null)||(components.ComponentMod&&typeof components.ComponentMod.default==="function"?components.ComponentMod.default:null);return await (_h?_h(handlerReq,handlerRes,{waitUntil:this.getWaitUntil()}):null),null`;
 
-  if (handlerCode.includes(targetCall)) {
-    handlerCode = handlerCode.replace(targetCall, safeCall);
+  const handlerCallRegex = /(?:return\s+)?await\s+components\.ComponentMod\.handler\s*\(\s*handlerReq\s*,\s*handlerRes\s*,\s*\{\s*waitUntil:\s*this\.getWaitUntil\(\)\s*\}\s*\)(?:\s*,\s*null)?/g;
+  if (handlerCallRegex.test(handlerCode)) {
+    handlerCode = handlerCode.replace(handlerCallRegex, safeCall);
     console.log("✓ Added Next.js 16 ComponentMod fallback in handler.mjs");
   }
 
