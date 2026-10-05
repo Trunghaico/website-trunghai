@@ -7,7 +7,8 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
-    "cloudflare-build": "opennextjs-cloudflare build && node scripts/prepare-cloudflare.js",
+    "postinstall": "node scripts/patch-next.js",
+    "cloudflare-build": "node scripts/patch-next.js && opennextjs-cloudflare build && node scripts/prepare-cloudflare.js",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && wrangler deploy"
   },

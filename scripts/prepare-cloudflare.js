@@ -7,19 +7,87 @@ const workerDest = path.join(openNextDir, "_worker.js");
 const assetsDir = path.join(openNextDir, "assets");
 const routesDest = path.join(openNextDir, "_routes.json");
 
-// 1. Copy worker.js to _worker.js in .open-next and wrap with error logging
+// Helper to recursively walk and patch
+function walkAndPatch(dir) {
+  if (!fs.existsSync(dir)) return;
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      walkAndPatch(fullPath);
+    } else {
+      if (entry.name === "require-hook.js") {
+        const dummyHook = `"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.addHookAliases = function() {};
+exports.defaultOverrides = {};
+exports.hookPropertyMap = new Map();
+module.exports = {
+  addHookAliases: function() {},
+  defaultOverrides: {},
+  hookPropertyMap: new Map()
+};
+`;
+        fs.writeFileSync(fullPath, dummyHook, "utf8");
+        console.log("✓ Patched require-hook in .open-next:", fullPath);
+      } else if (entry.name === "setup-node-env.external.js") {
+        const dummyEnv = `"use strict";
+module.exports = {};
+`;
+        fs.writeFileSync(fullPath, dummyEnv, "utf8");
+        console.log("✓ Patched setup-node-env in .open-next:", fullPath);
+      }
+    }
+  }
+}
+
+// 1. Walk and patch any remaining require-hook in .open-next
+walkAndPatch(openNextDir);
+
+// 2. Patch handler.mjs
+const handlerPath = path.join(openNextDir, "server-functions", "default", "handler.mjs");
+if (fs.existsSync(handlerPath)) {
+  let handlerCode = fs.readFileSync(handlerPath, "utf8");
+
+  // Neutralize require_require_hook
+  const hookPattern = /var require_require_hook\s*=\s*__commonJS\([^)]+\)\);/g;
+  if (hookPattern.test(handlerCode)) {
+    handlerCode = handlerCode.replace(hookPattern, 'var require_require_hook=()=>({addHookAliases(){},defaultOverrides:{},hookPropertyMap:new Map()});');
+    console.log("✓ Neutralized require_require_hook in handler.mjs");
+  }
+
+  // Neutralize require_setup_node_env_external
+  const setupEnvPattern = /var require_setup_node_env_external\s*=\s*__commonJS\([^)]+\)\);/g;
+  if (setupEnvPattern.test(handlerCode)) {
+    handlerCode = handlerCode.replace(setupEnvPattern, 'var require_setup_node_env_external=()=>{};');
+    console.log("✓ Neutralized require_setup_node_env_external in handler.mjs");
+  }
+
+  // Add robust fallback for ComponentMod.handler in Next.js 16
+  const targetCall = "return await components.ComponentMod.handler(handlerReq,handlerRes,{waitUntil:this.getWaitUntil()}),null";
+  const safeCall = `const _h=(components.ComponentMod&&typeof components.ComponentMod.handler==="function"?components.ComponentMod.handler.bind(components.ComponentMod):null)||(components.routeModule&&typeof components.routeModule.handle==="function"?(q,s,x)=>components.routeModule.handle(q,s,x):null)||(components.ComponentMod&&components.ComponentMod.routeModule&&typeof components.ComponentMod.routeModule.handle==="function"?(q,s,x)=>components.ComponentMod.routeModule.handle(q,s,x):null)||(components.ComponentMod&&typeof components.ComponentMod.default==="function"?components.ComponentMod.default:null);return await (_h?_h(handlerReq,handlerRes,{waitUntil:this.getWaitUntil()}):null),null`;
+
+  if (handlerCode.includes(targetCall)) {
+    handlerCode = handlerCode.replace(targetCall, safeCall);
+    console.log("✓ Added Next.js 16 ComponentMod fallback in handler.mjs");
+  }
+
+  fs.writeFileSync(handlerPath, handlerCode, "utf8");
+}
+
+// 3. Copy worker.js to _worker.js in .open-next and wrap with error logging
 if (fs.existsSync(workerSrc)) {
   let content = fs.readFileSync(workerSrc, "utf8");
 
   // Inject node:module polyfill at top of _worker.js
   const topPolyfill = `
 import * as _cf_mod from "node:module";
-if (!_cf_mod.prototype) {
-  try { _cf_mod.prototype = {}; } catch (_) {}
-}
-if (_cf_mod.prototype && !_cf_mod.prototype.require) {
-  _cf_mod.prototype.require = function(r) { return typeof require === "function" ? require(r) : {}; };
-}
+try {
+  if (!_cf_mod.prototype) _cf_mod.prototype = {};
+  if (!_cf_mod.prototype.require) {
+    _cf_mod.prototype.require = function(r) { return typeof require === "function" ? require(r) : {}; };
+  }
+} catch (_) {}
 `;
 
   const debugWrapper = `
@@ -44,7 +112,11 @@ export default {
     try {
       const res = await defaultWorker.fetch(request, env, ctx);
       if (res.status >= 500) {
-        return new Response("=== CLOUDFLARE PAGES 500 ERROR DETAILS ===\\n\\n" + (errorLogs.join("\\n\\n") || "No console.error captured from Next.js server function. Response status: " + res.status), {
+        const text = await res.clone().text().catch(() => "");
+        if (text.includes("=== CLOUDFLARE PAGES 500 ERROR DETAILS ===") || text.length > 50) {
+          return res;
+        }
+        return new Response("=== CLOUDFLARE PAGES 500 ERROR DETAILS ===\\n\\n" + (errorLogs.join("\\n\\n") || ("Response body: " + text + "\\nStatus: " + res.status)), {
           status: res.status,
           headers: { "content-type": "text/plain; charset=utf-8" },
         });
@@ -70,42 +142,6 @@ export default {
   console.warn("⚠ .open-next/worker.js not found!");
 }
 
-// 2. Neutralize require_require_hook in handler.mjs (eliminate node require-hook in workerd)
-const handlerPath = path.join(openNextDir, "server-functions", "default", "handler.mjs");
-if (fs.existsSync(handlerPath)) {
-  let handlerCode = fs.readFileSync(handlerPath, "utf8");
-  const startStr = "var require_require_hook=";
-  const endStr = "var require_setup_node_env_external=";
-  const start = handlerCode.indexOf(startStr);
-  const end = handlerCode.indexOf(endStr);
-  if (start !== -1 && end !== -1 && end > start) {
-    const dummyHook = 'var require_require_hook=__commonJS({".open-next/server-functions/default/node_modules/next/dist/server/require-hook.js"(exports){"use strict";Object.defineProperty(exports,"__esModule",{value:!0});exports.addHookAliases=function(){};exports.defaultOverrides={};exports.hookPropertyMap=new Map();}});';
-    handlerCode = handlerCode.slice(0, start) + dummyHook + handlerCode.slice(end);
-    fs.writeFileSync(handlerPath, handlerCode, "utf8");
-    console.log("✓ Neutralized require_require_hook in handler.mjs");
-  } else {
-    console.warn("⚠ require_require_hook bounds not found in handler.mjs");
-  }
-}
-
-// 3. Overwrite require-hook.js on the filesystem with safe dummy no-op
-const requireHookPath = path.join(openNextDir, "server-functions", "default", "node_modules", "next", "dist", "server", "require-hook.js");
-if (fs.existsSync(requireHookPath)) {
-  const dummyFile = `"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.addHookAliases = function() {};
-exports.defaultOverrides = {};
-exports.hookPropertyMap = new Map();
-module.exports = {
-  addHookAliases: function() {},
-  defaultOverrides: {},
-  hookPropertyMap: new Map()
-};
-`;
-  fs.writeFileSync(requireHookPath, dummyFile, "utf8");
-  console.log("✓ Overwrote require-hook.js with no-op for Cloudflare Pages");
-}
-
 // 4. Copy static assets from .open-next/assets to .open-next root so Cloudflare Pages serves them
 if (fs.existsSync(assetsDir)) {
   const items = fs.readdirSync(assetsDir);
@@ -127,4 +163,3 @@ const routes = {
 
 fs.writeFileSync(routesDest, JSON.stringify(routes, null, 2));
 console.log("✓ Generated .open-next/_routes.json");
-
