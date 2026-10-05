@@ -1,13 +1,7 @@
 name = "website-trunghai"
-main = ".open-next/worker.js"
-account_id = "52f76df902421a88a4a54e48bcee0321"
+pages_build_output_dir = ".open-next"
 compatibility_date = "2025-05-05"
 compatibility_flags = ["nodejs_compat"]
-pages_build_output_dir = ".open-next"
-
-[assets]
-directory = ".open-next/assets"
-binding = "ASSETS"
 
 [[d1_databases]]
 binding = "DB"
