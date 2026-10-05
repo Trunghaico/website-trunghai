@@ -10,7 +10,8 @@
     "postinstall": "node scripts/patch-next.js",
     "cloudflare-build": "node scripts/patch-next.js && opennextjs-cloudflare build && node scripts/prepare-cloudflare.js",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy": "opennextjs-cloudflare build && wrangler deploy"
+    "deploy": "opennextjs-cloudflare build && wrangler deploy",
+    "clean": "node -e \"['.next','.open-next','.wrangler','tsconfig.tsbuildinfo'].forEach(p=>{try{require('fs').rmSync(p,{recursive:true,force:true})}catch{}})\""
   },
   "dependencies": {
     "@tinymce/tinymce-react": "^6.3.0",
