@@ -45,7 +45,7 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
   return (
     <section
       id="home"
-      className="relative w-full h-[90vh] sm:h-screen min-h-[650px] max-h-[1100px] overflow-hidden bg-slate-950"
+      className="relative w-full h-[52vh] min-h-[380px] max-h-[520px] sm:h-screen sm:min-h-[650px] sm:max-h-[1100px] overflow-hidden bg-slate-950"
     >
       {/* Slides Container with Directional Push Slide & Parallax Zoom */}
       <div className="relative w-full h-full overflow-hidden">
@@ -91,13 +91,13 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
                 </div>
 
                 {/* Subtle top shade so transparent header stays legible */}
-                <div className="absolute top-0 left-0 right-0 h-44 bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none z-10" />
+                <div className="absolute top-0 left-0 right-0 h-28 sm:h-44 bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none z-10" />
 
                 {/* Cinematic bottom shade for text contrast */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent pointer-events-none z-10" />
 
                 {/* Slide Caption Overlay (Tag, Title, Subtitle, Stats) */}
-                <div className="absolute inset-0 z-20 flex flex-col justify-end pb-20 sm:pb-24 lg:pb-28 pointer-events-none">
+                <div className="absolute inset-0 z-20 flex flex-col justify-end pb-12 sm:pb-24 lg:pb-28 pointer-events-none">
                   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pointer-events-auto">
                     <div
                       className={`max-w-4xl transition-all duration-700 delay-150 transform ${
@@ -108,8 +108,8 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
                     >
                       {/* Tag badge */}
                       {slide.tag && (
-                        <div className="mb-2 sm:mb-3">
-                          <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-[2px] bg-[#ed3237] text-white text-xs sm:text-[13px] font-black uppercase tracking-wider shadow-lg shadow-[#ed3237]/40">
+                        <div className="mb-1.5 sm:mb-3">
+                          <span className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-0.5 sm:py-1 rounded-[2px] bg-[#ed3237] text-white text-[11px] sm:text-[13px] font-black uppercase tracking-wider shadow-lg shadow-[#ed3237]/40">
                             <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                             <span>{slide.tag}</span>
                           </span>
@@ -118,27 +118,27 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
 
                       {/* Main Title */}
                       {slide.title && (
-                        <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white uppercase tracking-tight leading-snug sm:leading-tight drop-shadow-xl">
+                        <h1 className="text-lg sm:text-3xl md:text-4xl lg:text-5xl font-black text-white uppercase tracking-tight leading-tight sm:leading-tight drop-shadow-xl line-clamp-2 sm:line-clamp-none">
                           {slide.title}
                         </h1>
                       )}
 
                       {/* Subtitle */}
                       {slide.subtitle && (
-                        <p className="mt-2.5 sm:mt-3.5 text-xs sm:text-base lg:text-lg text-slate-100/90 font-normal leading-relaxed max-w-3xl drop-shadow-md line-clamp-3">
+                        <p className="mt-1 sm:mt-3 text-[11px] sm:text-base lg:text-lg text-slate-100/90 font-normal leading-relaxed max-w-3xl drop-shadow-md line-clamp-2 sm:line-clamp-3">
                           {slide.subtitle}
                         </p>
                       )}
 
                       {/* Stats badge & Project Link */}
                       {((slide.stats?.label && slide.stats?.value) || slide.projectLink) && (
-                        <div className="mt-4 sm:mt-6 flex flex-wrap items-center gap-3 sm:gap-4">
+                        <div className="mt-2.5 sm:mt-6 flex flex-wrap items-center gap-2 sm:gap-4">
                           {slide.stats?.label && slide.stats?.value && (
-                            <div className="inline-flex items-center gap-2.5 px-3.5 sm:px-4 py-2 rounded-[3px] bg-black/60 backdrop-blur-md border border-white/20 text-white shadow-xl">
-                              <span className="text-xs sm:text-sm text-slate-300 font-medium">
+                            <div className="inline-flex items-center gap-2 px-2.5 sm:px-4 py-1 sm:py-2 rounded-[3px] bg-black/60 backdrop-blur-md border border-white/20 text-white shadow-xl">
+                              <span className="text-[11px] sm:text-sm text-slate-300 font-medium">
                                 {slide.stats.label}:
                               </span>
-                              <span className="text-sm sm:text-base font-black text-amber-400">
+                              <span className="text-xs sm:text-base font-black text-amber-400">
                                 {slide.stats.value}
                               </span>
                             </div>
@@ -147,10 +147,10 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
                           {slide.projectLink && (
                             <Link
                               href={slide.projectLink}
-                              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white text-xs sm:text-sm font-bold uppercase tracking-wider shadow-xl shadow-[#ed3237]/30 transition-all hover:gap-3"
+                              className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white text-[11px] sm:text-sm font-bold uppercase tracking-wider shadow-xl shadow-[#ed3237]/30 transition-all hover:gap-3"
                             >
                               <span>Khám phá công trình</span>
-                              <ArrowRight className="w-4 h-4" />
+                              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                             </Link>
                           )}
                         </div>
@@ -169,22 +169,22 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
         type="button"
         onClick={prevSlide}
         aria-label="Previous Slide"
-        className="absolute left-6 top-1/2 -translate-y-1/2 z-30 p-3.5 rounded-full bg-white/70 hover:bg-[#ed3237] text-slate-800 hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-xl flex items-center justify-center group active:scale-95"
+        className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3.5 rounded-full bg-white/70 hover:bg-[#ed3237] text-slate-800 hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-xl flex items-center justify-center group active:scale-95"
       >
-        <ChevronLeft className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" />
+        <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6 group-hover:-translate-x-0.5 transition-transform" />
       </button>
 
       <button
         type="button"
         onClick={nextSlide}
         aria-label="Next Slide"
-        className="absolute right-6 top-1/2 -translate-y-1/2 z-30 p-3.5 rounded-full bg-white/70 hover:bg-[#ed3237] text-slate-800 hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-xl flex items-center justify-center group active:scale-95"
+        className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3.5 rounded-full bg-white/70 hover:bg-[#ed3237] text-slate-800 hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-xl flex items-center justify-center group active:scale-95"
       >
-        <ChevronRight className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
+        <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform" />
       </button>
 
       {/* Slide Indicators with Animated Progress Fill */}
-      <div className="absolute bottom-8 left-0 right-0 z-30 flex items-center justify-center gap-3">
+      <div className="absolute bottom-3.5 sm:bottom-8 left-0 right-0 z-30 flex items-center justify-center gap-2 sm:gap-3">
         {slides.map((_, i) => {
           const isCurrent = i === current;
           return (
@@ -198,8 +198,8 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
               aria-label={`Go to slide ${i + 1}`}
               className={`relative overflow-hidden transition-all duration-500 rounded-full ${
                 isCurrent
-                  ? "w-12 sm:w-16 h-2.5 bg-white/40 shadow-lg"
-                  : "w-2.5 h-2.5 bg-white/50 hover:bg-white/90"
+                  ? "w-8 sm:w-16 h-1.5 sm:h-2.5 bg-white/40 shadow-lg"
+                  : "w-1.5 sm:w-2.5 h-1.5 sm:h-2.5 bg-white/50 hover:bg-white/90"
               }`}
             >
               {isCurrent && (

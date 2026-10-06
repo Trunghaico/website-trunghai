@@ -39,13 +39,22 @@ export default function Header({
     setMobileMenuOpen(false);
   }, [pathname]);
 
+  // Lock body scroll when mobile menu is opened
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+      setIsScrolled(scrollY > 10);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -160,14 +169,17 @@ export default function Header({
         <div
           className={`relative w-full transition-all duration-300 ease-in-out ${
             isSolid
-              ? "bg-white/95 backdrop-blur-md py-2.5 sm:py-3 border-b border-[#ed3237] shadow-sm"
-              : "bg-transparent py-3 sm:py-3.5 border-b border-white/10"
+              ? "bg-white shadow-md border-b-2 border-[#ed3237] py-2 sm:py-3"
+              : "bg-transparent py-2.5 sm:py-3.5 border-b border-white/10"
           }`}
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="relative flex items-center justify-between gap-4">
-              {/* Logo - accurate width matching 466x394 image ratio */}
-              <Link href="/" className="flex items-center group shrink-0 z-10">
+            <div className="relative flex items-center justify-between gap-4 min-h-[44px] sm:min-h-[48px]">
+              {/* Logo - centered on mobile, left-aligned on desktop */}
+              <Link
+                href="/"
+                className="flex items-center group shrink-0 z-10 max-lg:absolute max-lg:left-1/2 max-lg:-translate-x-1/2"
+              >
                 <div className="relative h-10 w-[47px] sm:h-12 sm:w-[57px] transition-transform duration-300 group-hover:scale-105">
                   <Image
                     src="/logo.png"
@@ -310,15 +322,8 @@ export default function Header({
                 </a>
               </div>
 
-              {/* Mobile Hamburger Button */}
-              <div className="flex items-center gap-2 lg:hidden">
-                <a
-                  href={`tel:${hotline.replace(/\s+/g, "")}`}
-                  className="p-2.5 rounded-full bg-gradient-to-r from-[#ed3237] to-[#3e4095] text-white shadow-md shadow-[#ed3237]/30"
-                  aria-label="Gọi điện"
-                >
-                  <Phone className="w-4 h-4 fill-current animate-phone-ring" />
-                </a>
+              {/* Mobile Hamburger Button (pinned right, call button removed on mobile) */}
+              <div className="flex items-center gap-2 lg:hidden ml-auto">
                 <button
                   type="button"
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -337,33 +342,36 @@ export default function Header({
         </div>
       </header>
 
-      {/* Mobile Drawer Navigation */}
+      {/* Mobile Drawer Navigation (Gọn gàng, border-radius 3px, có animation slide-in) */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 lg:hidden">
+        <div className="fixed inset-0 z-[100] lg:hidden">
+          {/* Backdrop with smooth fade-in */}
           <div
-            className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
+            className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm animate-backdrop-in"
             onClick={() => setMobileMenuOpen(false)}
+            aria-hidden="true"
           />
-          <div className="fixed top-0 right-0 bottom-0 w-4/5 max-w-sm bg-white border-l border-slate-200 p-6 flex flex-col justify-between shadow-2xl z-50">
+
+          {/* Drawer container with slide-in animation from right */}
+          <div className="fixed top-0 right-0 bottom-0 w-[78%] max-w-[320px] bg-white p-4 sm:p-5 flex flex-col justify-between shadow-2xl z-10 overflow-y-auto animate-drawer-in">
             <div>
-              <div className="flex items-center justify-between pb-6 border-b border-slate-100">
-                <div className="relative h-11 w-56">
-                  <Image
-                    src="/logo.png"
-                    alt="Logo"
-                    fill
-                    className="object-contain object-left"
-                  />
-                </div>
+              {/* Header: Chỉ có nhãn Menu tinh tế và nút đóng bo góc 3px */}
+              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                  Menu
+                </span>
                 <button
+                  type="button"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="p-2 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100"
+                  className="w-7 h-7 rounded-[3px] bg-slate-100 hover:bg-red-50 text-slate-500 hover:text-[#ed3237] flex items-center justify-center transition-colors"
+                  aria-label="Đóng menu"
                 >
-                  <X className="w-6 h-6" />
+                  <X className="w-4 h-4" />
                 </button>
               </div>
 
-              <div className="mt-6 flex flex-col space-y-1">
+              {/* Navigation Menu List: Không icon, bo góc rounded-[3px], gọn gàng */}
+              <div className="mt-3 flex flex-col space-y-1">
                 {navLinks.map((item) => {
                   if (item.children) {
                     const isDropdownActive =
@@ -375,22 +383,22 @@ export default function Header({
                         <button
                           type="button"
                           onClick={() => setMobileAboutOpen(!mobileAboutOpen)}
-                          className={`flex items-center justify-between px-4 py-3 rounded-[3px] text-base font-semibold transition-all ${
+                          className={`flex items-center justify-between px-3 py-2.5 rounded-[3px] text-[13px] font-semibold transition-all ${
                             isDropdownActive
-                              ? "text-[#ed3237] bg-red-50/70 font-bold"
-                              : "text-slate-700 hover:text-[#ed3237] hover:bg-red-50/50"
+                              ? "text-[#ed3237] bg-red-50/70 font-bold border-l-2 border-[#ed3237]"
+                              : "text-slate-700 hover:text-[#ed3237] hover:bg-slate-50"
                           }`}
                         >
                           <span>{item.name}</span>
                           <ChevronDown
-                            className={`w-4 h-4 transition-transform duration-200 ${
+                            className={`w-3.5 h-3.5 transition-transform duration-200 ${
                               mobileAboutOpen ? "rotate-180 text-[#ed3237]" : "text-slate-400"
                             }`}
                           />
                         </button>
 
                         {mobileAboutOpen && (
-                          <div className="ml-3 pl-3 border-l-2 border-red-100 my-1 flex flex-col space-y-1">
+                          <div className="ml-3 pl-2.5 border-l border-red-200 my-1 flex flex-col space-y-0.5">
                             {item.children.map((sub) => {
                               const isSubActive = pathname === sub.href;
 
@@ -399,10 +407,10 @@ export default function Header({
                                   key={sub.name}
                                   href={sub.href}
                                   onClick={() => setMobileMenuOpen(false)}
-                                  className={`flex items-center justify-between px-3 py-2.5 rounded-[3px] text-sm font-semibold transition-all ${
+                                  className={`flex items-center justify-between px-3 py-2 rounded-[3px] text-xs font-medium transition-all ${
                                     isSubActive
-                                      ? "text-[#ed3237] bg-red-50/70 font-bold"
-                                      : "text-slate-600 hover:text-[#ed3237] hover:bg-red-50/50"
+                                      ? "text-[#ed3237] bg-red-50/60 font-bold"
+                                      : "text-slate-600 hover:text-[#ed3237] hover:bg-slate-50"
                                   }`}
                                 >
                                   <span>{sub.name}</span>
@@ -430,28 +438,33 @@ export default function Header({
                       key={item.name}
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`flex items-center justify-between px-4 py-3 rounded-[3px] text-base font-semibold transition-all ${
+                      className={`flex items-center justify-between px-3 py-2.5 rounded-[3px] text-[13px] font-semibold transition-all ${
                         isActive
-                          ? "text-[#ed3237] bg-red-50/70 font-bold"
-                          : "text-slate-700 hover:text-[#ed3237] hover:bg-red-50/50"
+                          ? "text-[#ed3237] bg-red-50/70 font-bold border-l-2 border-[#ed3237]"
+                          : "text-slate-700 hover:text-[#ed3237] hover:bg-slate-50"
                       }`}
                     >
                       <span>{item.name}</span>
-                      <ChevronRight className={`w-4 h-4 ${isActive ? "text-[#ed3237]" : "text-slate-400"}`} />
+                      <ChevronRight className={`w-3.5 h-3.5 ${isActive ? "text-[#ed3237]" : "text-slate-300"}`} />
                     </Link>
                   );
                 })}
               </div>
             </div>
 
-            <div className="pt-6 border-t border-slate-100">
+            {/* Footer with hotline and info: gọn gàng, rounded-[3px] */}
+            <div className="pt-3 border-t border-slate-100 mt-4 space-y-2">
               <a
                 href={`tel:${hotline.replace(/\s+/g, "")}`}
-                className="flex items-center justify-center gap-2.5 w-full py-3.5 text-sm font-bold text-white bg-gradient-to-r from-[#ed3237] via-[#963966] to-[#3e4095] rounded-xl shadow-lg shadow-[#ed3237]/25 hover:opacity-95 transition-all group"
+                className="flex items-center justify-center gap-2 w-full py-2.5 text-xs font-bold text-white bg-gradient-to-r from-[#ed3237] via-[#963966] to-[#3e4095] rounded-[3px] shadow-sm active:scale-98 transition-all"
               >
-                <Phone className="w-4 h-4 fill-current animate-phone-ring" />
-                <span>{hotline}</span>
+                <Phone className="w-3.5 h-3.5 fill-current animate-phone-ring" />
+                <span>Hotline: {hotline}</span>
               </a>
+
+              <p className="text-[11px] text-slate-400 text-center truncate px-1">
+                {address}
+              </p>
             </div>
           </div>
         </div>

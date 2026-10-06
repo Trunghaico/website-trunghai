@@ -747,10 +747,49 @@ export default function AdminPage() {
         </div>
       </header>
 
+      {/* Mobile Horizontal Quick Tabs Bar (< md only) */}
+      <div className="md:hidden bg-white border-b border-slate-200 sticky top-[45px] sm:top-[49px] z-20 shadow-2xs">
+        <div className="flex items-center overflow-x-auto px-2.5 py-1.5 gap-1.5 no-scrollbar">
+          {sidebarItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = activeTab === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => {
+                  setActiveTab(item.id);
+                  setIsEditingProject(false);
+                  setIsEditingNews(false);
+                  setIsEditingJob(false);
+                  setIsEditingSlide(false);
+                }}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] text-xs whitespace-nowrap shrink-0 font-medium transition-all cursor-pointer ${
+                  isActive
+                    ? "bg-[#ed3237] text-white font-bold shadow-xs"
+                    : "bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-slate-200/80"
+                }`}
+              >
+                <Icon className="w-3.5 h-3.5" />
+                <span>{item.label}</span>
+                {item.count !== null && (
+                  <span
+                    className={`text-[10px] font-extrabold px-1.5 py-0.2 rounded-[2px] ${
+                      isActive ? "bg-white/25 text-white" : "bg-slate-200/80 text-slate-700"
+                    }`}
+                  >
+                    {item.count}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Main Layout: Compact Sidebar + Content */}
       <div className="flex-1 flex flex-col md:flex-row">
-        {/* Sidebar */}
-        <aside className="w-full md:w-56 bg-white border-r border-slate-200 p-2.5 space-y-1 shrink-0">
+        {/* Desktop Sidebar: Only on md and up */}
+        <aside className="hidden md:block w-56 bg-white border-r border-slate-200 p-2.5 space-y-1 shrink-0">
           <div className="px-2 py-1 text-[11px] font-bold uppercase tracking-wider text-slate-400">
             Menu Quản Lý
           </div>
@@ -766,6 +805,7 @@ export default function AdminPage() {
                   setIsEditingProject(false);
                   setIsEditingNews(false);
                   setIsEditingJob(false);
+                  setIsEditingSlide(false);
                 }}
                 className={`w-full flex items-center justify-between px-2.5 py-2 rounded-[3px] text-xs font-medium transition-all cursor-pointer ${
                   isActive
@@ -792,7 +832,7 @@ export default function AdminPage() {
         </aside>
 
         {/* Content Area */}
-        <main className="flex-1 p-4 sm:p-6 overflow-y-auto">
+        <main className="flex-1 p-3 sm:p-6 overflow-y-auto">
           {loading ? (
             <div className="py-20 text-center text-slate-400 text-xs">Đang tải dữ liệu hệ thống...</div>
           ) : (
@@ -1048,15 +1088,15 @@ export default function AdminPage() {
                       <p className="text-xs text-slate-500">Danh sách các dự án thi công của Trung Hải</p>
                     </div>
                     {!isEditingProject && (
-                      <div className="flex items-center gap-2">
-                        <div className="relative">
+                      <div className="flex items-center gap-2 w-full sm:w-auto">
+                        <div className="relative flex-1 sm:flex-initial">
                           <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
                           <input
                             type="text"
                             placeholder="Tìm dự án..."
                             value={projectSearch}
                             onChange={(e) => setProjectSearch(e.target.value)}
-                            className="pl-8 pr-3 py-1.5 rounded-[3px] bg-white border border-slate-200 text-xs text-slate-800 focus:border-[#ed3237] focus:outline-none w-44 sm:w-56"
+                            className="pl-8 pr-3 py-1.5 rounded-[3px] bg-white border border-slate-200 text-xs text-slate-800 focus:border-[#ed3237] focus:outline-none w-full sm:w-56"
                           />
                         </div>
                         <button
@@ -1252,7 +1292,7 @@ export default function AdminPage() {
                     /* Project Table */
                     <div className="rounded-[3px] border border-slate-200 bg-white shadow-2xs overflow-hidden">
                       <div className="overflow-x-auto">
-                        <table className="w-full text-left text-xs">
+                        <table className="w-full text-left text-xs min-w-[580px]">
                           <thead className="bg-slate-50 text-slate-600 uppercase text-[11px] font-semibold border-b border-slate-200">
                             <tr>
                               <th className="py-2.5 px-3.5 w-16">Ảnh</th>
@@ -1333,15 +1373,15 @@ export default function AdminPage() {
                       <p className="text-xs text-slate-500 mt-0.5">Tin tiến độ công trường, thông điệp và văn hóa doanh nghiệp</p>
                     </div>
                     {!isEditingNews && (
-                      <div className="flex items-center gap-2">
-                        <div className="relative">
+                      <div className="flex items-center gap-2 w-full sm:w-auto">
+                        <div className="relative flex-1 sm:flex-initial">
                           <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
                           <input
                             type="text"
                             placeholder="Tìm bài viết..."
                             value={newsSearch}
                             onChange={(e) => setNewsSearch(e.target.value)}
-                            className="pl-8 pr-3 py-1.5 rounded-[3px] bg-white border border-slate-200 text-xs text-slate-800 focus:border-[#ed3237] focus:outline-none w-44 sm:w-56"
+                            className="pl-8 pr-3 py-1.5 rounded-[3px] bg-white border border-slate-200 text-xs text-slate-800 focus:border-[#ed3237] focus:outline-none w-full sm:w-56"
                           />
                         </div>
                         <button
@@ -1372,7 +1412,7 @@ export default function AdminPage() {
 
                   {/* Filter Status Tabs (Tất cả / Đang công khai / Đã ẩn toàn bộ) */}
                   {!isEditingNews && (
-                    <div className="flex items-center gap-1.5 border-b border-slate-200 pb-2">
+                    <div className="flex items-center gap-1.5 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar">
                       <button
                         type="button"
                         onClick={() => setNewsFilterStatus("all")}
@@ -1905,12 +1945,12 @@ export default function AdminPage() {
                       </p>
                     </div>
                     {!isEditingSlide && (
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 w-full sm:w-auto">
                         <a
                           href="/"
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold shadow-2xs transition-colors"
+                          className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold shadow-2xs transition-colors"
                         >
                           <ExternalLink className="w-3.5 h-3.5" />
                           <span>Xem Trang Chủ</span>
@@ -1928,7 +1968,7 @@ export default function AdminPage() {
                             });
                             setIsEditingSlide(true);
                           }}
-                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs shadow-2xs transition-colors shrink-0 cursor-pointer"
+                          className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs shadow-2xs transition-colors shrink-0 cursor-pointer"
                         >
                           <Plus className="w-3.5 h-3.5" />
                           <span>Thêm slide mới</span>
@@ -2343,7 +2383,7 @@ export default function AdminPage() {
                           setJobBenefitText("");
                           setIsEditingJob(true);
                         }}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs shadow-2xs transition-colors shrink-0 cursor-pointer"
+                        className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs shadow-2xs transition-colors shrink-0 cursor-pointer w-full sm:w-auto"
                       >
                         <Plus className="w-3.5 h-3.5" />
                         <span>Thêm vị trí</span>
