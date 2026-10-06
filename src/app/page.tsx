@@ -6,7 +6,6 @@ import AboutSection from "@/components/AboutSection";
 import ServicesSection from "@/components/ServicesSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import NewsSection from "@/components/NewsSection";
-import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
 // Revalidate data periodically or on request
@@ -44,9 +43,6 @@ export default async function HomePage() {
 
         {/* 7. Tin tức & Sự kiện */}
         <NewsSection initialNews={news} />
-
-        {/* 8. Liên hệ hợp tác & Bản đồ */}
-        <ContactSection settings={settings} />
       </main>
 
       {/* 10. Chân trang đầy đủ thông tin pháp lý */}

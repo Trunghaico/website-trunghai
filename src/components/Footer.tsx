@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Phone, Mail, MapPin, ShieldCheck, ArrowUp, ChevronRight } from "lucide-react";
+import { Phone, Mail, MapPin, ArrowUp, ChevronRight } from "lucide-react";
 import { CompanySettings } from "@/types";
 
 interface FooterProps {
@@ -87,6 +87,12 @@ export default function Footer({ settings }: FooterProps) {
                   <span>Cơ hội tuyển dụng</span>
                 </Link>
               </li>
+              <li>
+                <Link href="/lien-he" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
+                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237]" />
+                  <span>Liên hệ hợp tác</span>
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -165,17 +171,6 @@ export default function Footer({ settings }: FooterProps) {
                   {settings.email || "info@trunghaico.vn"}
                 </a>
               </div>
-            </div>
-
-            {/* Portal access */}
-            <div className="pt-2">
-              <Link
-                href="/admin"
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-[3px] bg-slate-800/90 hover:bg-slate-700 border border-slate-600/60 text-slate-200 hover:text-white text-xs sm:text-sm font-semibold transition-all shadow-sm"
-              >
-                <ShieldCheck className="w-4 h-4 text-[#ed3237]" />
-                <span>Trang Quản Trị Hệ Thống (CMS)</span>
-              </Link>
             </div>
           </div>
         </div>
