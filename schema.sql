@@ -91,3 +91,14 @@ VALUES (
   'admin'
 );
 
+-- Bảng Đối Tác & Khách Hàng (Partners)
+CREATE TABLE IF NOT EXISTS partners (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  website TEXT,
+  logo TEXT NOT NULL,
+  order_index INTEGER DEFAULT 0,
+  active INTEGER DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+

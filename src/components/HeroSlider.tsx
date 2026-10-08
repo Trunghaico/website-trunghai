@@ -90,13 +90,7 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
                   />
                 </div>
 
-                {/* Subtle top shade so transparent header stays legible */}
-                <div className="absolute top-0 left-0 right-0 h-28 sm:h-44 bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none z-10" />
-
-                {/* Cinematic bottom shade for text contrast */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent pointer-events-none z-10" />
-
-                {/* Slide Caption Overlay (Tag, Title, Subtitle, Stats) */}
+                {/* Slide Caption Overlay (Tag, Title, Subtitle, Stats) - Giữ ảnh nguyên bản trong trẻo, không phủ lớp xám */}
                 <div className="absolute inset-0 z-20 flex flex-col justify-end pb-12 sm:pb-24 lg:pb-28 pointer-events-none">
                   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pointer-events-auto">
                     <div
@@ -109,7 +103,7 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
                       {/* Tag badge */}
                       {slide.tag && (
                         <div className="mb-1.5 sm:mb-3">
-                          <span className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-0.5 sm:py-1 rounded-[2px] bg-[#ed3237] text-white text-[11px] sm:text-[13px] font-black uppercase tracking-wider shadow-lg shadow-[#ed3237]/40">
+                          <span className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-0.5 sm:py-1 rounded-[2px] bg-[#ed3237] text-white text-[11px] sm:text-[13px] font-black uppercase tracking-wider shadow-lg shadow-black/50">
                             <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                             <span>{slide.tag}</span>
                           </span>
@@ -118,14 +112,14 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
 
                       {/* Main Title */}
                       {slide.title && (
-                        <h1 className="text-lg sm:text-3xl md:text-4xl lg:text-5xl font-black text-white uppercase tracking-tight leading-tight sm:leading-tight drop-shadow-xl line-clamp-2 sm:line-clamp-none">
+                        <h1 className="text-lg sm:text-3xl md:text-4xl lg:text-5xl font-black text-white uppercase tracking-tight leading-tight sm:leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] [text-shadow:_0_2px_12px_rgb(0_0_0_/_90%)] line-clamp-2 sm:line-clamp-none">
                           {slide.title}
                         </h1>
                       )}
 
                       {/* Subtitle */}
                       {slide.subtitle && (
-                        <p className="mt-1 sm:mt-3 text-[11px] sm:text-base lg:text-lg text-slate-100/90 font-normal leading-relaxed max-w-3xl drop-shadow-md line-clamp-2 sm:line-clamp-3">
+                        <p className="mt-1 sm:mt-3 text-[11px] sm:text-base lg:text-lg text-white font-medium leading-relaxed max-w-3xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] [text-shadow:_0_1px_8px_rgb(0_0_0_/_90%)] line-clamp-2 sm:line-clamp-3">
                           {slide.subtitle}
                         </p>
                       )}

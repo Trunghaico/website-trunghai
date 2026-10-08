@@ -64,11 +64,15 @@ export async function DELETE(req: Request) {
     }
 
     // 1. Quét tìm ảnh trên Cloudinary để tự động xóa hủy ảnh trên CDN
-    const allSlides = await db.getSlides();
-    const targetSlide = allSlides.find((s) => s.id === id);
+    const targetSlide = await db.getSlideById(id);
 
     if (targetSlide && targetSlide.image && targetSlide.image.includes("res.cloudinary.com")) {
-      await deleteMultipleFromCloudinary([targetSlide.image]);
+      try {
+        console.log(`[Cloudinary] Dọn dẹp ảnh slide trên CDN: ${targetSlide.image}`);
+        await deleteMultipleFromCloudinary([targetSlide.image]);
+      } catch (cdnErr) {
+        console.warn("[Cloudinary] Lỗi xóa ảnh slide trên Cloudinary:", cdnErr);
+      }
     }
 
     // 2. Xóa bản ghi slide trong DB

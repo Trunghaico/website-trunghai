@@ -45,8 +45,9 @@ import {
   ChevronDown,
   Clock,
   Play,
+  Handshake,
 } from "lucide-react";
-import { Project, NewsPost, JobPosting, CompanySettings, HeroSlide } from "@/types";
+import { Project, NewsPost, JobPosting, CompanySettings, HeroSlide, Partner } from "@/types";
 
 // Dynamic import for TinyMCE editor to ensure client-side rendering
 const TinyMCEEditor = dynamic(() => import("@/components/TinyMCEEditor"), {
@@ -96,11 +97,12 @@ export default function AdminPage() {
   });
   const [isChangingPassword, setIsChangingPassword] = useState(false);
 
-  const [activeTab, setActiveTab] = useState<"dashboard" | "projects" | "news" | "slides" | "jobs" | "media" | "settings">("dashboard");
+  const [activeTab, setActiveTab] = useState<"dashboard" | "projects" | "news" | "slides" | "partners" | "jobs" | "media" | "settings">("dashboard");
 
   const [projects, setProjects] = useState<Project[]>([]);
   const [news, setNews] = useState<NewsPost[]>([]);
   const [slides, setSlides] = useState<HeroSlide[]>([]);
+  const [partners, setPartners] = useState<Partner[]>([]);
   const [jobs, setJobs] = useState<JobPosting[]>([]);
   const [settings, setSettings] = useState<CompanySettings | null>(null);
   const [slideInterval, setSlideInterval] = useState<number>(5);
@@ -112,6 +114,17 @@ export default function AdminPage() {
   // Search filters
   const [projectSearch, setProjectSearch] = useState("");
   const [newsSearch, setNewsSearch] = useState("");
+  const [partnerSearch, setPartnerSearch] = useState("");
+
+  // Partner Form State
+  const [isEditingPartner, setIsEditingPartner] = useState(false);
+  const [partnerForm, setPartnerForm] = useState<Partial<Partner>>({
+    name: "",
+    website: "",
+    logo: "",
+    orderIndex: 0,
+    active: true,
+  });
 
   // Slide Form State
   const [isEditingSlide, setIsEditingSlide] = useState(false);
@@ -202,18 +215,20 @@ export default function AdminPage() {
   const loadData = async () => {
     setLoading(true);
     try {
-      const [projRes, newsRes, jobsRes, setRes, slidesRes] = await Promise.all([
+      const [projRes, newsRes, jobsRes, setRes, slidesRes, partnersRes] = await Promise.all([
         fetch("/api/projects").then((r) => r.json()),
         fetch("/api/news").then((r) => r.json()),
         fetch("/api/jobs").then((r) => r.json()),
         fetch("/api/settings").then((r) => r.json()),
         fetch("/api/slides").then((r) => r.json()),
+        fetch("/api/partners").then((r) => r.json()),
       ]);
 
       if (Array.isArray(projRes)) setProjects(projRes);
       if (Array.isArray(newsRes)) setNews(newsRes);
       if (Array.isArray(jobsRes)) setJobs(jobsRes);
       if (Array.isArray(slidesRes)) setSlides(slidesRes);
+      if (Array.isArray(partnersRes)) setPartners(partnersRes);
       if (setRes && !setRes.error) {
         setSettings(setRes);
         if (setRes.slideInterval) setSlideInterval(Number(setRes.slideInterval) || 5);
@@ -541,6 +556,102 @@ export default function AdminPage() {
     }
   };
 
+  // Partner Actions
+  const handleSavePartner = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!partnerForm.name || !partnerForm.name.trim()) {
+      showNotice("Vui lòng nhập tên đối tác", "error");
+      return;
+    }
+    if (!partnerForm.logo || !partnerForm.logo.trim()) {
+      showNotice("Vui lòng chọn hoặc tải lên logo đối tác", "error");
+      return;
+    }
+    try {
+      const payload: Partner = {
+        id: partnerForm.id || "partner-" + Date.now(),
+        name: partnerForm.name.trim(),
+        website: (partnerForm.website || "").trim(),
+        logo: partnerForm.logo.trim(),
+        orderIndex: typeof partnerForm.orderIndex === "number" ? partnerForm.orderIndex : partners.length,
+        active: partnerForm.active !== false,
+      };
+
+      const res = await fetch("/api/partners", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        showNotice(data.error || "Lỗi khi lưu đối tác", "error");
+        return;
+      }
+      showNotice("Đã lưu thông tin đối tác thành công!");
+      setIsEditingPartner(false);
+      loadData();
+    } catch (err: any) {
+      showNotice(err.message, "error");
+    }
+  };
+
+  const handleDeletePartner = async (id: string) => {
+    if (!confirm("Bạn có chắc chắn muốn xóa đối tác này?")) return;
+    try {
+      const res = await fetch(`/api/partners?id=${id}`, { method: "DELETE" });
+      if (res.ok) {
+        showNotice("Đã xóa đối tác thành công!");
+        loadData();
+      } else {
+        const data = await res.json();
+        showNotice(data.error || "Lỗi khi xóa đối tác", "error");
+      }
+    } catch (err: any) {
+      showNotice(err.message, "error");
+    }
+  };
+
+  const handleTogglePartnerActive = async (partner: Partner) => {
+    try {
+      const updated = { ...partner, active: !partner.active };
+      const res = await fetch("/api/partners", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updated),
+      });
+      if (res.ok) {
+        showNotice(`Đã ${updated.active ? "bật" : "tắt"} hiển thị đối tác ${partner.name}!`);
+        loadData();
+      }
+    } catch (err: any) {
+      showNotice(err.message, "error");
+    }
+  };
+
+  const handleMovePartner = async (idx: number, direction: "up" | "down") => {
+    const targetIdx = direction === "up" ? idx - 1 : idx + 1;
+    if (targetIdx < 0 || targetIdx >= partners.length) return;
+
+    const newPartners = [...partners];
+    const temp = newPartners[idx];
+    newPartners[idx] = newPartners[targetIdx];
+    newPartners[targetIdx] = temp;
+
+    const reordered = newPartners.map((p, i) => ({ ...p, orderIndex: i }));
+    setPartners(reordered);
+
+    try {
+      await fetch("/api/partners", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reorder: reordered }),
+      });
+      showNotice("Đã cập nhật lại thứ tự hiển thị đối tác!");
+    } catch (err) {
+      console.error("Failed to reorder partners:", err);
+    }
+  };
+
   // Job Actions
   const handleSaveJob = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -657,6 +768,7 @@ export default function AdminPage() {
     { id: "projects" as const, label: "Công trình", icon: FolderKanban, count: projects.length },
     { id: "news" as const, label: "Tin tức", icon: Newspaper, count: news.length },
     { id: "slides" as const, label: "Slides", icon: Sliders, count: slides.length },
+    { id: "partners" as const, label: "Đối tác", icon: Handshake, count: partners.length },
     { id: "jobs" as const, label: "Tuyển dụng", icon: Briefcase, count: jobs.length },
     { id: "media" as const, label: "Media & Ảnh", icon: ImageIcon, count: null },
     { id: "settings" as const, label: "Cài đặt", icon: Settings, count: null },
@@ -762,6 +874,7 @@ export default function AdminPage() {
                   setIsEditingNews(false);
                   setIsEditingJob(false);
                   setIsEditingSlide(false);
+                  setIsEditingPartner(false);
                 }}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] text-xs whitespace-nowrap shrink-0 font-medium transition-all cursor-pointer ${
                   isActive
@@ -806,6 +919,7 @@ export default function AdminPage() {
                   setIsEditingNews(false);
                   setIsEditingJob(false);
                   setIsEditingSlide(false);
+                  setIsEditingPartner(false);
                 }}
                 className={`w-full flex items-center justify-between px-2.5 py-2 rounded-[3px] text-xs font-medium transition-all cursor-pointer ${
                   isActive
@@ -994,6 +1108,24 @@ export default function AdminPage() {
                       >
                         <Plus className="w-3.5 h-3.5" />
                         <span>Đăng tuyển dụng</span>
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          setActiveTab("partners");
+                          setPartnerForm({
+                            name: "",
+                            website: "",
+                            logo: "",
+                            orderIndex: partners.length,
+                            active: true,
+                          });
+                          setIsEditingPartner(true);
+                        }}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold transition-colors"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                        <span>Thêm đối tác</span>
                       </button>
 
                       <button
@@ -2346,6 +2478,438 @@ export default function AdminPage() {
                               </div>
                             </div>
                           ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* TAB: PARTNERS */}
+              {activeTab === "partners" && (
+                <div className="space-y-4 max-w-6xl">
+                  {/* Top Bar */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h2 className="text-base font-bold text-slate-900">Quản lý Đối Tác &amp; Khách Hàng</h2>
+                        <span className="text-[11px] font-bold text-slate-500 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-[2px]">
+                          {partners.length} Đối tác
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        Cấu hình danh sách logo các đối tác chiến lược hiển thị dạng chạy ngang trên trang chủ.
+                      </p>
+                    </div>
+                    {!isEditingPartner && (
+                      <div className="flex items-center gap-2 w-full sm:w-auto">
+                        <a
+                          href="/#partners"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold shadow-2xs transition-colors"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                          <span>Xem Trang Chủ</span>
+                        </a>
+                        <button
+                          onClick={() => {
+                            setPartnerForm({
+                              name: "",
+                              website: "",
+                              logo: "",
+                              orderIndex: partners.length,
+                              active: true,
+                            });
+                            setIsEditingPartner(true);
+                          }}
+                          className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs shadow-2xs transition-colors shrink-0 cursor-pointer"
+                        >
+                          <Plus className="w-3.5 h-3.5" />
+                          <span>Thêm đối tác</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Edit or Add Partner Form */}
+                  {isEditingPartner ? (
+                    <form onSubmit={handleSavePartner} className="p-5 rounded-[3px] bg-white border border-slate-200 shadow-2xs space-y-4">
+                      <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                          <Handshake className="w-4 h-4 text-[#ed3237]" />
+                          <span>{partnerForm.id ? "Chỉnh sửa thông tin đối tác" : "Thêm đối tác mới"}</span>
+                        </h3>
+                        <button
+                          type="button"
+                          onClick={() => setIsEditingPartner(false)}
+                          className="text-slate-400 hover:text-slate-600 text-xs cursor-pointer p-1"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* Tên đối tác */}
+                        <div>
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">
+                            Tên đối tác <span className="text-[#ed3237]">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            placeholder="Ví dụ: NOVALAND, TẬP ĐOÀN ĐÈO CẢ, VSIP GROUP..."
+                            value={partnerForm.name || ""}
+                            onChange={(e) => setPartnerForm({ ...partnerForm, name: e.target.value })}
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                          />
+                        </div>
+
+                        {/* Link website */}
+                        <div>
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">
+                            Link website đối tác (nếu có)
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="url"
+                              placeholder="https://example.com"
+                              value={partnerForm.website || ""}
+                              onChange={(e) => setPartnerForm({ ...partnerForm, website: e.target.value })}
+                              className="w-full pl-8 pr-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                            />
+                            <Globe className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" />
+                          </div>
+                        </div>
+
+                        {/* Logo upload */}
+                        <div className="md:col-span-2">
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">
+                            Logo đối tác (Upload ảnh PNG/SVG/JPG nền trong suốt hoặc nhập URL) <span className="text-[#ed3237]">*</span>
+                          </label>
+                          <div className="flex gap-2">
+                            <input
+                              type="text"
+                              required
+                              placeholder="https://... hoặc bấm nút Tải ảnh lên"
+                              value={partnerForm.logo || ""}
+                              onChange={(e) => setPartnerForm({ ...partnerForm, logo: e.target.value })}
+                              className="flex-1 px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                            />
+                            <label className="px-3.5 py-2 rounded-[3px] bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold border border-slate-200 cursor-pointer flex items-center gap-1.5 shrink-0 transition-colors">
+                              {isUploading ? (
+                                <Loader2 className="w-3.5 h-3.5 animate-spin text-[#ed3237]" />
+                              ) : (
+                                <Upload className="w-3.5 h-3.5" />
+                              )}
+                              <span>{isUploading ? "Đang tải..." : "Tải logo lên"}</span>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={async (e) => {
+                                  const file = e.target.files?.[0];
+                                  if (!file) return;
+                                  setIsUploading(true);
+                                  const formData = new FormData();
+                                  formData.append("file", file);
+                                  try {
+                                    const res = await fetch("/api/upload", { method: "POST", body: formData });
+                                    const data = await res.json();
+                                    if (data.url) {
+                                      setPartnerForm((prev) => ({ ...prev, logo: data.url }));
+                                      showNotice("Tải logo đối tác lên thành công!");
+                                    } else {
+                                      showNotice(data.error || "Lỗi tải ảnh", "error");
+                                    }
+                                  } catch (err: any) {
+                                    showNotice(err.message, "error");
+                                  } finally {
+                                    setIsUploading(false);
+                                  }
+                                }}
+                              />
+                            </label>
+                          </div>
+
+                          {/* Live Logo Preview */}
+                          {partnerForm.logo && (
+                            <div className="mt-3 flex items-center gap-4 p-3 rounded-[3px] border border-slate-200 bg-slate-50">
+                              <div className="relative w-36 h-20 bg-white border border-slate-200 rounded-[3px] p-2 flex items-center justify-center shadow-xs overflow-hidden">
+                                <Image
+                                  src={partnerForm.logo}
+                                  alt="Logo Preview"
+                                  fill
+                                  className="object-contain p-2"
+                                />
+                              </div>
+                              <div className="text-xs space-y-1">
+                                <div className="font-bold text-slate-800">
+                                  {partnerForm.name || "Xem trước hiển thị Logo"}
+                                </div>
+                                <div className="text-slate-500 text-[11px]">
+                                  Kích thước khuyến nghị: Logo ngang nền trong suốt (PNG/SVG/WebP)
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Thứ tự */}
+                        <div>
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">
+                            Thứ tự hiển thị (Số nhỏ đứng trước, ví dụ: 0, 1, 2...)
+                          </label>
+                          <input
+                            type="number"
+                            min="0"
+                            value={partnerForm.orderIndex ?? 0}
+                            onChange={(e) => setPartnerForm({ ...partnerForm, orderIndex: parseInt(e.target.value) || 0 })}
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                          />
+                        </div>
+
+                        {/* Trạng thái hiển thị hay không */}
+                        <div className="flex flex-col justify-end">
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">
+                            Trạng thái hiển thị
+                          </label>
+                          <div className="flex items-center gap-3 h-[38px] px-3 rounded-[3px] bg-slate-50 border border-slate-200">
+                            <label className="flex items-center gap-2 cursor-pointer text-xs font-medium text-slate-800 select-none">
+                              <input
+                                type="checkbox"
+                                checked={partnerForm.active !== false}
+                                onChange={(e) => setPartnerForm({ ...partnerForm, active: e.target.checked })}
+                                className="rounded border-slate-300 text-[#ed3237] focus:ring-[#ed3237] w-4 h-4 cursor-pointer"
+                              />
+                              <span>Cho phép hiển thị trên website</span>
+                            </label>
+                            <span
+                              className={`text-[10px] font-bold px-2 py-0.5 rounded-[2px] ml-auto ${
+                                partnerForm.active !== false
+                                  ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                                  : "bg-slate-100 text-slate-500 border border-slate-200"
+                              }`}
+                            >
+                              {partnerForm.active !== false ? "Đang bật" : "Đang ẩn"}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Form Actions */}
+                      <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
+                        <button
+                          type="button"
+                          onClick={() => setIsEditingPartner(false)}
+                          className="px-3.5 py-1.5 rounded-[3px] bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold cursor-pointer transition-colors"
+                        >
+                          Hủy bỏ
+                        </button>
+                        <button
+                          type="submit"
+                          className="px-4 py-1.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white text-xs font-semibold shadow-xs cursor-pointer transition-colors"
+                        >
+                          {partnerForm.id ? "Cập nhật đối tác" : "Lưu đối tác mới"}
+                        </button>
+                      </div>
+                    </form>
+                  ) : (
+                    /* Partner List */
+                    <div className="space-y-3">
+                      {/* Search & Filter */}
+                      <div className="flex flex-col sm:flex-row items-center justify-between gap-2.5 bg-white p-3 rounded-[3px] border border-slate-200 shadow-2xs">
+                        <div className="relative w-full sm:w-72">
+                          <input
+                            type="text"
+                            placeholder="Tìm kiếm đối tác..."
+                            value={partnerSearch}
+                            onChange={(e) => setPartnerSearch(e.target.value)}
+                            className="w-full pl-8 pr-3 py-1.5 rounded-[3px] bg-slate-50 border border-slate-200 text-xs text-slate-800 focus:bg-white focus:border-[#ed3237] focus:outline-none"
+                          />
+                          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2" />
+                        </div>
+
+                        <div className="text-xs text-slate-500 flex items-center gap-2">
+                          <span>
+                            Tổng số: <strong className="text-slate-800">{partners.length}</strong> đối tác
+                          </span>
+                          <span className="text-slate-300">|</span>
+                          <span className="text-emerald-700 font-semibold">
+                            {partners.filter((p) => p.active !== false).length} đang hiển thị
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Partners Table */}
+                      {partners.length === 0 ? (
+                        <div className="p-10 text-center bg-white rounded-[3px] border border-slate-200 text-slate-400 space-y-3">
+                          <Handshake className="w-8 h-8 text-slate-300 mx-auto" />
+                          <div className="text-xs">Chưa có đối tác nào trong danh sách.</div>
+                          <button
+                            onClick={() => {
+                              setPartnerForm({
+                                name: "",
+                                website: "",
+                                logo: "",
+                                orderIndex: 0,
+                                active: true,
+                              });
+                              setIsEditingPartner(true);
+                            }}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#ed3237] text-white font-semibold text-xs cursor-pointer"
+                          >
+                            <Plus className="w-3.5 h-3.5" />
+                            <span>Thêm đối tác đầu tiên</span>
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="bg-white rounded-[3px] border border-slate-200 shadow-2xs overflow-hidden">
+                          <div className="overflow-x-auto">
+                            <table className="w-full text-left text-xs border-collapse">
+                              <thead>
+                                <tr className="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                                  <th className="py-2.5 px-3 w-16 text-center">Thứ tự</th>
+                                  <th className="py-2.5 px-3 w-28">Logo</th>
+                                  <th className="py-2.5 px-3">Tên đối tác</th>
+                                  <th className="py-2.5 px-3">Website</th>
+                                  <th className="py-2.5 px-3 w-32 text-center">Trạng thái</th>
+                                  <th className="py-2.5 px-3 w-32 text-right">Thao tác</th>
+                                </tr>
+                              </thead>
+                              <tbody className="divide-y divide-slate-100">
+                                {partners
+                                  .filter((p) =>
+                                    partnerSearch ? p.name.toLowerCase().includes(partnerSearch.toLowerCase()) : true
+                                  )
+                                  .map((item, idx) => (
+                                    <tr key={item.id} className="hover:bg-slate-50/70 transition-colors">
+                                      {/* Order & Move buttons */}
+                                      <td className="py-2.5 px-3 text-center">
+                                        <div className="flex items-center justify-center gap-1">
+                                          <span className="font-bold text-slate-700 text-xs w-5">
+                                            {item.orderIndex ?? idx}
+                                          </span>
+                                          <div className="flex flex-col">
+                                            <button
+                                              type="button"
+                                              disabled={idx === 0}
+                                              onClick={() => handleMovePartner(idx, "up")}
+                                              className={`p-0.5 rounded-[2px] ${
+                                                idx === 0
+                                                  ? "text-slate-200 cursor-not-allowed"
+                                                  : "text-slate-500 hover:text-slate-900 cursor-pointer hover:bg-slate-200"
+                                              }`}
+                                              title="Lên trước"
+                                            >
+                                              <ChevronUp className="w-3 h-3" />
+                                            </button>
+                                            <button
+                                              type="button"
+                                              disabled={idx === partners.length - 1}
+                                              onClick={() => handleMovePartner(idx, "down")}
+                                              className={`p-0.5 rounded-[2px] ${
+                                                idx === partners.length - 1
+                                                  ? "text-slate-200 cursor-not-allowed"
+                                                  : "text-slate-500 hover:text-slate-900 cursor-pointer hover:bg-slate-200"
+                                              }`}
+                                              title="Xuống sau"
+                                            >
+                                              <ChevronDown className="w-3 h-3" />
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </td>
+
+                                      {/* Logo Thumbnail */}
+                                      <td className="py-2.5 px-3">
+                                        <div className="relative w-20 h-11 bg-white border border-slate-200 rounded-[3px] p-1 flex items-center justify-center overflow-hidden">
+                                          <Image
+                                            src={item.logo}
+                                            alt={item.name}
+                                            fill
+                                            className="object-contain p-1"
+                                          />
+                                        </div>
+                                      </td>
+
+                                      {/* Partner Name */}
+                                      <td className="py-2.5 px-3">
+                                        <div className="font-bold text-slate-900 text-xs">{item.name}</div>
+                                      </td>
+
+                                      {/* Website Link */}
+                                      <td className="py-2.5 px-3">
+                                        {item.website ? (
+                                          <a
+                                            href={item.website}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="inline-flex items-center gap-1 text-slate-600 hover:text-[#ed3237] transition-colors truncate max-w-[200px]"
+                                          >
+                                            <span className="truncate">{item.website}</span>
+                                            <ExternalLink className="w-3 h-3 shrink-0" />
+                                          </a>
+                                        ) : (
+                                          <span className="text-slate-400 italic">--</span>
+                                        )}
+                                      </td>
+
+                                      {/* Active Status Toggle */}
+                                      <td className="py-2.5 px-3 text-center">
+                                        <button
+                                          type="button"
+                                          onClick={() => handleTogglePartnerActive(item)}
+                                          title="Bấm để bật/tắt hiển thị trên trang chủ"
+                                          className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-[3px] text-[11px] font-semibold border transition-all cursor-pointer ${
+                                            item.active !== false
+                                              ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
+                                              : "bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200"
+                                          }`}
+                                        >
+                                          {item.active !== false ? (
+                                            <>
+                                              <Eye className="w-3 h-3 text-emerald-600" />
+                                              <span>Hiển thị</span>
+                                            </>
+                                          ) : (
+                                            <>
+                                              <EyeOff className="w-3 h-3 text-slate-400" />
+                                              <span>Đang ẩn</span>
+                                            </>
+                                          )}
+                                        </button>
+                                      </td>
+
+                                      {/* Actions */}
+                                      <td className="py-2.5 px-3 text-right">
+                                        <div className="inline-flex items-center gap-1.5">
+                                          <button
+                                            onClick={() => {
+                                              setPartnerForm({
+                                                ...item,
+                                              });
+                                              setIsEditingPartner(true);
+                                            }}
+                                            className="p-1.5 rounded-[3px] border border-slate-200 hover:bg-slate-100 text-slate-600 cursor-pointer"
+                                            title="Chỉnh sửa đối tác"
+                                          >
+                                            <Edit3 className="w-3.5 h-3.5" />
+                                          </button>
+                                          <button
+                                            onClick={() => handleDeletePartner(item.id)}
+                                            className="p-1.5 rounded-[3px] border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-600 cursor-pointer"
+                                            title="Xóa đối tác"
+                                          >
+                                            <Trash2 className="w-3.5 h-3.5" />
+                                          </button>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  ))}
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       )}
                     </div>

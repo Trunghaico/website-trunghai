@@ -173,3 +173,23 @@
 .delay-300 { transition-delay: 300ms; }
 .delay-400 { transition-delay: 400ms; }
 
+/* Infinite horizontal marquee animation */
+@keyframes marquee-scroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee-infinite {
+  animation: marquee-scroll 35s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-infinite:hover,
+.group:hover .animate-marquee-infinite {
+  animation-play-state: paused;
+}
+

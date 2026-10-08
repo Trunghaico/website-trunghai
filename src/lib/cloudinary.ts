@@ -55,13 +55,10 @@ export function extractCloudinaryPublicId(url: string): string | null {
 
     let pathAfterUpload = url.substring(uploadIndex + "/upload/".length);
 
-    // Remove any transformation parameters (anything before v\d+ or before the folder)
-    const versionMatch = pathAfterUpload.match(/^(.+\/)?(v\d+\/)?(.+)$/);
-    if (versionMatch && versionMatch[3]) {
-      pathAfterUpload = versionMatch[3];
-    }
+    // Bỏ qua các transformation và tiền tố version (ví dụ: v1727854123/ hoặc w_500/v12345/)
+    pathAfterUpload = pathAfterUpload.replace(/^(?:(?:[a-z]{1,2}_[a-zA-Z0-9_,-]+,?)+\/)?(?:v\d+\/)?/, "");
 
-    // Remove file extension (e.g. .jpg, .png, .webp)
+    // Loại bỏ đuôi mở rộng file (.jpg, .png, .webp)
     const lastDotIndex = pathAfterUpload.lastIndexOf(".");
     if (lastDotIndex !== -1) {
       pathAfterUpload = pathAfterUpload.substring(0, lastDotIndex);

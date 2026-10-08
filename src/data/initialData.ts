@@ -1,4 +1,4 @@
-import { Project, NewsPost, JobPosting, HeroSlide, CompanySettings, User } from "@/types";
+import { Project, NewsPost, JobPosting, HeroSlide, CompanySettings, User, Partner } from "@/types";
 
 export const initialUsers: User[] = [
   {
@@ -411,6 +411,105 @@ export const initialJobs: JobPosting[] = [
       "Bao ăn ở trọn gói tại ban điều hành công trường.",
       "Thưởng các dịp lễ tết và thưởng hoàn thành mốc công trình.",
     ],
+    active: true,
+  },
+];
+
+export const initialPartners: Partner[] = [
+  {
+    id: "partner-1",
+    name: "NOVALAND",
+    website: "https://novaland.com.vn",
+    logo: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=300&q=80",
+    orderIndex: 0,
+    active: true,
+  },
+  {
+    id: "partner-2",
+    name: "VSIP GROUP",
+    website: "https://vsip.com.vn",
+    logo: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=300&q=80",
+    orderIndex: 1,
+    active: true,
+  },
+  {
+    id: "partner-3",
+    name: "HÒA PHÁT",
+    website: "https://hoaphat.com.vn",
+    logo: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=300&q=80",
+    orderIndex: 2,
+    active: true,
+  },
+  {
+    id: "partner-4",
+    name: "NAM LONG",
+    website: "https://namlongvn.com",
+    logo: "https://images.unsplash.com/photo-1541888946425-d0fbb1861564?auto=format&fit=crop&w=300&q=80",
+    orderIndex: 3,
+    active: true,
+  },
+  {
+    id: "partner-5",
+    name: "KHANG ĐIỀN",
+    website: "https://khangdien.com.vn",
+    logo: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=300&q=80",
+    orderIndex: 4,
+    active: true,
+  },
+  {
+    id: "partner-6",
+    name: "PHÚ MINH",
+    website: "https://phuminh.vn",
+    logo: "https://images.unsplash.com/photo-1554469384-e58fac16e23a?auto=format&fit=crop&w=300&q=80",
+    orderIndex: 5,
+    active: true,
+  },
+  {
+    id: "partner-7",
+    name: "TẬP ĐOÀN ĐÈO CẢ",
+    website: "https://deoca.vn",
+    logo: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=300&q=80",
+    orderIndex: 6,
+    active: true,
+  },
+  {
+    id: "partner-8",
+    name: "VINACONEX",
+    website: "https://vinaconex.com.vn",
+    logo: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=300&q=80",
+    orderIndex: 7,
+    active: true,
+  },
+  {
+    id: "partner-9",
+    name: "CIENCO 4",
+    website: "https://cienco4.vn",
+    logo: "https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?auto=format&fit=crop&w=300&q=80",
+    orderIndex: 8,
+    active: true,
+  },
+  {
+    id: "partner-10",
+    name: "VIETINBANK",
+    website: "https://vietinbank.vn",
+    logo: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=300&q=80",
+    orderIndex: 9,
+    active: true,
+  },
+  {
+    id: "partner-11",
+    name: "BIDV",
+    website: "https://bidv.com.vn",
+    logo: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=300&q=80",
+    orderIndex: 10,
+    active: true,
+  },
+  {
+    id: "partner-12",
+    name: "COTECCONS",
+    website: "https://coteccons.vn",
+    logo: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=300&q=80",
+    orderIndex: 11,
     active: true,
   },
 ];

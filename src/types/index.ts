@@ -81,3 +81,12 @@ export interface User {
   createdAt?: string;
 }
 
+export interface Partner {
+  id: string;
+  name: string;
+  website?: string;
+  logo: string;
+  orderIndex?: number;
+  active?: boolean;
+}
+

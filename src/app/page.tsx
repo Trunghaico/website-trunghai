@@ -6,17 +6,19 @@ import AboutSection from "@/components/AboutSection";
 import ServicesSection from "@/components/ServicesSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import NewsSection from "@/components/NewsSection";
+import PartnersSection from "@/components/PartnersSection";
 import Footer from "@/components/Footer";
 
 // Revalidate data periodically or on request
 export const revalidate = 0;
 
 export default async function HomePage() {
-  const [slides, projects, news, settings] = await Promise.all([
+  const [slides, projects, news, settings, partners] = await Promise.all([
     db.getSlides(),
     db.getProjects(),
     db.getNews(),
     db.getSettings(),
+    db.getPartners(),
   ]);
 
   return (
@@ -43,6 +45,9 @@ export default async function HomePage() {
 
         {/* 7. Tin tức & Sự kiện */}
         <NewsSection initialNews={news} />
+
+        {/* 8. Thẻ Đối tác chiến lược (tự động chạy ngang) */}
+        <PartnersSection partners={partners} />
       </main>
 
       {/* 10. Chân trang đầy đủ thông tin pháp lý */}

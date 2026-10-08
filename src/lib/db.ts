@@ -1,4 +1,4 @@
-import { Project, NewsPost, JobPosting, CompanySettings, HeroSlide, User } from "@/types";
+import { Project, NewsPost, JobPosting, CompanySettings, HeroSlide, User, Partner } from "@/types";
 import {
   initialCompanySettings,
   initialProjects,
@@ -6,6 +6,7 @@ import {
   initialJobs,
   initialHeroSlides,
   initialUsers,
+  initialPartners,
 } from "@/data/initialData";
 import { verifyPassword } from "@/lib/auth";
 
@@ -24,6 +25,7 @@ interface DatabaseStore {
   news: NewsPost[];
   jobs: JobPosting[];
   slides: HeroSlide[];
+  partners: Partner[];
   settings: CompanySettings;
   users: User[];
 }
@@ -39,12 +41,20 @@ if (!globalForDb.__trunghaiDb) {
     news: [...initialNews],
     jobs: [...initialJobs],
     slides: [...initialHeroSlides],
+    partners: [...initialPartners],
     settings: { ...initialCompanySettings },
     users: [...initialUsers],
   };
+} else {
+  if (!globalForDb.__trunghaiDb.partners) {
+    globalForDb.__trunghaiDb.partners = [...initialPartners];
+  }
 }
 
 const memoryStore = globalForDb.__trunghaiDb;
+if (!memoryStore.partners) {
+  memoryStore.partners = [...initialPartners];
+}
 
 // Execute query on Cloudflare D1 via REST API
 export async function executeD1Query<T = any>(sql: string, params: any[] = []): Promise<T[]> {
@@ -145,9 +155,11 @@ export const db = {
   },
 
   async deleteProject(id: string): Promise<boolean> {
+    let d1Success = false;
     if (isCloudflareD1Configured) {
       try {
         await executeD1Query("DELETE FROM projects WHERE id = ?", [id]);
+        d1Success = true;
       } catch (err) {
         console.warn("Cloudflare D1 delete error:", err);
       }
@@ -157,7 +169,7 @@ export const db = {
       memoryStore.projects.splice(idx, 1);
       return true;
     }
-    return false;
+    return d1Success;
   },
 
   // === NEWS POSTS ===
@@ -226,9 +238,11 @@ export const db = {
   },
 
   async deleteNews(id: string): Promise<boolean> {
+    let d1Success = false;
     if (isCloudflareD1Configured) {
       try {
         await executeD1Query("DELETE FROM news WHERE id = ?", [id]);
+        d1Success = true;
       } catch (err) {
         console.warn("Cloudflare D1 delete news error:", err);
       }
@@ -238,7 +252,7 @@ export const db = {
       memoryStore.news.splice(idx, 1);
       return true;
     }
-    return false;
+    return d1Success;
   },
 
   // === JOBS ===
@@ -246,39 +260,14 @@ export const db = {
     if (isCloudflareD1Configured) {
       try {
         const rows = await executeD1Query<any>("SELECT * FROM jobs ORDER BY created_at DESC, id DESC");
-        if (rows && rows.length > 0) {
-          return rows.map((r) => ({
-            ...r,
-            workingHours: r.working_hours || r.workingHours || "",
-            description: typeof r.description === "string" ? JSON.parse(r.description) : r.description || [],
-            requirements: typeof r.requirements === "string" ? JSON.parse(r.requirements) : r.requirements || [],
-            benefits: typeof r.benefits === "string" ? JSON.parse(r.benefits) : r.benefits || [],
-            active: Boolean(r.active),
-          }));
-        } else {
-          // Auto-seed initial jobs into Cloudflare D1
-          for (const j of initialJobs) {
-            await executeD1Query(
-              `INSERT OR REPLACE INTO jobs (id, title, department, location, salary, deadline, working_hours, type, description, requirements, benefits, active)
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-              [
-                j.id,
-                j.title,
-                j.department || "",
-                j.location || "",
-                j.salary || "",
-                j.deadline || "",
-                j.workingHours || "",
-                j.type || "Toàn thời gian",
-                JSON.stringify(j.description || []),
-                JSON.stringify(j.requirements || []),
-                JSON.stringify(j.benefits || []),
-                j.active !== false ? 1 : 0,
-              ]
-            );
-          }
-          return initialJobs;
-        }
+        return rows.map((r) => ({
+          ...r,
+          workingHours: r.working_hours || r.workingHours || "",
+          description: typeof r.description === "string" ? JSON.parse(r.description) : r.description || [],
+          requirements: typeof r.requirements === "string" ? JSON.parse(r.requirements) : r.requirements || [],
+          benefits: typeof r.benefits === "string" ? JSON.parse(r.benefits) : r.benefits || [],
+          active: Boolean(r.active),
+        }));
       } catch (err) {
         console.warn("Cloudflare D1 get jobs error:", err);
       }
@@ -318,8 +307,14 @@ export const db = {
   },
 
   async deleteJob(id: string): Promise<boolean> {
+    let d1Success = false;
     if (isCloudflareD1Configured) {
-      await executeD1Query("DELETE FROM jobs WHERE id = ?", [id]);
+      try {
+        await executeD1Query("DELETE FROM jobs WHERE id = ?", [id]);
+        d1Success = true;
+      } catch (err) {
+        console.warn("Cloudflare D1 delete job error:", err);
+      }
     }
 
     const idx = memoryStore.jobs.findIndex((j) => j.id === id);
@@ -327,7 +322,7 @@ export const db = {
       memoryStore.jobs.splice(idx, 1);
       return true;
     }
-    return false;
+    return d1Success;
   },
 
   // === SLIDES ===
@@ -337,8 +332,38 @@ export const db = {
         const rows = await executeD1Query<any>(
           "SELECT * FROM slides ORDER BY order_index ASC, created_at ASC"
         );
+        return rows.map((r, idx) => ({
+          id: r.id,
+          title: r.title || "",
+          subtitle: r.subtitle || "",
+          tag: r.tag || "",
+          image: r.image,
+          projectLink: r.projectLink || "",
+          stats: (() => {
+            if (!r.stats) return undefined;
+            if (typeof r.stats === "object") return r.stats;
+            try {
+              return JSON.parse(r.stats);
+            } catch {
+              return undefined;
+            }
+          })(),
+          orderIndex: r.order_index ?? idx,
+        }));
+      } catch (err) {
+        console.warn("Cloudflare D1 get slides error, fallback to memory:", err);
+      }
+    }
+    return memoryStore.slides;
+  },
+
+  async getSlideById(id: string): Promise<HeroSlide | null> {
+    if (isCloudflareD1Configured) {
+      try {
+        const rows = await executeD1Query<any>("SELECT * FROM slides WHERE id = ? LIMIT 1", [id]);
         if (rows.length > 0) {
-          return rows.map((r, idx) => ({
+          const r = rows[0];
+          return {
             id: r.id,
             title: r.title || "",
             subtitle: r.subtitle || "",
@@ -354,34 +379,15 @@ export const db = {
                 return undefined;
               }
             })(),
-            orderIndex: r.order_index ?? idx,
-          }));
-        } else {
-          // Auto-seed initial slides into Cloudflare D1
-          for (let i = 0; i < initialHeroSlides.length; i++) {
-            const s = initialHeroSlides[i];
-            await executeD1Query(
-              `INSERT OR REPLACE INTO slides (id, title, subtitle, tag, image, projectLink, stats, order_index)
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-              [
-                s.id,
-                s.title,
-                s.subtitle || "",
-                s.tag || "",
-                s.image,
-                s.projectLink || "",
-                s.stats ? JSON.stringify(s.stats) : null,
-                i,
-              ]
-            );
-          }
-          return initialHeroSlides.map((s, idx) => ({ ...s, orderIndex: idx }));
+            orderIndex: r.order_index ?? 0,
+          };
         }
+        return null;
       } catch (err) {
-        console.warn("Cloudflare D1 get slides error, fallback to memory:", err);
+        console.warn("Cloudflare D1 getSlideById error:", err);
       }
     }
-    return memoryStore.slides;
+    return memoryStore.slides.find((s) => s.id === id) || null;
   },
 
   async saveSlide(slide: HeroSlide): Promise<HeroSlide> {
@@ -415,9 +421,11 @@ export const db = {
   },
 
   async deleteSlide(id: string): Promise<boolean> {
+    let d1Success = false;
     if (isCloudflareD1Configured) {
       try {
         await executeD1Query("DELETE FROM slides WHERE id = ?", [id]);
+        d1Success = true;
       } catch (err) {
         console.warn("Cloudflare D1 delete slide error:", err);
       }
@@ -427,7 +435,7 @@ export const db = {
       memoryStore.slides.splice(idx, 1);
       return true;
     }
-    return false;
+    return d1Success;
   },
 
   // === SETTINGS ===
@@ -540,5 +548,139 @@ export const db = {
       memoryStore.users.push(user);
     }
     return user;
+  },
+
+  // === PARTNERS ===
+  async ensurePartnersTable(): Promise<void> {
+    if (isCloudflareD1Configured) {
+      try {
+        await executeD1Query(
+          `CREATE TABLE IF NOT EXISTS partners (
+            id TEXT PRIMARY KEY,
+            name TEXT NOT NULL,
+            website TEXT,
+            logo TEXT NOT NULL,
+            order_index INTEGER DEFAULT 0,
+            active INTEGER DEFAULT 1,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          )`
+        );
+      } catch (err) {
+        console.warn("Cloudflare D1 ensure partners table error:", err);
+      }
+    }
+  },
+
+  async getPartners(): Promise<Partner[]> {
+    if (isCloudflareD1Configured) {
+      try {
+        const rows = await executeD1Query<any>(
+          "SELECT * FROM partners ORDER BY order_index ASC, created_at ASC"
+        );
+        if (Array.isArray(rows)) {
+          const mapped = rows.map((r) => ({
+            id: r.id,
+            name: r.name,
+            website: r.website || "",
+            logo: r.logo,
+            orderIndex: Number(r.order_index) || 0,
+            active: r.active !== 0,
+          }));
+          memoryStore.partners = mapped;
+          return mapped;
+        }
+      } catch (err: any) {
+        console.warn("Cloudflare D1 get partners error:", err);
+        if (String(err?.message || "").includes("no such table")) {
+          await this.ensurePartnersTable();
+        }
+      }
+    }
+    return [...(memoryStore.partners || [])].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0));
+  },
+
+  async getPartnerById(id: string): Promise<Partner | undefined> {
+    const list = await this.getPartners();
+    return list.find((p) => p.id === id);
+  },
+
+  async savePartner(partner: Partner): Promise<Partner> {
+    if (!memoryStore.partners || !Array.isArray(memoryStore.partners)) {
+      memoryStore.partners = [...initialPartners];
+    }
+
+    const normalized: Partner = {
+      ...partner,
+      orderIndex: typeof partner.orderIndex === "number" ? partner.orderIndex : 0,
+      active: partner.active !== false,
+    };
+
+    if (isCloudflareD1Configured) {
+      try {
+        await executeD1Query(
+          `INSERT OR REPLACE INTO partners (id, name, website, logo, order_index, active)
+           VALUES (?, ?, ?, ?, ?, ?)`,
+          [
+            normalized.id,
+            normalized.name,
+            normalized.website || "",
+            normalized.logo,
+            normalized.orderIndex,
+            normalized.active ? 1 : 0,
+          ]
+        );
+      } catch (err: any) {
+        console.warn("Cloudflare D1 save partner error:", err);
+        if (String(err?.message || "").includes("no such table")) {
+          await this.ensurePartnersTable();
+          try {
+            await executeD1Query(
+              `INSERT OR REPLACE INTO partners (id, name, website, logo, order_index, active)
+               VALUES (?, ?, ?, ?, ?, ?)`,
+              [
+                normalized.id,
+                normalized.name,
+                normalized.website || "",
+                normalized.logo,
+                normalized.orderIndex,
+                normalized.active ? 1 : 0,
+              ]
+            );
+          } catch (retryErr) {
+            console.error("Cloudflare D1 save partner retry failed:", retryErr);
+          }
+        }
+      }
+    }
+
+    const idx = memoryStore.partners.findIndex((p) => p.id === normalized.id);
+    if (idx >= 0) {
+      memoryStore.partners[idx] = normalized;
+    } else {
+      memoryStore.partners.push(normalized);
+    }
+    return normalized;
+  },
+
+  async deletePartner(id: string): Promise<boolean> {
+    if (!memoryStore.partners || !Array.isArray(memoryStore.partners)) {
+      memoryStore.partners = [];
+    }
+
+    let d1Success = false;
+    if (isCloudflareD1Configured) {
+      try {
+        await executeD1Query("DELETE FROM partners WHERE id = ?", [id]);
+        d1Success = true;
+      } catch (err) {
+        console.warn("Cloudflare D1 delete partner error:", err);
+      }
+    }
+
+    const idx = memoryStore.partners.findIndex((p) => p.id === id);
+    if (idx >= 0) {
+      memoryStore.partners.splice(idx, 1);
+    }
+    return d1Success || idx >= 0;
   },
 };
