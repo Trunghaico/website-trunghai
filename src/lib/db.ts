@@ -11,13 +11,42 @@ import {
 import { verifyPassword } from "@/lib/auth";
 
 // Environment variables for Cloudflare D1
-const CF_ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID;
-const CF_DATABASE_ID = process.env.CLOUDFLARE_D1_DATABASE_ID;
-const CF_API_TOKEN = process.env.CLOUDFLARE_API_TOKEN;
+const CF_ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID || "52f76df902421a88a4a54e48bcee0321";
+const CF_DATABASE_ID = process.env.CLOUDFLARE_D1_DATABASE_ID || "29fc183a-7dbd-4763-acd1-686d01886113";
+const CF_API_TOKEN = process.env.CLOUDFLARE_API_TOKEN || "";
 
-const isCloudflareD1Configured = Boolean(
-  CF_ACCOUNT_ID && CF_DATABASE_ID && CF_API_TOKEN
-);
+const isCloudflareD1Configured = true;
+
+// Helper to access native Cloudflare D1 binding when running in Cloudflare Pages / Workers
+async function getCloudflareD1Binding(): Promise<any> {
+  if ((globalThis as any).DB && typeof (globalThis as any).DB.prepare === "function") {
+    return (globalThis as any).DB;
+  }
+  if ((process.env as any).DB && typeof (process.env as any).DB.prepare === "function") {
+    return (process.env as any).DB;
+  }
+  try {
+    const { getCloudflareContext } = await import("@opennextjs/cloudflare");
+    const ctx = await getCloudflareContext({ async: true });
+    const cfEnv = ctx?.env as any;
+    if (cfEnv?.DB && typeof cfEnv.DB.prepare === "function") {
+      return cfEnv.DB;
+    }
+  } catch {
+    // Not running inside OpenNext async context
+  }
+  try {
+    const { getCloudflareContext } = await import("@opennextjs/cloudflare");
+    const ctx = getCloudflareContext({ async: false });
+    const cfEnv = ctx?.env as any;
+    if (cfEnv?.DB && typeof cfEnv.DB.prepare === "function") {
+      return cfEnv.DB;
+    }
+  } catch {
+    // Not running inside OpenNext sync context
+  }
+  return null;
+}
 
 // In-Memory state for development / fallback
 interface DatabaseStore {
@@ -56,18 +85,34 @@ if (!memoryStore.partners) {
   memoryStore.partners = [...initialPartners];
 }
 
-// Execute query on Cloudflare D1 via REST API
+// Execute query on Cloudflare D1 (Native binding or REST API fallback)
 export async function executeD1Query<T = any>(sql: string, params: any[] = []): Promise<T[]> {
-  if (!isCloudflareD1Configured) {
-    throw new Error("Cloudflare D1 is not configured with environment variables.");
+  // 1. Prioritize Native Cloudflare D1 binding (fastest & direct inside Cloudflare edge)
+  try {
+    const d1 = await getCloudflareD1Binding();
+    if (d1) {
+      let stmt = d1.prepare(sql);
+      if (params && params.length > 0) {
+        stmt = stmt.bind(...params);
+      }
+      const res = await stmt.all();
+      return (res.results || []) as T[];
+    }
+  } catch (nativeErr: any) {
+    console.warn("Native D1 execution error, falling back to REST API:", nativeErr?.message);
   }
 
-  const endpoint = `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/d1/database/${CF_DATABASE_ID}/query`;
+  // 2. Fallback to Cloudflare REST API (works everywhere across local dev & edge)
+  const accountId = process.env.CLOUDFLARE_ACCOUNT_ID || CF_ACCOUNT_ID;
+  const databaseId = process.env.CLOUDFLARE_D1_DATABASE_ID || CF_DATABASE_ID;
+  const apiToken = process.env.CLOUDFLARE_API_TOKEN || CF_API_TOKEN;
+
+  const endpoint = `https://api.cloudflare.com/client/v4/accounts/${accountId}/d1/database/${databaseId}/query`;
 
   const res = await fetch(endpoint, {
     method: "POST",
     headers: {
-      "Authorization": `Bearer ${CF_API_TOKEN}`,
+      "Authorization": `Bearer ${apiToken}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ sql, params }),
@@ -76,7 +121,7 @@ export async function executeD1Query<T = any>(sql: string, params: any[] = []): 
 
   const data = await res.json();
   if (!res.ok || !data.success) {
-    throw new Error(data.errors?.[0]?.message || "Cloudflare D1 query failed");
+    throw new Error(data.errors?.[0]?.message || "Cloudflare D1 REST query failed");
   }
 
   return (data.result?.[0]?.results || []) as T[];

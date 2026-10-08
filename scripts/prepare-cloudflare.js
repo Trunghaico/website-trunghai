@@ -95,6 +95,9 @@ const defaultWorker = {
   const errorInterceptor = `
 export default {
   async fetch(request, env, ctx) {
+    if (env && env.DB) {
+      globalThis.DB = env.DB;
+    }
     const errorLogs = [];
     const origErr = console.error;
     const origWarn = console.warn;
