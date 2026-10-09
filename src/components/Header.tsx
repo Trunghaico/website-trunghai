@@ -181,7 +181,7 @@ export default function Header({
                 href="/"
                 className="flex items-center group shrink-0 z-10 max-lg:absolute max-lg:left-1/2 max-lg:-translate-x-1/2"
               >
-                <div className="relative h-10 w-[47px] sm:h-12 sm:w-[57px] transition-transform duration-300 group-hover:scale-105">
+                <div className="relative h-12 w-[56px] sm:h-[60px] sm:w-[71px] transition-transform duration-300 group-hover:scale-105">
                   <Image
                     src="/logo.png"
                     alt="Trung Hải JSC Logo"
@@ -210,7 +210,7 @@ export default function Header({
                         <button
                           type="button"
                           onClick={() => setAboutDropdownOpen(!aboutDropdownOpen)}
-                          className={`group/btn relative whitespace-nowrap px-2.5 xl:px-3.5 py-1.5 text-[13px] xl:text-sm 2xl:text-[15px] font-semibold tracking-tight xl:tracking-normal transition-all duration-300 rounded-[3px] hover:text-[#ed3237] flex items-center gap-1 cursor-pointer ${
+                          className={`group/btn relative whitespace-nowrap px-2.5 xl:px-3.5 py-1.5 text-xs xl:text-[13px] 2xl:text-sm uppercase tracking-wider font-bold transition-all duration-300 rounded-[3px] hover:text-[#ed3237] flex items-center gap-1 cursor-pointer ${
                             isDropdownActive
                               ? "text-[#ed3237] font-bold"
                               : isSolid
@@ -283,7 +283,7 @@ export default function Header({
                     <Link
                       key={item.name}
                       href={item.href}
-                      className={`group relative whitespace-nowrap px-2.5 xl:px-3.5 py-1.5 text-[13px] xl:text-sm 2xl:text-[15px] font-semibold tracking-tight xl:tracking-normal transition-all duration-300 rounded-[3px] hover:text-[#ed3237] ${
+                      className={`group relative whitespace-nowrap px-2.5 xl:px-3.5 py-1.5 text-xs xl:text-[13px] 2xl:text-sm uppercase tracking-wider font-bold transition-all duration-300 rounded-[3px] hover:text-[#ed3237] ${
                         isActive
                           ? "text-[#ed3237] font-bold"
                           : isSolid
@@ -303,17 +303,17 @@ export default function Header({
                 })}
               </nav>
 
-              {/* Compact Call Button with Brand Colors: Red (#ed3237) & Blue (#3e4095) */}
+              {/* Compact Call Button with Logo Red (#ed3237) */}
               <div className="hidden lg:flex items-center shrink-0 z-10">
                 <a
                   href={`tel:${hotline.replace(/\s+/g, "")}`}
                   title={`Gọi ngay: ${hotline}`}
-                  className="whitespace-nowrap flex items-center gap-2.5 px-3.5 py-1.5 text-xs font-bold rounded-full transition-all duration-300 shadow-md shadow-[#ed3237]/25 hover:shadow-lg hover:shadow-[#3e4095]/35 hover:scale-105 group bg-gradient-to-r from-[#ed3237] via-[#963966] to-[#3e4095] text-white border border-white/20"
+                  className="whitespace-nowrap flex items-center gap-2.5 px-3.5 py-1.5 text-xs font-bold rounded-full transition-all duration-300 shadow-md shadow-[#ed3237]/30 hover:shadow-lg hover:shadow-[#ed3237]/45 hover:scale-105 group bg-[#ed3237] hover:bg-[#d0282d] text-white border border-white/20"
                 >
                   {/* Ringing Phone Icon with Pulse Beacon */}
                   <div className="relative flex items-center justify-center">
                     <span className="absolute inline-flex h-full w-full rounded-full bg-white opacity-60 animate-ping" />
-                    <div className="relative w-6 h-6 rounded-full bg-white text-[#ed3237] group-hover:text-[#3e4095] flex items-center justify-center transition-colors shadow-sm">
+                    <div className="relative w-6 h-6 rounded-full bg-white text-[#ed3237] flex items-center justify-center transition-colors shadow-sm">
                       <Phone className="w-3 h-3 fill-current animate-phone-ring" />
                     </div>
                   </div>
@@ -384,7 +384,7 @@ export default function Header({
                         <button
                           type="button"
                           onClick={() => setMobileAboutOpen(!mobileAboutOpen)}
-                          className={`flex items-center justify-between px-3 py-2.5 rounded-[3px] text-[13px] font-semibold transition-all ${
+                          className={`flex items-center justify-between px-3 py-2.5 rounded-[3px] text-xs uppercase tracking-wider font-bold transition-all ${
                             isDropdownActive
                               ? "text-[#ed3237] bg-red-50/70 font-bold border-l-2 border-[#ed3237]"
                               : "text-slate-700 hover:text-[#ed3237] hover:bg-slate-50"
@@ -439,7 +439,7 @@ export default function Header({
                       key={item.name}
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`flex items-center justify-between px-3 py-2.5 rounded-[3px] text-[13px] font-semibold transition-all ${
+                      className={`flex items-center justify-between px-3 py-2.5 rounded-[3px] text-xs uppercase tracking-wider font-bold transition-all ${
                         isActive
                           ? "text-[#ed3237] bg-red-50/70 font-bold border-l-2 border-[#ed3237]"
                           : "text-slate-700 hover:text-[#ed3237] hover:bg-slate-50"
@@ -457,7 +457,7 @@ export default function Header({
             <div className="pt-3 border-t border-slate-100 mt-4 space-y-2">
               <a
                 href={`tel:${hotline.replace(/\s+/g, "")}`}
-                className="flex items-center justify-center gap-2 w-full py-2.5 text-xs font-bold text-white bg-gradient-to-r from-[#ed3237] via-[#963966] to-[#3e4095] rounded-[3px] shadow-sm active:scale-98 transition-all"
+                className="flex items-center justify-center gap-2 w-full py-2.5 text-xs font-bold text-white bg-[#ed3237] hover:bg-[#d0282d] rounded-[3px] shadow-sm shadow-[#ed3237]/25 active:scale-98 transition-all"
               >
                 <Phone className="w-3.5 h-3.5 fill-current animate-phone-ring" />
                 <span>Hotline: {hotline}</span>

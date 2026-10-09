@@ -24,14 +24,16 @@ export default function Footer({ settings }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 pb-12 border-b border-slate-700/70">
           {/* Brand info (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
-            <div className="relative h-12 w-64 max-w-full">
-              <Image
-                src="/logo.png"
-                alt="Trung Hải JSC Logo"
-                fill
-                className="object-contain object-left drop-shadow"
-              />
-            </div>
+            <Link href="/" className="inline-block group">
+              <div className="relative h-16 sm:h-[72px] w-32 sm:w-36 transition-transform duration-300 group-hover:scale-105">
+                <Image
+                  src="/logo.png"
+                  alt="Trung Hải JSC Logo"
+                  fill
+                  className="object-contain object-left drop-shadow"
+                />
+              </div>
+            </Link>
             <p className="text-sm text-slate-300 leading-relaxed font-normal">
               <strong className="text-white block font-bold mb-1 text-[15px]">{settings.name}</strong>
               Đơn vị tiên phong thi công các công trình hầm xuyên núi, hạ tầng giao thông đường bộ, cầu cạn và các tuyến quốc lộ trọng điểm quốc gia.
@@ -194,10 +196,10 @@ export default function Footer({ settings }: FooterProps) {
         </div>
       </div>
 
-      {/* Floating Red-Blue Gradient Back to Top Button */}
+      {/* Floating Logo Red Back to Top Button */}
       <button
         onClick={scrollToTop}
-        className="fixed bottom-6 right-6 z-40 p-3 rounded-[3px] bg-gradient-to-r from-[#ed3237] to-[#3e4095] hover:opacity-95 text-white shadow-xl shadow-[#ed3237]/35 transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center"
+        className="fixed bottom-6 right-6 z-40 p-3 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white shadow-xl shadow-[#ed3237]/35 transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer"
         aria-label="Về đầu trang"
         title="Lên đầu trang"
       >
