@@ -54,7 +54,7 @@ const TinyMCEEditor = dynamic(() => import("@/components/TinyMCEEditor"), {
   ssr: false,
   loading: () => (
     <div className="h-64 border border-slate-200 rounded-[3px] bg-slate-50 flex items-center justify-center text-xs text-slate-400 gap-2">
-      <Loader2 className="w-4 h-4 animate-spin text-[#ed3237]" />
+      <Loader2 className="w-4 h-4 animate-spin text-[#3e4095]" />
       <span>Đang tải trình soạn thảo TinyMCE...</span>
     </div>
   ),
@@ -754,7 +754,7 @@ export default function AdminPage() {
     return (
       <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center text-slate-600">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-9 h-9 rounded-full border-2 border-[#ed3237] border-t-transparent animate-spin" />
+          <div className="w-9 h-9 rounded-full border-2 border-[#3e4095] border-t-transparent animate-spin" />
           <p className="text-xs font-semibold tracking-wider uppercase text-slate-500">
             Đang xác thực quyền truy cập...
           </p>
@@ -799,7 +799,7 @@ export default function AdminPage() {
         <div className="flex items-center gap-3 sm:gap-4">
           <Link
             href="/"
-            className="flex items-center gap-1.5 text-slate-600 hover:text-[#ed3237] transition-colors text-xs font-medium"
+            className="flex items-center gap-1.5 text-slate-600 hover:text-[#3e4095] transition-colors text-xs font-medium"
             title="Quay lại trang chủ"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
@@ -810,10 +810,10 @@ export default function AdminPage() {
 
           <div className="flex items-center gap-2">
             <span className="font-extrabold text-sm sm:text-base text-slate-900 tracking-tight flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-[1px] bg-[#ed3237]" />
+              <span className="w-2 h-2 rounded-[1px] bg-[#3e4095]" />
               TRUNG HẢI
             </span>
-            <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded-[3px] bg-red-50 text-[#ed3237] border border-red-200/80">
+            <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded-[3px] bg-blue-50 text-[#3e4095] border border-blue-200/80">
               Admin
             </span>
           </div>
@@ -822,7 +822,7 @@ export default function AdminPage() {
         <div className="flex items-center gap-2 sm:gap-2.5">
           {currentUser && (
             <div className="flex items-center gap-2 px-2.5 py-1 rounded-[3px] bg-slate-50 border border-slate-200 text-xs">
-              <div className="w-5 h-5 rounded-[2px] bg-[#ed3237] text-white flex items-center justify-center font-bold text-[10px]">
+              <div className="w-5 h-5 rounded-[2px] bg-[#3e4095] text-white flex items-center justify-center font-bold text-[10px]">
                 {currentUser.username[0]?.toUpperCase() || "A"}
               </div>
               <span className="font-semibold text-slate-700 hidden sm:inline">{currentUser.name || currentUser.username}</span>
@@ -851,7 +851,7 @@ export default function AdminPage() {
           <button
             onClick={handleLogout}
             title="Đăng xuất khỏi hệ thống"
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[3px] bg-red-50 hover:bg-[#ed3237] text-[#ed3237] hover:text-white border border-red-200 hover:border-[#ed3237] text-xs font-semibold transition-all cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[3px] bg-blue-50 hover:bg-[#3e4095] text-[#3e4095] hover:text-white border border-blue-200 hover:border-[#3e4095] text-xs font-semibold transition-all cursor-pointer"
           >
             <LogOut className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Đăng xuất</span>
@@ -878,7 +878,7 @@ export default function AdminPage() {
                 }}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] text-xs whitespace-nowrap shrink-0 font-medium transition-all cursor-pointer ${
                   isActive
-                    ? "bg-[#ed3237] text-white font-bold shadow-xs"
+                    ? "bg-[#3e4095] text-white font-bold shadow-xs"
                     : "bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-slate-200/80"
                 }`}
               >
@@ -923,7 +923,7 @@ export default function AdminPage() {
                 }}
                 className={`w-full flex items-center justify-between px-2.5 py-2 rounded-[3px] text-xs font-medium transition-all cursor-pointer ${
                   isActive
-                    ? "bg-[#ed3237] text-white font-semibold shadow-xs"
+                    ? "bg-[#3e4095] text-white font-semibold shadow-xs"
                     : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                 }`}
               >
@@ -958,20 +958,20 @@ export default function AdminPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
                     <div
                       onClick={() => setActiveTab("projects")}
-                      className="p-4 rounded-[3px] bg-white border border-slate-200/90 shadow-2xs hover:border-[#ed3237]/40 cursor-pointer transition-all flex items-center justify-between"
+                      className="p-4 rounded-[3px] bg-white border border-slate-200/90 shadow-2xs hover:border-[#3e4095]/40 cursor-pointer transition-all flex items-center justify-between"
                     >
                       <div>
                         <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wide">Công trình</div>
                         <div className="text-2xl font-black text-slate-900 mt-0.5">{projects.length}</div>
                       </div>
-                      <div className="p-2.5 rounded-[3px] bg-red-50 text-[#ed3237] border border-red-100">
+                      <div className="p-2.5 rounded-[3px] bg-blue-50 text-[#3e4095] border border-blue-100">
                         <FolderKanban className="w-5 h-5" />
                       </div>
                     </div>
 
                     <div
                       onClick={() => setActiveTab("news")}
-                      className="p-4 rounded-[3px] bg-white border border-slate-200/90 shadow-2xs hover:border-[#ed3237]/40 cursor-pointer transition-all flex items-center justify-between"
+                      className="p-4 rounded-[3px] bg-white border border-slate-200/90 shadow-2xs hover:border-[#3e4095]/40 cursor-pointer transition-all flex items-center justify-between"
                     >
                       <div>
                         <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wide">Tin tức</div>
@@ -984,7 +984,7 @@ export default function AdminPage() {
 
                     <div
                       onClick={() => setActiveTab("slides")}
-                      className="p-4 rounded-[3px] bg-white border border-slate-200/90 shadow-2xs hover:border-[#ed3237]/40 cursor-pointer transition-all flex items-center justify-between"
+                      className="p-4 rounded-[3px] bg-white border border-slate-200/90 shadow-2xs hover:border-[#3e4095]/40 cursor-pointer transition-all flex items-center justify-between"
                     >
                       <div>
                         <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wide">Slides Trang Chủ</div>
@@ -1000,7 +1000,7 @@ export default function AdminPage() {
 
                     <div
                       onClick={() => setActiveTab("jobs")}
-                      className="p-4 rounded-[3px] bg-white border border-slate-200/90 shadow-2xs hover:border-[#ed3237]/40 cursor-pointer transition-all flex items-center justify-between"
+                      className="p-4 rounded-[3px] bg-white border border-slate-200/90 shadow-2xs hover:border-[#3e4095]/40 cursor-pointer transition-all flex items-center justify-between"
                     >
                       <div>
                         <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wide">Tuyển dụng</div>
@@ -1038,7 +1038,7 @@ export default function AdminPage() {
                           });
                           setIsEditingProject(true);
                         }}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white text-xs font-semibold shadow-2xs transition-colors"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white text-xs font-semibold shadow-2xs transition-colors"
                       >
                         <Plus className="w-3.5 h-3.5" />
                         <span>Thêm công trình</span>
@@ -1183,7 +1183,7 @@ export default function AdminPage() {
                       </span>
                       <button
                         onClick={() => setActiveTab("projects")}
-                        className="text-xs font-semibold text-[#ed3237] hover:underline cursor-pointer"
+                        className="text-xs font-semibold text-[#3e4095] hover:underline cursor-pointer"
                       >
                         Xem tất cả ({projects.length})
                       </button>
@@ -1228,7 +1228,7 @@ export default function AdminPage() {
                             placeholder="Tìm dự án..."
                             value={projectSearch}
                             onChange={(e) => setProjectSearch(e.target.value)}
-                            className="pl-8 pr-3 py-1.5 rounded-[3px] bg-white border border-slate-200 text-xs text-slate-800 focus:border-[#ed3237] focus:outline-none w-full sm:w-56"
+                            className="pl-8 pr-3 py-1.5 rounded-[3px] bg-white border border-slate-200 text-xs text-slate-800 focus:border-[#3e4095] focus:outline-none w-full sm:w-56"
                           />
                         </div>
                         <button
@@ -1250,7 +1250,7 @@ export default function AdminPage() {
                             });
                             setIsEditingProject(true);
                           }}
-                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs shadow-2xs transition-colors shrink-0"
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white font-semibold text-xs shadow-2xs transition-colors shrink-0"
                         >
                           <Plus className="w-3.5 h-3.5" />
                           <span>Thêm mới</span>
@@ -1284,7 +1284,7 @@ export default function AdminPage() {
                             placeholder="Tên công trình..."
                             value={projectForm.title}
                             onChange={(e) => setProjectForm({ ...projectForm, title: e.target.value })}
-                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                           />
                         </div>
 
@@ -1302,7 +1302,7 @@ export default function AdminPage() {
                               };
                               setProjectForm({ ...projectForm, category: val, categoryName: map[val] });
                             }}
-                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                           >
                             <option value="ham">Hầm Xuyên Núi</option>
                             <option value="cau-duong">Cầu & Đường Bộ</option>
@@ -1320,7 +1320,7 @@ export default function AdminPage() {
                             placeholder="Tỉnh/Thành phố..."
                             value={projectForm.location}
                             onChange={(e) => setProjectForm({ ...projectForm, location: e.target.value })}
-                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                           />
                         </div>
                         <div>
@@ -1330,7 +1330,7 @@ export default function AdminPage() {
                             placeholder="Chủ đầu tư..."
                             value={projectForm.client}
                             onChange={(e) => setProjectForm({ ...projectForm, client: e.target.value })}
-                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                           />
                         </div>
                         <div>
@@ -1340,7 +1340,7 @@ export default function AdminPage() {
                             placeholder="2023 - 2026"
                             value={projectForm.year}
                             onChange={(e) => setProjectForm({ ...projectForm, year: e.target.value })}
-                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                           />
                         </div>
                       </div>
@@ -1353,7 +1353,7 @@ export default function AdminPage() {
                             placeholder="Ví dụ: 3.500 Tỷ VNĐ"
                             value={projectForm.value}
                             onChange={(e) => setProjectForm({ ...projectForm, value: e.target.value })}
-                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                           />
                         </div>
                         <div>
@@ -1363,7 +1363,7 @@ export default function AdminPage() {
                             placeholder="Quy mô dự án..."
                             value={projectForm.scale}
                             onChange={(e) => setProjectForm({ ...projectForm, scale: e.target.value })}
-                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                           />
                         </div>
                       </div>
@@ -1379,10 +1379,10 @@ export default function AdminPage() {
                             placeholder="https://..."
                             value={projectForm.thumbnail}
                             onChange={(e) => setProjectForm({ ...projectForm, thumbnail: e.target.value })}
-                            className="flex-1 px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none font-mono"
+                            className="flex-1 px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none font-mono"
                           />
                           <label className="cursor-pointer px-3 py-2 rounded-[3px] bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-semibold flex items-center gap-1.5 border border-slate-200 shrink-0">
-                            <Upload className="w-3.5 h-3.5 text-[#ed3237]" />
+                            <Upload className="w-3.5 h-3.5 text-[#3e4095]" />
                             <span>{isUploading ? "Tải lên..." : "Tải ảnh"}</span>
                             <input
                               type="file"
@@ -1400,14 +1400,14 @@ export default function AdminPage() {
                           rows={3}
                           value={projectForm.description}
                           onChange={(e) => setProjectForm({ ...projectForm, description: e.target.value })}
-                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                         />
                       </div>
 
                       <div className="flex items-center gap-2 pt-2 border-t border-slate-100">
                         <button
                           type="submit"
-                          className="px-4 py-2 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs shadow-2xs transition-colors"
+                          className="px-4 py-2 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white font-semibold text-xs shadow-2xs transition-colors"
                         >
                           Lưu công trình
                         </button>
@@ -1513,7 +1513,7 @@ export default function AdminPage() {
                             placeholder="Tìm bài viết..."
                             value={newsSearch}
                             onChange={(e) => setNewsSearch(e.target.value)}
-                            className="pl-8 pr-3 py-1.5 rounded-[3px] bg-white border border-slate-200 text-xs text-slate-800 focus:border-[#ed3237] focus:outline-none w-full sm:w-56"
+                            className="pl-8 pr-3 py-1.5 rounded-[3px] bg-white border border-slate-200 text-xs text-slate-800 focus:border-[#3e4095] focus:outline-none w-full sm:w-56"
                           />
                         </div>
                         <button
@@ -1533,7 +1533,7 @@ export default function AdminPage() {
                             setIsAutoSlug(true);
                             setIsEditingNews(true);
                           }}
-                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs shadow-2xs transition-colors shrink-0"
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white font-semibold text-xs shadow-2xs transition-colors shrink-0"
                         >
                           <Plus className="w-3.5 h-3.5" />
                           <span>Thêm bài viết</span>
@@ -1626,7 +1626,7 @@ export default function AdminPage() {
                               slug: isAutoSlug ? toVietnameseSlug(newTitle) : prev.slug,
                             }));
                           }}
-                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                         />
                       </div>
 
@@ -1646,7 +1646,7 @@ export default function AdminPage() {
                                 setIsAutoSlug(true);
                                 showNotice("Đã tạo đường dẫn SEO mới từ tiêu đề!");
                               }}
-                              className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#3e4095] hover:text-[#ed3237] transition-colors cursor-pointer"
+                              className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#3e4095] hover:text-[#3e4095] transition-colors cursor-pointer"
                               title="Tạo lại slug tự động từ tiêu đề"
                             >
                               <RefreshCw className="w-3 h-3" />
@@ -1668,7 +1668,7 @@ export default function AdminPage() {
                           </div>
                         </div>
 
-                        <div className="flex items-center rounded-[3px] border border-slate-200 bg-white overflow-hidden focus-within:border-[#ed3237] focus-within:ring-1 focus-within:ring-[#ed3237]/20">
+                        <div className="flex items-center rounded-[3px] border border-slate-200 bg-white overflow-hidden focus-within:border-[#3e4095] focus-within:ring-1 focus-within:ring-[#3e4095]/20">
                           <span className="px-2.5 py-1.5 bg-slate-100 text-slate-500 text-xs font-mono border-r border-slate-200 shrink-0 select-none">
                             trunghaico.vn/tin-tuc/
                           </span>
@@ -1738,7 +1738,7 @@ export default function AdminPage() {
                             type="text"
                             value={newsForm.author}
                             onChange={(e) => setNewsForm({ ...newsForm, author: e.target.value })}
-                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                           />
                         </div>
                       </div>
@@ -1751,10 +1751,10 @@ export default function AdminPage() {
                             required
                             value={newsForm.thumbnail}
                             onChange={(e) => setNewsForm({ ...newsForm, thumbnail: e.target.value })}
-                            className="flex-1 px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none font-mono"
+                            className="flex-1 px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none font-mono"
                           />
                           <label className="cursor-pointer px-3 py-2 rounded-[3px] bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-semibold flex items-center gap-1.5 border border-slate-200 shrink-0">
-                            <Upload className="w-3.5 h-3.5 text-[#ed3237]" />
+                            <Upload className="w-3.5 h-3.5 text-[#3e4095]" />
                             <span>Tải ảnh</span>
                             <input
                               type="file"
@@ -1773,7 +1773,7 @@ export default function AdminPage() {
                           value={newsForm.summary}
                           placeholder="Mô tả tóm tắt ngắn về nội dung bài viết..."
                           onChange={(e) => setNewsForm({ ...newsForm, summary: e.target.value })}
-                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                         />
                       </div>
 
@@ -1783,7 +1783,7 @@ export default function AdminPage() {
                           <label className="block text-xs font-semibold text-slate-700">
                             Nội dung chi tiết bài viết (Trình soạn thảo TinyMCE) *
                           </label>
-                          <span className="text-[10px] font-bold text-[#ed3237] bg-red-50 border border-red-200 px-1.5 py-0.5 rounded-[3px]">
+                          <span className="text-[10px] font-bold text-[#3e4095] bg-blue-50 border border-blue-200 px-1.5 py-0.5 rounded-[3px]">
                             TinyMCE 7 (Kéo chỉnh ảnh)
                           </span>
                         </div>
@@ -1874,7 +1874,7 @@ export default function AdminPage() {
                             type="button"
                             onClick={() => setNewsForm((prev) => ({ ...prev, featured: !prev.featured }))}
                             className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-                              newsForm.featured ? "bg-[#ed3237]" : "bg-slate-300"
+                              newsForm.featured ? "bg-[#3e4095]" : "bg-slate-300"
                             }`}
                           >
                             <span
@@ -1889,7 +1889,7 @@ export default function AdminPage() {
                       <div className="flex items-center gap-2 pt-2 border-t border-slate-100">
                         <button
                           type="submit"
-                          className="px-4 py-2 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs shadow-2xs transition-colors"
+                          className="px-4 py-2 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white font-semibold text-xs shadow-2xs transition-colors"
                         >
                           Lưu bài viết
                         </button>
@@ -2100,7 +2100,7 @@ export default function AdminPage() {
                             });
                             setIsEditingSlide(true);
                           }}
-                          className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs shadow-2xs transition-colors shrink-0 cursor-pointer"
+                          className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white font-semibold text-xs shadow-2xs transition-colors shrink-0 cursor-pointer"
                         >
                           <Plus className="w-3.5 h-3.5" />
                           <span>Thêm slide mới</span>
@@ -2199,11 +2199,11 @@ export default function AdminPage() {
                             placeholder="https://res.cloudinary.com/..."
                             value={slideForm.image || ""}
                             onChange={(e) => setSlideForm({ ...slideForm, image: e.target.value })}
-                            className="flex-1 px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                            className="flex-1 px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                           />
                           <label className="px-3 py-2 rounded-[3px] bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold border border-slate-200 cursor-pointer flex items-center gap-1.5 shrink-0">
                             {isUploading ? (
-                              <Loader2 className="w-3.5 h-3.5 animate-spin text-[#ed3237]" />
+                              <Loader2 className="w-3.5 h-3.5 animate-spin text-[#3e4095]" />
                             ) : (
                               <Upload className="w-3.5 h-3.5" />
                             )}
@@ -2243,7 +2243,7 @@ export default function AdminPage() {
                             <Image src={slideForm.image} alt="Preview" fill className="object-cover" />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/40 flex flex-col justify-end p-4 text-white">
                               {slideForm.tag && (
-                                <span className="inline-block px-2.5 py-0.5 rounded-[2px] bg-[#ed3237] text-white text-[10px] font-black uppercase tracking-wider w-max mb-1 shadow">
+                                <span className="inline-block px-2.5 py-0.5 rounded-[2px] bg-[#3e4095] text-white text-[10px] font-black uppercase tracking-wider w-max mb-1 shadow">
                                   {slideForm.tag}
                                 </span>
                               )}
@@ -2278,7 +2278,7 @@ export default function AdminPage() {
                             placeholder="Ví dụ: DỰ ÁN HẦM ĐƯỜNG BỘ QUA ĐÈO CẢ (để trống nếu không dùng)"
                             value={slideForm.title || ""}
                             onChange={(e) => setSlideForm({ ...slideForm, title: e.target.value })}
-                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                           />
                         </div>
 
@@ -2291,7 +2291,7 @@ export default function AdminPage() {
                             placeholder="Ví dụ: ĐẠI CÔNG TRÌNH QUỐC GIA"
                             value={slideForm.tag || ""}
                             onChange={(e) => setSlideForm({ ...slideForm, tag: e.target.value })}
-                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                           />
                         </div>
                       </div>
@@ -2305,7 +2305,7 @@ export default function AdminPage() {
                           placeholder="Ví dụ: Kỳ tích chinh phục đèo hiểm trở bậc nhất duyên hải miền Trung..."
                           value={slideForm.subtitle || ""}
                           onChange={(e) => setSlideForm({ ...slideForm, subtitle: e.target.value })}
-                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                         />
                       </div>
 
@@ -2330,7 +2330,7 @@ export default function AdminPage() {
                                   },
                                 })
                               }
-                              className="w-full px-2.5 py-1.5 rounded-[3px] bg-white border border-slate-200 text-xs text-slate-800 focus:border-[#ed3237] focus:outline-none"
+                              className="w-full px-2.5 py-1.5 rounded-[3px] bg-white border border-slate-200 text-xs text-slate-800 focus:border-[#3e4095] focus:outline-none"
                             />
                           </div>
                           <div>
@@ -2348,7 +2348,7 @@ export default function AdminPage() {
                                   },
                                 })
                               }
-                              className="w-full px-2.5 py-1.5 rounded-[3px] bg-white border border-slate-200 text-xs text-slate-800 focus:border-[#ed3237] focus:outline-none"
+                              className="w-full px-2.5 py-1.5 rounded-[3px] bg-white border border-slate-200 text-xs text-slate-800 focus:border-[#3e4095] focus:outline-none"
                             />
                           </div>
                         </div>
@@ -2357,7 +2357,7 @@ export default function AdminPage() {
                       <div className="flex items-center gap-2 pt-2 border-t border-slate-100">
                         <button
                           type="submit"
-                          className="px-4 py-2 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs shadow-2xs transition-colors cursor-pointer"
+                          className="px-4 py-2 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white font-semibold text-xs shadow-2xs transition-colors cursor-pointer"
                         >
                           Lưu slide
                         </button>
@@ -2393,7 +2393,7 @@ export default function AdminPage() {
                                         Slide #{idx + 1}
                                       </span>
                                       {item.tag && (
-                                        <span className="px-2 py-0.5 rounded-[2px] bg-[#ed3237] text-white text-[10px] font-bold uppercase tracking-wider">
+                                        <span className="px-2 py-0.5 rounded-[2px] bg-[#3e4095] text-white text-[10px] font-bold uppercase tracking-wider">
                                           {item.tag}
                                         </span>
                                       )}
@@ -2523,7 +2523,7 @@ export default function AdminPage() {
                             });
                             setIsEditingPartner(true);
                           }}
-                          className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs shadow-2xs transition-colors shrink-0 cursor-pointer"
+                          className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white font-semibold text-xs shadow-2xs transition-colors shrink-0 cursor-pointer"
                         >
                           <Plus className="w-3.5 h-3.5" />
                           <span>Thêm đối tác</span>
@@ -2537,7 +2537,7 @@ export default function AdminPage() {
                     <form onSubmit={handleSavePartner} className="p-5 rounded-[3px] bg-white border border-slate-200 shadow-2xs space-y-4">
                       <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                         <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                          <Handshake className="w-4 h-4 text-[#ed3237]" />
+                          <Handshake className="w-4 h-4 text-[#3e4095]" />
                           <span>{partnerForm.id ? "Chỉnh sửa thông tin đối tác" : "Thêm đối tác mới"}</span>
                         </h3>
                         <button
@@ -2553,7 +2553,7 @@ export default function AdminPage() {
                         {/* Tên đối tác */}
                         <div>
                           <label className="block text-xs font-semibold text-slate-700 mb-1">
-                            Tên đối tác <span className="text-[#ed3237]">*</span>
+                            Tên đối tác <span className="text-[#3e4095]">*</span>
                           </label>
                           <input
                             type="text"
@@ -2561,7 +2561,7 @@ export default function AdminPage() {
                             placeholder="Ví dụ: NOVALAND, TẬP ĐOÀN ĐÈO CẢ, VSIP GROUP..."
                             value={partnerForm.name || ""}
                             onChange={(e) => setPartnerForm({ ...partnerForm, name: e.target.value })}
-                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                           />
                         </div>
 
@@ -2576,7 +2576,7 @@ export default function AdminPage() {
                               placeholder="https://example.com"
                               value={partnerForm.website || ""}
                               onChange={(e) => setPartnerForm({ ...partnerForm, website: e.target.value })}
-                              className="w-full pl-8 pr-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                              className="w-full pl-8 pr-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                             />
                             <Globe className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" />
                           </div>
@@ -2585,7 +2585,7 @@ export default function AdminPage() {
                         {/* Logo upload */}
                         <div className="md:col-span-2">
                           <label className="block text-xs font-semibold text-slate-700 mb-1">
-                            Logo đối tác (Upload ảnh PNG/SVG/JPG nền trong suốt hoặc nhập URL) <span className="text-[#ed3237]">*</span>
+                            Logo đối tác (Upload ảnh PNG/SVG/JPG nền trong suốt hoặc nhập URL) <span className="text-[#3e4095]">*</span>
                           </label>
                           <div className="flex gap-2">
                             <input
@@ -2594,11 +2594,11 @@ export default function AdminPage() {
                               placeholder="https://... hoặc bấm nút Tải ảnh lên"
                               value={partnerForm.logo || ""}
                               onChange={(e) => setPartnerForm({ ...partnerForm, logo: e.target.value })}
-                              className="flex-1 px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                              className="flex-1 px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                             />
                             <label className="px-3.5 py-2 rounded-[3px] bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold border border-slate-200 cursor-pointer flex items-center gap-1.5 shrink-0 transition-colors">
                               {isUploading ? (
-                                <Loader2 className="w-3.5 h-3.5 animate-spin text-[#ed3237]" />
+                                <Loader2 className="w-3.5 h-3.5 animate-spin text-[#3e4095]" />
                               ) : (
                                 <Upload className="w-3.5 h-3.5" />
                               )}
@@ -2665,7 +2665,7 @@ export default function AdminPage() {
                             min="0"
                             value={partnerForm.orderIndex ?? 0}
                             onChange={(e) => setPartnerForm({ ...partnerForm, orderIndex: parseInt(e.target.value) || 0 })}
-                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                           />
                         </div>
 
@@ -2680,7 +2680,7 @@ export default function AdminPage() {
                                 type="checkbox"
                                 checked={partnerForm.active !== false}
                                 onChange={(e) => setPartnerForm({ ...partnerForm, active: e.target.checked })}
-                                className="rounded border-slate-300 text-[#ed3237] focus:ring-[#ed3237] w-4 h-4 cursor-pointer"
+                                className="rounded border-slate-300 text-[#3e4095] focus:ring-[#3e4095] w-4 h-4 cursor-pointer"
                               />
                               <span>Cho phép hiển thị trên website</span>
                             </label>
@@ -2708,7 +2708,7 @@ export default function AdminPage() {
                         </button>
                         <button
                           type="submit"
-                          className="px-4 py-1.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white text-xs font-semibold shadow-xs cursor-pointer transition-colors"
+                          className="px-4 py-1.5 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white text-xs font-semibold shadow-xs cursor-pointer transition-colors"
                         >
                           {partnerForm.id ? "Cập nhật đối tác" : "Lưu đối tác mới"}
                         </button>
@@ -2725,7 +2725,7 @@ export default function AdminPage() {
                             placeholder="Tìm kiếm đối tác..."
                             value={partnerSearch}
                             onChange={(e) => setPartnerSearch(e.target.value)}
-                            className="w-full pl-8 pr-3 py-1.5 rounded-[3px] bg-slate-50 border border-slate-200 text-xs text-slate-800 focus:bg-white focus:border-[#ed3237] focus:outline-none"
+                            className="w-full pl-8 pr-3 py-1.5 rounded-[3px] bg-slate-50 border border-slate-200 text-xs text-slate-800 focus:bg-white focus:border-[#3e4095] focus:outline-none"
                           />
                           <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2" />
                         </div>
@@ -2757,7 +2757,7 @@ export default function AdminPage() {
                               });
                               setIsEditingPartner(true);
                             }}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#ed3237] text-white font-semibold text-xs cursor-pointer"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white font-semibold text-xs cursor-pointer"
                           >
                             <Plus className="w-3.5 h-3.5" />
                             <span>Thêm đối tác đầu tiên</span>
@@ -2845,7 +2845,7 @@ export default function AdminPage() {
                                             href={item.website}
                                             target="_blank"
                                             rel="noreferrer"
-                                            className="inline-flex items-center gap-1 text-slate-600 hover:text-[#ed3237] transition-colors truncate max-w-[200px]"
+                                            className="inline-flex items-center gap-1 text-slate-600 hover:text-[#3e4095] transition-colors truncate max-w-[200px]"
                                           >
                                             <span className="truncate">{item.website}</span>
                                             <ExternalLink className="w-3 h-3 shrink-0" />
@@ -2947,7 +2947,7 @@ export default function AdminPage() {
                           setJobBenefitText("");
                           setIsEditingJob(true);
                         }}
-                        className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs shadow-2xs transition-colors shrink-0 cursor-pointer w-full sm:w-auto"
+                        className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white font-semibold text-xs shadow-2xs transition-colors shrink-0 cursor-pointer w-full sm:w-auto"
                       >
                         <Plus className="w-3.5 h-3.5" />
                         <span>Thêm vị trí</span>
@@ -2981,7 +2981,7 @@ export default function AdminPage() {
                           placeholder="Ví dụ: Kỹ sư Cầu đường / Kỹ sư Hiện trường Công trình"
                           value={jobForm.title || ""}
                           onChange={(e) => setJobForm({ ...jobForm, title: e.target.value })}
-                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                         />
                       </div>
 
@@ -2997,7 +2997,7 @@ export default function AdminPage() {
                             placeholder="Ví dụ: Khánh Hòa, Phú Yên, TP. Hồ Chí Minh..."
                             value={jobForm.location || ""}
                             onChange={(e) => setJobForm({ ...jobForm, location: e.target.value })}
-                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                           />
                         </div>
                         <div>
@@ -3010,7 +3010,7 @@ export default function AdminPage() {
                             placeholder="Ví dụ: 18.000.000 - 28.000.000 VNĐ hoặc Thỏa thuận"
                             value={jobForm.salary || ""}
                             onChange={(e) => setJobForm({ ...jobForm, salary: e.target.value })}
-                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                           />
                         </div>
                       </div>
@@ -3027,7 +3027,7 @@ export default function AdminPage() {
                             placeholder="Ví dụ: 30/12/2026 hoặc Tuyển liên tục"
                             value={jobForm.deadline || ""}
                             onChange={(e) => setJobForm({ ...jobForm, deadline: e.target.value })}
-                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                           />
                         </div>
                         <div>
@@ -3040,7 +3040,7 @@ export default function AdminPage() {
                             placeholder="Ví dụ: Thứ 2 – Thứ 7: 08:00 – 17:30 hoặc Theo tiến độ công trường"
                             value={jobForm.workingHours || ""}
                             onChange={(e) => setJobForm({ ...jobForm, workingHours: e.target.value })}
-                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                           />
                         </div>
                       </div>
@@ -3056,7 +3056,7 @@ export default function AdminPage() {
                             placeholder="Ví dụ: Ban Quản lý Thi công, Phòng Kỹ thuật..."
                             value={jobForm.department || ""}
                             onChange={(e) => setJobForm({ ...jobForm, department: e.target.value })}
-                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                           />
                         </div>
                         <div className="flex items-center gap-2 pt-5">
@@ -3065,7 +3065,7 @@ export default function AdminPage() {
                               type="checkbox"
                               checked={jobForm.active !== false}
                               onChange={(e) => setJobForm({ ...jobForm, active: e.target.checked })}
-                              className="rounded-[2px] text-[#ed3237] focus:ring-[#ed3237]"
+                              className="rounded-[2px] text-[#3e4095] focus:ring-[#3e4095]"
                             />
                             <span>Đang tuyển dụng (Hiển thị ra trang chủ & trang tuyển dụng)</span>
                           </label>
@@ -3088,7 +3088,7 @@ export default function AdminPage() {
                           placeholder="Trực tiếp giám sát và chỉ đạo thi công các hạng mục cầu đường, hầm đường bộ&#10;Triển khai biện pháp thi công, kiểm soát chất lượng vật liệu&#10;Lập tiến độ thi công tuần, tháng và báo cáo Chỉ huy trưởng"
                           value={jobDescText}
                           onChange={(e) => setJobDescText(e.target.value)}
-                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none leading-relaxed font-sans"
+                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none leading-relaxed font-sans"
                         />
                       </div>
 
@@ -3108,7 +3108,7 @@ export default function AdminPage() {
                           placeholder="Tốt nghiệp Đại học chuyên ngành Cầu đường, Xây dựng Giao thông&#10;Kinh nghiệm từ 3 năm trở lên tại các dự án đường bộ, cầu hoặc thi công hầm&#10;Thành thạo AutoCAD, MS Project và các phần mềm chuyên ngành"
                           value={jobReqText}
                           onChange={(e) => setJobReqText(e.target.value)}
-                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none leading-relaxed font-sans"
+                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none leading-relaxed font-sans"
                         />
                       </div>
 
@@ -3128,14 +3128,14 @@ export default function AdminPage() {
                           placeholder="Lương cạnh tranh + Thưởng tiến độ dự án + Phụ cấp công trình xa nhà đầy đủ&#10;Bao ăn ở tại khu nhà điều hành công trường tiện nghi&#10;Đóng BHXH, BHYT đầy đủ theo quy định, bảo hiểm tai nạn 24/7&#10;Cơ hội thăng tiến lên Chỉ huy phó / Chỉ huy trưởng công trường"
                           value={jobBenefitText}
                           onChange={(e) => setJobBenefitText(e.target.value)}
-                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none leading-relaxed font-sans"
+                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none leading-relaxed font-sans"
                         />
                       </div>
 
                       <div className="flex items-center gap-2 pt-3 border-t border-slate-100">
                         <button
                           type="submit"
-                          className="px-4 py-2 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs shadow-2xs transition-colors cursor-pointer"
+                          className="px-4 py-2 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white font-semibold text-xs shadow-2xs transition-colors cursor-pointer"
                         >
                           Lưu bài đăng tuyển dụng
                         </button>
@@ -3215,8 +3215,8 @@ export default function AdminPage() {
                   </div>
 
                   {/* Uploader Box */}
-                  <div className="p-8 rounded-[3px] bg-white border-2 border-dashed border-slate-300 hover:border-[#ed3237] text-center space-y-3 transition-colors">
-                    <div className="w-12 h-12 rounded-[3px] bg-red-50 text-[#ed3237] border border-red-100 flex items-center justify-center mx-auto">
+                  <div className="p-8 rounded-[3px] bg-white border-2 border-dashed border-slate-300 hover:border-[#3e4095] text-center space-y-3 transition-colors">
+                    <div className="w-12 h-12 rounded-[3px] bg-blue-50 text-[#3e4095] border border-blue-100 flex items-center justify-center mx-auto">
                       <ImageIcon className="w-6 h-6" />
                     </div>
                     <div>
@@ -3224,7 +3224,7 @@ export default function AdminPage() {
                       <p className="text-[11px] text-slate-400 mt-0.5">Hỗ trợ PNG, JPG, WEBP</p>
                     </div>
                     <div>
-                      <label className="inline-flex items-center gap-1.5 px-4 py-2 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs cursor-pointer shadow-2xs transition-colors">
+                      <label className="inline-flex items-center gap-1.5 px-4 py-2 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white font-semibold text-xs cursor-pointer shadow-2xs transition-colors">
                         <Upload className="w-3.5 h-3.5" />
                         <span>{isUploading ? "Đang xử lý tải lên..." : "Chọn tệp ảnh"}</span>
                         <input type="file" accept="image/*" className="hidden" onChange={(e) => handleFileUpload(e)} />
@@ -3282,7 +3282,7 @@ export default function AdminPage() {
                         type="text"
                         value={settings.name}
                         onChange={(e) => setSettings({ ...settings, name: e.target.value })}
-                        className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                        className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                       />
                     </div>
 
@@ -3293,7 +3293,7 @@ export default function AdminPage() {
                           type="text"
                           value={settings.taxCode}
                           onChange={(e) => setSettings({ ...settings, taxCode: e.target.value })}
-                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                         />
                       </div>
                       <div>
@@ -3302,7 +3302,7 @@ export default function AdminPage() {
                           type="text"
                           value={settings.hotline}
                           onChange={(e) => setSettings({ ...settings, hotline: e.target.value })}
-                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                         />
                       </div>
                     </div>
@@ -3314,7 +3314,7 @@ export default function AdminPage() {
                           type="text"
                           value={settings.phone}
                           onChange={(e) => setSettings({ ...settings, phone: e.target.value })}
-                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                         />
                       </div>
                       <div>
@@ -3323,7 +3323,7 @@ export default function AdminPage() {
                           type="email"
                           value={settings.email}
                           onChange={(e) => setSettings({ ...settings, email: e.target.value })}
-                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                         />
                       </div>
                     </div>
@@ -3334,14 +3334,14 @@ export default function AdminPage() {
                         type="text"
                         value={settings.address}
                         onChange={(e) => setSettings({ ...settings, address: e.target.value })}
-                        className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                        className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                       />
                     </div>
 
                     <div className="pt-2 border-t border-slate-100">
                       <button
                         type="submit"
-                        className="px-5 py-2 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs shadow-2xs transition-colors"
+                        className="px-5 py-2 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white font-semibold text-xs shadow-2xs transition-colors"
                       >
                         Lưu thông tin
                       </button>
@@ -3383,7 +3383,7 @@ export default function AdminPage() {
                   value={passwordForm.currentPassword}
                   onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
                   placeholder="••••••••••••"
-                  className="w-full px-3 py-1.5 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                  className="w-full px-3 py-1.5 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                 />
               </div>
 
@@ -3396,7 +3396,7 @@ export default function AdminPage() {
                   value={passwordForm.newPassword}
                   onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
                   placeholder="••••••••••••"
-                  className="w-full px-3 py-1.5 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                  className="w-full px-3 py-1.5 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                 />
               </div>
 
@@ -3409,7 +3409,7 @@ export default function AdminPage() {
                   value={passwordForm.confirmPassword}
                   onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
                   placeholder="••••••••••••"
-                  className="w-full px-3 py-1.5 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                  className="w-full px-3 py-1.5 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                 />
               </div>
 
@@ -3424,7 +3424,7 @@ export default function AdminPage() {
                 <button
                   type="submit"
                   disabled={isChangingPassword}
-                  className="px-4 py-1.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white text-xs font-semibold flex items-center gap-1.5 transition-colors disabled:opacity-50"
+                  className="px-4 py-1.5 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white text-xs font-semibold flex items-center gap-1.5 transition-colors disabled:opacity-50"
                 >
                   {isChangingPassword ? (
                     <>

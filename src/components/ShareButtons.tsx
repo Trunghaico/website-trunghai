@@ -25,7 +25,7 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 p-4 rounded-[3px] bg-slate-50 border border-slate-200/90">
       <div className="flex items-center gap-2 text-xs font-bold text-slate-700 uppercase tracking-wide">
-        <Share2 className="w-4 h-4 text-[#ed3237]" />
+        <Share2 className="w-4 h-4 text-[#3e4095]" />
         <span>Chia sẻ bài viết:</span>
       </div>
 

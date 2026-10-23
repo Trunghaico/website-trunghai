@@ -40,7 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi" className={`${roboto.variable} ${roboto.className} scroll-smooth`}>
-      <body className={`${roboto.className} min-h-screen bg-slate-50 text-slate-800 antialiased selection:bg-[#ed3237] selection:text-white`}>
+      <body className={`${roboto.className} min-h-screen bg-slate-50 text-slate-800 antialiased selection:bg-[#3e4095] selection:text-white`}>
         <ScrollObserver />
         {children}
       </body>

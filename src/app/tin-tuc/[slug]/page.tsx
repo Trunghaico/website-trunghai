@@ -96,7 +96,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
   const readTimeMinutes = Math.max(1, Math.ceil(wordCount / 200));
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col selection:bg-[#ed3237] selection:text-white">
+    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col selection:bg-[#3e4095] selection:text-white">
       {/* Sticky Header */}
       <Header hotline={settings.hotline || settings.phone} />
 
@@ -105,12 +105,12 @@ export default async function NewsDetailPage({ params }: PageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb Navigation */}
           <nav className="flex items-center gap-1.5 text-xs text-slate-500 mb-6 flex-wrap">
-            <Link href="/" className="inline-flex items-center gap-1 hover:text-[#ed3237] transition-colors">
+            <Link href="/" className="inline-flex items-center gap-1 hover:text-[#3e4095] transition-colors">
               <Home className="w-3.5 h-3.5" />
               <span>Trang chủ</span>
             </Link>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-            <Link href="/tin-tuc" className="hover:text-[#ed3237] transition-colors">
+            <Link href="/tin-tuc" className="hover:text-[#3e4095] transition-colors">
               Tin tức & Sự kiện
             </Link>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
@@ -126,7 +126,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
               {/* Header Info */}
               <div className="space-y-3 pb-4 border-b border-slate-100">
                 <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-0.5 rounded-[2px] bg-red-50 text-[#ed3237] border border-red-200/80 text-[11px] font-bold uppercase tracking-wider">
+                  <span className="px-2.5 py-0.5 rounded-[2px] bg-blue-50 text-[#3e4095] border border-blue-200/80 text-[11px] font-bold uppercase tracking-wider">
                     {post.categoryName}
                   </span>
                 </div>
@@ -138,7 +138,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
                 {/* Meta details bar */}
                 <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-xs text-slate-500 pt-1">
                   <div className="flex items-center gap-1.5">
-                    <Calendar className="w-3.5 h-3.5 text-[#ed3237]" />
+                    <Calendar className="w-3.5 h-3.5 text-[#3e4095]" />
                     <span className="font-medium text-slate-700">{post.date}</span>
                   </div>
                   <div className="flex items-center gap-1.5">
@@ -154,7 +154,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
 
               {/* Sapo / Lead Summary Box */}
               {post.summary && (
-                <div className="p-4 sm:p-5 rounded-[3px] bg-slate-50 border-l-4 border-[#ed3237] text-slate-700 text-sm sm:text-base font-medium leading-relaxed italic shadow-2xs">
+                <div className="p-4 sm:p-5 rounded-[3px] bg-slate-50 border-l-4 border-[#3e4095] text-slate-700 text-sm sm:text-base font-medium leading-relaxed italic shadow-2xs">
                   {post.summary}
                 </div>
               )}
@@ -175,7 +175,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
                 {post.content && post.content.includes("<") ? (
                   <div
                     dangerouslySetInnerHTML={{ __html: post.content }}
-                    className="prose prose-slate max-w-none space-y-4 [&>p]:leading-relaxed [&>h2]:text-xl [&>h2]:font-bold [&>h2]:text-slate-900 [&>h2]:mt-6 [&>h2]:mb-2 [&>h3]:text-lg [&>h3]:font-bold [&>h3]:text-slate-900 [&>h3]:mt-4 [&>h3]:mb-2 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-1 [&>ol]:list-decimal [&>ol]:pl-5 [&>ol]:space-y-1 [&>blockquote]:border-l-4 [&>blockquote]:border-[#ed3237] [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:text-slate-600 [&>img]:rounded-[3px] [&>img]:my-4 [&>img]:border [&>img]:border-slate-200"
+                    className="prose prose-slate max-w-none space-y-4 [&>p]:leading-relaxed [&>h2]:text-xl [&>h2]:font-bold [&>h2]:text-slate-900 [&>h2]:mt-6 [&>h2]:mb-2 [&>h3]:text-lg [&>h3]:font-bold [&>h3]:text-slate-900 [&>h3]:mt-4 [&>h3]:mb-2 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-1 [&>ol]:list-decimal [&>ol]:pl-5 [&>ol]:space-y-1 [&>blockquote]:border-l-4 [&>blockquote]:border-[#3e4095] [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:text-slate-600 [&>img]:rounded-[3px] [&>img]:my-4 [&>img]:border [&>img]:border-slate-200"
                   />
                 ) : (
                   <div className="space-y-4">
@@ -212,7 +212,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
               <div className="pt-2">
                 <Link
                   href="/#news"
-                  className="inline-flex items-center gap-2 text-xs font-bold text-[#ed3237] hover:underline"
+                  className="inline-flex items-center gap-2 text-xs font-bold text-[#3e4095] hover:underline"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Quay lại danh mục tin tức</span>
@@ -225,7 +225,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
               {/* Related News Box */}
               <div className="bg-white border border-slate-200/90 rounded-[3px] p-5 shadow-xs space-y-4">
                 <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
-                  <span className="w-2 h-2 rounded-[1px] bg-[#ed3237]" />
+                  <span className="w-2 h-2 rounded-[1px] bg-[#3e4095]" />
                   <h3 className="text-sm font-extrabold uppercase tracking-wide text-slate-900">
                     Bài Viết Liên Quan
                   </h3>
@@ -256,11 +256,11 @@ export default async function NewsDetailPage({ params }: PageProps) {
                           <span className="text-[10px] font-bold uppercase text-[#3e4095]">
                             {item.categoryName}
                           </span>
-                          <h4 className="text-xs font-bold text-slate-800 group-hover:text-[#ed3237] transition-colors line-clamp-2 leading-snug mt-0.5">
+                          <h4 className="text-xs font-bold text-slate-800 group-hover:text-[#3e4095] transition-colors line-clamp-2 leading-snug mt-0.5">
                             {item.title}
                           </h4>
                           <div className="flex items-center gap-1 text-[11px] text-slate-400 mt-1">
-                            <Calendar className="w-3 h-3 text-[#ed3237]" />
+                            <Calendar className="w-3 h-3 text-[#3e4095]" />
                             <span>{item.date}</span>
                           </div>
                         </div>

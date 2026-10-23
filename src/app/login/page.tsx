@@ -110,7 +110,7 @@ export default function LoginPage() {
     return (
       <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center text-slate-300">
         <div className="relative flex flex-col items-center gap-4">
-          <div className="w-12 h-12 rounded-full border-2 border-red-500 border-t-transparent animate-spin" />
+          <div className="w-12 h-12 rounded-full border-2 border-[#3e4095] border-t-transparent animate-spin" />
           <p className="text-xs uppercase tracking-widest text-slate-400 font-semibold animate-pulse">
             Đang khởi tạo phiên bảo mật...
           </p>
@@ -120,7 +120,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="h-screen max-h-screen bg-[#0b0f19] text-slate-100 flex flex-col justify-between relative overflow-hidden selection:bg-[#ed3237] selection:text-white font-sans">
+    <div className="h-screen max-h-screen bg-[#0b0f19] text-slate-100 flex flex-col justify-between relative overflow-hidden selection:bg-[#3e4095] selection:text-white font-sans">
       {/* Background Architectural Grid Pattern */}
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.04]"
@@ -131,9 +131,9 @@ export default function LoginPage() {
       />
 
       {/* Ambient Glow Orbs */}
-      <div className="absolute -top-40 -left-40 w-96 h-96 bg-[#ed3237]/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -top-40 -left-40 w-96 h-96 bg-[#3e4095]/20 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-[#3e4095]/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-600/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/5 rounded-full blur-3xl pointer-events-none" />
 
       {/* Header bar with Back Link */}
       <header className="relative z-10 w-full max-w-6xl mx-auto px-6 py-3 sm:py-4 flex items-center justify-between">
@@ -154,7 +154,7 @@ export default function LoginPage() {
           {/* Main Card with Glassmorphism */}
           <div className="bg-slate-900/85 backdrop-blur-xl border border-slate-800 rounded-[4px] shadow-2xl shadow-black/80 overflow-hidden relative">
             {/* Top Brand Accent Bar */}
-            <div className="h-1.5 w-full bg-gradient-to-r from-[#ed3237] via-[#3e4095] to-[#ed3237]" />
+            <div className="h-1.5 w-full bg-gradient-to-r from-[#3e4095] via-[#2d2f70] to-[#3e4095]" />
 
             <div className="p-6 sm:p-7">
               {/* Logo & Heading */}
@@ -184,7 +184,7 @@ export default function LoginPage() {
               {/* Notification Alerts */}
               {errorMessage && (
                 <div className="mb-4 p-3 rounded-[3px] bg-red-950/60 border border-red-500/40 text-red-200 text-xs flex items-start gap-2.5 animate-in fade-in slide-in-from-top-2 duration-200">
-                  <AlertCircle className="w-4 h-4 text-[#ed3237] shrink-0 mt-0.5" />
+                  <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
                   <div className="leading-relaxed font-medium">{errorMessage}</div>
                 </div>
               )}
@@ -218,7 +218,7 @@ export default function LoginPage() {
                       placeholder="Nhập tên đăng nhập (ví dụ: admin)"
                       autoComplete="username"
                       disabled={isLoading}
-                      className="w-full pl-10 pr-4 py-2.5 bg-slate-950/80 border border-slate-800 rounded-[3px] text-white text-xs sm:text-sm placeholder-slate-500 focus:outline-none focus:border-[#ed3237] focus:ring-1 focus:ring-[#ed3237] transition-all disabled:opacity-50"
+                      className="w-full pl-10 pr-4 py-2.5 bg-slate-950/80 border border-slate-800 rounded-[3px] text-white text-xs sm:text-sm placeholder-slate-500 focus:outline-none focus:border-[#3e4095] focus:ring-1 focus:ring-[#3e4095] transition-all disabled:opacity-50"
                     />
                   </div>
                 </div>
@@ -245,7 +245,7 @@ export default function LoginPage() {
                       placeholder="••••••••••••"
                       autoComplete="current-password"
                       disabled={isLoading}
-                      className="w-full pl-10 pr-10 py-2.5 bg-slate-950/80 border border-slate-800 rounded-[3px] text-white text-xs sm:text-sm placeholder-slate-500 focus:outline-none focus:border-[#ed3237] focus:ring-1 focus:ring-[#ed3237] transition-all disabled:opacity-50"
+                      className="w-full pl-10 pr-10 py-2.5 bg-slate-950/80 border border-slate-800 rounded-[3px] text-white text-xs sm:text-sm placeholder-slate-500 focus:outline-none focus:border-[#3e4095] focus:ring-1 focus:ring-[#3e4095] transition-all disabled:opacity-50"
                     />
                     <button
                       type="button"
@@ -266,7 +266,7 @@ export default function LoginPage() {
                       type="checkbox"
                       checked={remember}
                       onChange={(e) => setRemember(e.target.checked)}
-                      className="w-4 h-4 rounded-[2px] bg-slate-950 border-slate-800 text-[#ed3237] focus:ring-0 focus:ring-offset-0 accent-[#ed3237]"
+                      className="w-4 h-4 rounded-[2px] bg-slate-950 border-slate-800 text-[#3e4095] focus:ring-0 focus:ring-offset-0 accent-[#3e4095]"
                     />
                     <span className="text-xs text-slate-400 hover:text-slate-300">
                       Ghi nhớ phiên đăng nhập (30 ngày)
@@ -278,7 +278,7 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full mt-1.5 py-2.5 px-4 rounded-[3px] bg-gradient-to-r from-[#ed3237] to-[#c41f24] hover:from-[#d9292e] hover:to-[#b0171c] text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-red-950/40 flex items-center justify-center gap-2 transition-all duration-200 active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+                  className="w-full mt-1.5 py-2.5 px-4 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-blue-950/40 flex items-center justify-center gap-2 transition-all duration-200 active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
                 >
                   {isLoading ? (
                     <>
@@ -308,7 +308,7 @@ export default function LoginPage() {
                   <button
                     type="button"
                     onClick={handleAutoFillDefault}
-                    className="text-[10px] font-bold text-[#ed3237] hover:text-red-400 uppercase tracking-wider py-1 px-2 rounded bg-red-950/40 hover:bg-red-900/40 border border-red-800/40 transition-colors whitespace-nowrap cursor-pointer"
+                    className="text-[10px] font-bold text-[#3e4095] hover:text-blue-300 uppercase tracking-wider py-1 px-2 rounded bg-blue-950/40 hover:bg-blue-900/40 border border-blue-800/40 transition-colors whitespace-nowrap cursor-pointer"
                   >
                     Điền nhanh
                   </button>

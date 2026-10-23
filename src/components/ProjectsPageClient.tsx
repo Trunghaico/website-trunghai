@@ -87,14 +87,14 @@ function Project3DItem({
             ? `perspective(1200px) rotateX(${rotate.x.toFixed(2)}deg) rotateY(${rotate.y.toFixed(2)}deg) translateZ(8px) scale3d(1.015, 1.015, 1.015)`
             : "perspective(1200px) rotateX(0deg) rotateY(0deg) translateZ(0px) scale3d(1, 1, 1)",
           boxShadow: isHovered
-            ? `${shadowX.toFixed(1)}px ${shadowY.toFixed(1)}px 24px -4px rgba(237, 50, 55, 0.18), 0 10px 20px -3px rgba(15, 23, 42, 0.08)`
+            ? `${shadowX.toFixed(1)}px ${shadowY.toFixed(1)}px 24px -4px rgba(62, 64, 149, 0.18), 0 10px 20px -3px rgba(15, 23, 42, 0.08)`
             : "0 1px 4px 0 rgba(0, 0, 0, 0.05)",
           transition: isHovered
             ? "transform 0.12s ease-out, box-shadow 0.15s ease-out"
             : "transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1)",
           transformStyle: "preserve-3d",
         }}
-        className="group rounded-[3px] bg-white border border-slate-200 hover:border-[#ed3237]/60 overflow-hidden flex flex-col justify-between shadow-sm relative select-none h-full transition-colors"
+        className="group rounded-[3px] bg-white border border-slate-200 hover:border-[#3e4095]/60 overflow-hidden flex flex-col justify-between shadow-sm relative select-none h-full transition-colors"
       >
         {/* Dynamic Light Sheen Overlay */}
         <div
@@ -146,7 +146,7 @@ function Project3DItem({
 
             {/* Quick View Expand Icon Button */}
             <div
-              className="absolute bottom-11 right-3 z-20 w-8 h-8 rounded-[3px] bg-white/90 text-slate-800 flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:bg-[#ed3237] group-hover:text-white transition-all duration-300 shadow"
+              className="absolute bottom-11 right-3 z-20 w-8 h-8 rounded-[3px] bg-white/90 text-slate-800 flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:bg-[#3e4095] group-hover:text-white transition-all duration-300 shadow"
               style={{
                 transform: isHovered ? "translateZ(14px)" : "translateZ(0px)",
                 transition: "transform 0.2s ease-out",
@@ -164,7 +164,7 @@ function Project3DItem({
               }}
             >
               <div className="flex items-center gap-1.5 drop-shadow truncate pr-2">
-                <MapPin className="w-3.5 h-3.5 text-[#ed3237] shrink-0" />
+                <MapPin className="w-3.5 h-3.5 text-[#3e4095] shrink-0" />
                 <span className="truncate font-medium">{project.location}</span>
               </div>
               <div className="flex items-center gap-1 drop-shadow shrink-0">
@@ -179,7 +179,7 @@ function Project3DItem({
         <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3">
           <div className="space-y-2">
             {/* Title */}
-            <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-[#ed3237] transition-colors leading-snug line-clamp-2">
+            <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-[#3e4095] transition-colors leading-snug line-clamp-2">
               {project.title}
             </h3>
 
@@ -208,7 +208,7 @@ function Project3DItem({
                 {project.highlights.slice(0, 2).map((hl, i) => (
                   <span
                     key={i}
-                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[2px] bg-red-50/80 text-[#ed3237] text-[10px] font-semibold"
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[2px] bg-blue-50 text-[#3e4095] text-[10px] font-semibold"
                   >
                     <CheckCircle2 className="w-2.5 h-2.5 shrink-0" />
                     <span className="truncate max-w-[200px]">{hl}</span>
@@ -221,7 +221,7 @@ function Project3DItem({
           {/* Action Footer */}
           <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
             <span className="text-[11px] text-slate-400 font-medium">Trung Hải JSC</span>
-            <span className="inline-flex items-center gap-1 text-[#ed3237] font-bold group-hover:translate-x-1 transition-transform">
+            <span className="inline-flex items-center gap-1 text-[#3e4095] font-bold group-hover:translate-x-1 transition-transform">
               <span>Xem chi tiết</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </span>
@@ -299,7 +299,7 @@ export default function ProjectsPageClient({
   };
 
   return (
-    <div className="bg-slate-50/60 min-h-screen text-slate-800 pt-20 sm:pt-24 selection:bg-[#ed3237] selection:text-white pb-16">
+    <div className="bg-slate-50/60 min-h-screen text-slate-800 pt-20 sm:pt-24 selection:bg-[#3e4095] selection:text-white pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* 1. TOP BREADCRUMB */}
         <nav aria-label="Breadcrumb" className="mb-6">
@@ -308,14 +308,14 @@ export default function ProjectsPageClient({
             <li className="flex items-center gap-1.5">
               <Link
                 href="/"
-                className="flex items-center gap-1 text-slate-600 hover:text-[#ed3237] transition-colors"
+                className="flex items-center gap-1 text-slate-600 hover:text-[#3e4095] transition-colors"
               >
                 <Home className="w-3.5 h-3.5" />
                 <span>Trang chủ</span>
               </Link>
             </li>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-            <li className="text-[#ed3237] font-semibold">Công trình & Dự án</li>
+            <li className="text-[#3e4095] font-semibold">Công trình & Dự án</li>
           </ol>
         </nav>
 
@@ -336,7 +336,7 @@ export default function ProjectsPageClient({
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Tên, địa điểm, chủ đầu tư..."
-                    className="w-full pl-8 pr-7 py-2 rounded-[3px] bg-slate-50 hover:bg-slate-100/70 focus:bg-white border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#ed3237] focus:ring-1 focus:ring-[#ed3237]/20 transition-all shadow-2xs"
+                    className="w-full pl-8 pr-7 py-2 rounded-[3px] bg-slate-50 hover:bg-slate-100/70 focus:bg-white border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#3e4095] focus:ring-1 focus:ring-[#3e4095]/20 transition-all shadow-2xs"
                   />
                   {searchQuery && (
                     <button
@@ -374,14 +374,14 @@ export default function ProjectsPageClient({
                         onClick={() => setSelectedCategory(cat.id)}
                         className={`w-full text-left px-3 py-2 rounded-[3px] text-xs font-bold transition-all duration-200 flex items-center justify-between group cursor-pointer ${
                           isActive
-                            ? "bg-[#ed3237] text-white shadow-xs"
+                            ? "bg-[#3e4095] text-white shadow-xs"
                             : "bg-slate-50/70 hover:bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-100 hover:border-slate-200"
                         }`}
                       >
                         <div className="flex items-center gap-2.5 min-w-0">
                           <Icon
                             className={`w-4 h-4 shrink-0 transition-transform group-hover:scale-110 ${
-                              isActive ? "text-white" : "text-slate-500 group-hover:text-[#ed3237]"
+                              isActive ? "text-white" : "text-slate-500 group-hover:text-[#3e4095]"
                             }`}
                           />
                           <span className="truncate">{cat.label}</span>
@@ -411,7 +411,7 @@ export default function ProjectsPageClient({
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as any)}
-                    className="w-full pl-3 pr-8 py-2 rounded-[3px] bg-slate-50 hover:bg-slate-100/70 border border-slate-200 text-xs font-semibold text-slate-700 focus:outline-none focus:border-[#ed3237] cursor-pointer appearance-none shadow-2xs"
+                    className="w-full pl-3 pr-8 py-2 rounded-[3px] bg-slate-50 hover:bg-slate-100/70 border border-slate-200 text-xs font-semibold text-slate-700 focus:outline-none focus:border-[#3e4095] cursor-pointer appearance-none shadow-2xs"
                   >
                     <option value="default">Mặc định</option>
                     <option value="featured">Công trình tiêu biểu</option>
@@ -426,7 +426,7 @@ export default function ProjectsPageClient({
                 <button
                   type="button"
                   onClick={handleResetFilters}
-                  className="w-full py-2 px-3 rounded-[3px] bg-red-50 hover:bg-red-100 border border-red-200 text-[#ed3237] font-bold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                  className="w-full py-2 px-3 rounded-[3px] bg-blue-50 hover:bg-blue-100 border border-blue-200 text-[#3e4095] font-bold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
                   <span>Đặt lại bộ lọc</span>
@@ -444,12 +444,12 @@ export default function ProjectsPageClient({
                   Hiển thị <strong className="text-slate-900 font-bold">{filteredProjects.length}</strong> / {initialProjects.length} công trình
                 </span>
                 {selectedCategory !== "all" && (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[2px] bg-red-50 text-[#ed3237] font-semibold border border-red-200 text-[11px]">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[2px] bg-blue-50 text-[#3e4095] font-semibold border border-blue-200 text-[11px]">
                     {categories.find((c) => c.id === selectedCategory)?.label}
                     <button
                       type="button"
                       onClick={() => setSelectedCategory("all")}
-                      className="hover:text-red-800 ml-0.5 cursor-pointer"
+                      className="hover:text-blue-800 ml-0.5 cursor-pointer"
                     >
                       ✕
                     </button>
@@ -473,7 +473,7 @@ export default function ProjectsPageClient({
                 <button
                   type="button"
                   onClick={handleResetFilters}
-                  className="text-xs text-[#ed3237] hover:underline font-semibold flex items-center gap-1 cursor-pointer shrink-0"
+                  className="text-xs text-[#3e4095] hover:underline font-semibold flex items-center gap-1 cursor-pointer shrink-0"
                 >
                   <RotateCcw className="w-3 h-3" />
                   <span>Xóa bộ lọc</span>
@@ -510,7 +510,7 @@ export default function ProjectsPageClient({
                 <button
                   type="button"
                   onClick={handleResetFilters}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[3px] bg-[#ed3237] text-white text-xs font-bold uppercase tracking-wider hover:opacity-95 shadow-md shadow-[#ed3237]/25 transition-all cursor-pointer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[3px] bg-[#3e4095] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#2d2f70] shadow-md shadow-[#3e4095]/25 transition-all cursor-pointer"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
                   <span>Xem Tất Cả Công Trình</span>

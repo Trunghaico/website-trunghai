@@ -33,7 +33,7 @@ export default function ContactSection({ settings }: ContactSectionProps) {
         {/* Section Heading - Compact & Modern */}
         <div className="space-y-2 max-w-3xl mb-6 sm:mb-8 reveal-on-scroll">
           <div>
-            <span className="inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/30">
+            <span className="inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-[#3e4095] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#3e4095]/30">
               KẾT NỐI HỢP TÁC
             </span>
           </div>
@@ -55,7 +55,7 @@ export default function ContactSection({ settings }: ContactSectionProps) {
 
               <div className="space-y-4">
                 <div className="flex items-start gap-3.5">
-                  <div className="p-2.5 rounded-[3px] bg-red-50 text-[#ed3237] shrink-0">
+                  <div className="p-2.5 rounded-[3px] bg-blue-50 text-[#3e4095] shrink-0">
                     <Building2 className="w-5 h-5" />
                   </div>
                   <div>
@@ -66,7 +66,7 @@ export default function ContactSection({ settings }: ContactSectionProps) {
                 </div>
 
                 <div className="flex items-start gap-3.5">
-                  <div className="p-2.5 rounded-[3px] bg-red-50 text-[#ed3237] shrink-0">
+                  <div className="p-2.5 rounded-[3px] bg-blue-50 text-[#3e4095] shrink-0">
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
@@ -78,7 +78,7 @@ export default function ContactSection({ settings }: ContactSectionProps) {
                 </div>
 
                 <div className="flex items-start gap-3.5">
-                  <div className="p-2.5 rounded-[3px] bg-red-50 text-[#ed3237] shrink-0">
+                  <div className="p-2.5 rounded-[3px] bg-blue-50 text-[#3e4095] shrink-0">
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
@@ -92,7 +92,7 @@ export default function ContactSection({ settings }: ContactSectionProps) {
                 </div>
 
                 <div className="flex items-start gap-3.5">
-                  <div className="p-2.5 rounded-[3px] bg-red-50 text-[#ed3237] shrink-0">
+                  <div className="p-2.5 rounded-[3px] bg-blue-50 text-[#3e4095] shrink-0">
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
@@ -149,7 +149,7 @@ export default function ContactSection({ settings }: ContactSectionProps) {
                         placeholder="Ông/Bà..."
                         value={form.name}
                         onChange={(e) => setForm({ ...form, name: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-[3px] bg-slate-50 border border-slate-300 text-slate-900 text-xs sm:text-sm focus:border-[#ed3237] focus:outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-[3px] bg-slate-50 border border-slate-300 text-slate-900 text-xs sm:text-sm focus:border-[#3e4095] focus:outline-none"
                       />
                     </div>
                     <div>
@@ -162,7 +162,7 @@ export default function ContactSection({ settings }: ContactSectionProps) {
                         placeholder="09xx..."
                         value={form.phone}
                         onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-[3px] bg-slate-50 border border-slate-300 text-slate-900 text-xs sm:text-sm focus:border-[#ed3237] focus:outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-[3px] bg-slate-50 border border-slate-300 text-slate-900 text-xs sm:text-sm focus:border-[#3e4095] focus:outline-none"
                       />
                     </div>
                   </div>
@@ -177,7 +177,7 @@ export default function ContactSection({ settings }: ContactSectionProps) {
                         placeholder="contact@company.com"
                         value={form.email}
                         onChange={(e) => setForm({ ...form, email: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-[3px] bg-slate-50 border border-slate-300 text-slate-900 text-xs sm:text-sm focus:border-[#ed3237] focus:outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-[3px] bg-slate-50 border border-slate-300 text-slate-900 text-xs sm:text-sm focus:border-[#3e4095] focus:outline-none"
                       />
                     </div>
                     <div>
@@ -189,7 +189,7 @@ export default function ContactSection({ settings }: ContactSectionProps) {
                         placeholder="Hợp tác gói thầu / Tư vấn kỹ thuật"
                         value={form.subject}
                         onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-[3px] bg-slate-50 border border-slate-300 text-slate-900 text-xs sm:text-sm focus:border-[#ed3237] focus:outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-[3px] bg-slate-50 border border-slate-300 text-slate-900 text-xs sm:text-sm focus:border-[#3e4095] focus:outline-none"
                       />
                     </div>
                   </div>
@@ -204,13 +204,13 @@ export default function ContactSection({ settings }: ContactSectionProps) {
                       placeholder="Mô tả thông tin dự án, yêu cầu kỹ thuật hoặc câu hỏi..."
                       value={form.message}
                       onChange={(e) => setForm({ ...form, message: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-[3px] bg-slate-50 border border-slate-300 text-slate-900 text-xs sm:text-sm focus:border-[#ed3237] focus:outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-[3px] bg-slate-50 border border-slate-300 text-slate-900 text-xs sm:text-sm focus:border-[#3e4095] focus:outline-none"
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full sm:w-auto px-7 py-3 rounded-[3px] bg-gradient-to-r from-[#ed3237] to-[#3e4095] hover:opacity-95 text-white font-bold text-xs uppercase tracking-wider shadow-md shadow-[#ed3237]/25 flex items-center justify-center gap-2 transition-all hover:scale-102"
+                    className="w-full sm:w-auto px-7 py-3 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white font-bold text-xs uppercase tracking-wider shadow-md shadow-[#3e4095]/25 flex items-center justify-center gap-2 transition-all hover:scale-102"
                   >
                     <Send className="w-4 h-4" />
                     <span>Gửi Thông Điệp</span>

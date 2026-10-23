@@ -25,7 +25,7 @@ export default function NewsSection({ initialNews }: NewsSectionProps) {
         {/* Section Heading - Compact & Modern with Brand Colors */}
         <div className="space-y-2 max-w-3xl mb-6 sm:mb-8 reveal-on-scroll">
           <div>
-            <span className="inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/30">
+            <span className="inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-[#3e4095] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#3e4095]/30">
               THÔNG TIN & SỰ KIỆN
             </span>
           </div>
@@ -43,7 +43,7 @@ export default function NewsSection({ initialNews }: NewsSectionProps) {
             <Link
               key={post.id}
               href={`/tin-tuc/${post.slug || post.id}`}
-              className={`group rounded-[3px] bg-white border border-slate-200 hover:border-[#ed3237]/60 hover:shadow-xl hover:shadow-[#ed3237]/10 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-sm reveal-on-scroll delay-${((idx % 3) + 1) * 100}`}
+              className={`group rounded-[3px] bg-white border border-slate-200 hover:border-[#3e4095]/60 hover:shadow-xl hover:shadow-[#3e4095]/10 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-sm reveal-on-scroll delay-${((idx % 3) + 1) * 100}`}
             >
               <div>
                 <div className="relative h-44 sm:h-48 w-full overflow-hidden bg-slate-100">
@@ -63,7 +63,7 @@ export default function NewsSection({ initialNews }: NewsSectionProps) {
                 <div className="p-4 sm:p-5 space-y-2.5">
                   <div className="flex items-center gap-4 text-[11px] sm:text-xs text-slate-500">
                     <div className="flex items-center gap-1 text-[#3e4095] font-medium">
-                      <Calendar className="w-3.5 h-3.5 text-[#ed3237]" />
+                      <Calendar className="w-3.5 h-3.5 text-[#3e4095]" />
                       <span>{post.date}</span>
                     </div>
                     <div className="flex items-center gap-1">
@@ -72,7 +72,7 @@ export default function NewsSection({ initialNews }: NewsSectionProps) {
                     </div>
                   </div>
 
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900 group-hover:text-[#ed3237] transition-colors line-clamp-2 leading-snug">
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900 group-hover:text-[#3e4095] transition-colors line-clamp-2 leading-snug">
                     {post.title}
                   </h3>
 
@@ -83,7 +83,7 @@ export default function NewsSection({ initialNews }: NewsSectionProps) {
               </div>
 
               <div className="px-4 pb-4 sm:px-5 sm:pb-5 pt-0">
-                <span className="inline-flex items-center gap-1 text-xs font-bold text-[#ed3237] group-hover:gap-2 transition-all">
+                <span className="inline-flex items-center gap-1 text-xs font-bold text-[#3e4095] group-hover:gap-2 transition-all">
                   <span>ĐỌC TIẾP</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </span>
@@ -96,7 +96,7 @@ export default function NewsSection({ initialNews }: NewsSectionProps) {
         <div className="mt-8 text-center">
           <Link
             href="/tin-tuc"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[3px] bg-white border border-slate-300 hover:border-[#ed3237] text-slate-700 hover:text-[#ed3237] text-xs font-bold uppercase tracking-wider shadow-2xs hover:shadow transition-all group"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[3px] bg-white border border-slate-300 hover:border-[#3e4095] text-slate-700 hover:text-[#3e4095] text-xs font-bold uppercase tracking-wider shadow-2xs hover:shadow transition-all group"
           >
             <span>Xem tất cả tin tức & sự kiện</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />

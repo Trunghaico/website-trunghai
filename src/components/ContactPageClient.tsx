@@ -53,7 +53,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
     "https://www.google.com/maps?cid=0x79d9f143bf06960a";
 
   return (
-    <div className="bg-slate-50 min-h-screen text-slate-800 pt-28 sm:pt-32 pb-20 selection:bg-[#ed3237] selection:text-white">
+    <div className="bg-slate-50 min-h-screen text-slate-800 pt-28 sm:pt-32 pb-20 selection:bg-[#3e4095] selection:text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb Navigation */}
         <nav aria-label="Breadcrumb" className="mb-6">
@@ -61,14 +61,14 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
             <li className="flex items-center gap-1.5">
               <Link
                 href="/"
-                className="flex items-center gap-1 text-slate-600 hover:text-[#ed3237] transition-colors"
+                className="flex items-center gap-1 text-slate-600 hover:text-[#3e4095] transition-colors"
               >
                 <Home className="w-3.5 h-3.5" />
                 <span>Trang chủ</span>
               </Link>
             </li>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-            <li className="text-[#ed3237] font-semibold">Liên hệ</li>
+            <li className="text-[#3e4095] font-semibold">Liên hệ</li>
           </ol>
         </nav>
 
@@ -86,7 +86,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
                 />
               </div>
               <div className="space-y-1">
-                <span className="inline-block text-[11px] font-extrabold uppercase px-2 py-0.5 rounded-[3px] bg-red-50 text-[#ed3237]">
+                <span className="inline-block text-[11px] font-extrabold uppercase px-2 py-0.5 rounded-[3px] bg-blue-50 text-[#3e4095]">
                   {settings.shortName || "TRUNG HAI JSC"}
                 </span>
                 <h2 className="text-base sm:text-xl font-black text-slate-900 leading-snug">
@@ -134,7 +134,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
               <div className="text-[11px] text-slate-500 uppercase font-semibold">
                 Kinh Nghiệm
               </div>
-              <div className="text-base sm:text-lg font-black text-[#ed3237] mt-1">
+              <div className="text-base sm:text-lg font-black text-[#3e4095] mt-1">
                 15+ Năm
               </div>
             </div>
@@ -160,9 +160,9 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
         {/* 4 Detailed Contact Information Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
           {/* Card 1: Trụ sở chính */}
-          <div className="bg-white rounded-[3px] border border-slate-200 p-5 shadow-sm flex flex-col justify-between hover:border-red-300 transition-colors">
+          <div className="bg-white rounded-[3px] border border-slate-200 p-5 shadow-sm flex flex-col justify-between hover:border-blue-300 transition-colors">
             <div>
-              <div className="w-10 h-10 rounded-[3px] bg-red-50 text-[#ed3237] flex items-center justify-center mb-4">
+              <div className="w-10 h-10 rounded-[3px] bg-blue-50 text-[#3e4095] flex items-center justify-center mb-4">
                 <MapPin className="w-5 h-5" />
               </div>
               <h3 className="text-sm font-bold uppercase tracking-wider text-slate-900 mb-2">
@@ -195,7 +195,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
                 href={googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="py-1.5 px-2.5 rounded-[3px] bg-red-50 hover:bg-red-100 text-[#ed3237] text-xs font-semibold flex items-center justify-center gap-1 transition-colors"
+                className="py-1.5 px-2.5 rounded-[3px] bg-blue-50 hover:bg-blue-100 text-[#3e4095] text-xs font-semibold flex items-center justify-center gap-1 transition-colors"
                 title="Mở chỉ đường trên Google Maps"
               >
                 <Navigation className="w-3.5 h-3.5" />
@@ -205,9 +205,9 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
           </div>
 
           {/* Card 2: Hotline & Điện thoại */}
-          <div className="bg-white rounded-[3px] border border-slate-200 p-5 shadow-sm flex flex-col justify-between hover:border-red-300 transition-colors">
+          <div className="bg-white rounded-[3px] border border-slate-200 p-5 shadow-sm flex flex-col justify-between hover:border-blue-300 transition-colors">
             <div>
-              <div className="w-10 h-10 rounded-[3px] bg-red-50 text-[#ed3237] flex items-center justify-center mb-4">
+              <div className="w-10 h-10 rounded-[3px] bg-blue-50 text-[#3e4095] flex items-center justify-center mb-4">
                 <Phone className="w-5 h-5" />
               </div>
               <h3 className="text-sm font-bold uppercase tracking-wider text-slate-900 mb-2">
@@ -225,7 +225,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
             <div className="pt-3 border-t border-slate-100 flex items-center gap-2">
               <a
                 href={`tel:${hotline.replace(/[^0-9]/g, "")}`}
-                className="flex-1 py-1.5 px-2.5 rounded-[3px] bg-gradient-to-r from-[#ed3237] to-[#3e4095] hover:opacity-95 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm"
+                className="flex-1 py-1.5 px-2.5 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm"
               >
                 <Phone className="w-3.5 h-3.5" />
                 <span>Gọi ngay</span>
@@ -246,9 +246,9 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
           </div>
 
           {/* Card 3: Thư điện tử (Email) */}
-          <div className="bg-white rounded-[3px] border border-slate-200 p-5 shadow-sm flex flex-col justify-between hover:border-red-300 transition-colors">
+          <div className="bg-white rounded-[3px] border border-slate-200 p-5 shadow-sm flex flex-col justify-between hover:border-blue-300 transition-colors">
             <div>
-              <div className="w-10 h-10 rounded-[3px] bg-red-50 text-[#ed3237] flex items-center justify-center mb-4">
+              <div className="w-10 h-10 rounded-[3px] bg-blue-50 text-[#3e4095] flex items-center justify-center mb-4">
                 <Mail className="w-5 h-5" />
               </div>
               <h3 className="text-sm font-bold uppercase tracking-wider text-slate-900 mb-2">
@@ -287,9 +287,9 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
           </div>
 
           {/* Card 4: Giờ làm việc */}
-          <div className="bg-white rounded-[3px] border border-slate-200 p-5 shadow-sm flex flex-col justify-between hover:border-red-300 transition-colors">
+          <div className="bg-white rounded-[3px] border border-slate-200 p-5 shadow-sm flex flex-col justify-between hover:border-blue-300 transition-colors">
             <div>
-              <div className="w-10 h-10 rounded-[3px] bg-red-50 text-[#ed3237] flex items-center justify-center mb-4">
+              <div className="w-10 h-10 rounded-[3px] bg-blue-50 text-[#3e4095] flex items-center justify-center mb-4">
                 <Clock className="w-5 h-5" />
               </div>
               <h3 className="text-sm font-bold uppercase tracking-wider text-slate-900 mb-2">
@@ -337,11 +337,11 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
             </p>
             <div className="text-xs space-y-1.5 text-slate-700">
               <div className="flex items-center gap-2">
-                <Mail className="w-3.5 h-3.5 text-[#ed3237]" />
+                <Mail className="w-3.5 h-3.5 text-[#3e4095]" />
                 <span className="font-semibold">{email}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Phone className="w-3.5 h-3.5 text-[#ed3237]" />
+                <Phone className="w-3.5 h-3.5 text-[#3e4095]" />
                 <span>Hotline: {hotline}</span>
               </div>
             </div>
@@ -350,7 +350,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
           {/* Card 2: Quản Lý Thiết Bị & Cơ Giới */}
           <div className="bg-white rounded-[3px] border border-slate-200 p-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3 pb-3 border-b border-slate-100">
-              <div className="p-2 rounded-[3px] bg-red-50 text-[#ed3237]">
+              <div className="p-2 rounded-[3px] bg-blue-50 text-[#3e4095]">
                 <Wrench className="w-5 h-5" />
               </div>
               <div>
@@ -369,11 +369,11 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
             </p>
             <div className="text-xs space-y-1.5 text-slate-700">
               <div className="flex items-center gap-2">
-                <Building2 className="w-3.5 h-3.5 text-[#ed3237]" />
+                <Building2 className="w-3.5 h-3.5 text-[#3e4095]" />
                 <span>Trụ sở chính & Kho bãi cơ giới</span>
               </div>
               <div className="flex items-center gap-2">
-                <Phone className="w-3.5 h-3.5 text-[#ed3237]" />
+                <Phone className="w-3.5 h-3.5 text-[#3e4095]" />
                 <span>Liên hệ bộ phận kỹ thuật thiết bị</span>
               </div>
             </div>
@@ -400,12 +400,12 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
             </p>
             <div className="text-xs space-y-2 text-slate-700">
               <div className="flex items-center gap-2">
-                <Mail className="w-3.5 h-3.5 text-[#ed3237]" />
+                <Mail className="w-3.5 h-3.5 text-[#3e4095]" />
                 <span className="font-semibold">tuyendung@trunghaico.vn</span>
               </div>
               <Link
                 href="/tuyen-dung"
-                className="inline-flex items-center gap-1.5 text-xs text-[#ed3237] font-bold hover:underline"
+                className="inline-flex items-center gap-1.5 text-xs text-[#3e4095] font-bold hover:underline"
               >
                 <span>Xem các vị trí đang tuyển dụng</span>
                 <ChevronRight className="w-3.5 h-3.5" />
@@ -418,7 +418,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
         <div className="bg-white rounded-[3px] border border-slate-200 p-6 sm:p-8 shadow-sm">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-100">
             <div>
-              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#ed3237] mb-1">
+              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#3e4095] mb-1">
                 <MapPin className="w-4 h-4" />
                 <span>Bản Đồ Trực Tuyến</span>
               </div>
@@ -435,7 +435,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
                 href={googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-[3px] bg-slate-900 hover:bg-[#ed3237] text-white text-xs font-bold transition-all shadow-sm"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-[3px] bg-slate-900 hover:bg-[#3e4095] text-white text-xs font-bold transition-all shadow-sm"
               >
                 <ExternalLink className="w-4 h-4" />
                 <span>Mở trong Google Maps</span>
@@ -460,7 +460,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
           {/* Quick Direction Guide Footer */}
           <div className="mt-4 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-slate-500">
             <div className="flex items-center gap-2">
-              <Navigation className="w-4 h-4 text-[#ed3237] shrink-0" />
+              <Navigation className="w-4 h-4 text-[#3e4095] shrink-0" />
               <span>
                 Vị trí nằm tại khu đô thị An Khánh, thuận tiện di chuyển qua trục Mai Chí Thọ, Xa Lộ Hà Nội và cầu Ba Son.
               </span>
@@ -469,7 +469,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
               href={googleMapsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#ed3237] font-semibold hover:underline shrink-0"
+              className="text-[#3e4095] font-semibold hover:underline shrink-0"
             >
               Xem hướng dẫn lộ trình di chuyển &rarr;
             </a>

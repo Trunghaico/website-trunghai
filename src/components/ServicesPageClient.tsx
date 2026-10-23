@@ -203,20 +203,20 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
             <li className="flex items-center gap-1.5">
               <Link
                 href="/"
-                className="flex items-center gap-1 text-slate-600 hover:text-[#ed3237] transition-colors"
+                className="flex items-center gap-1 text-slate-600 hover:text-[#3e4095] transition-colors"
               >
                 <Home className="w-3.5 h-3.5" />
                 <span>Trang chủ</span>
               </Link>
             </li>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-            <li className="text-[#ed3237] font-semibold">Lĩnh vực hoạt động</li>
+            <li className="text-[#3e4095] font-semibold">Lĩnh vực hoạt động</li>
           </ol>
         </nav>
 
         {/* Page Title Header */}
         <div className="pb-6 border-b border-slate-200 mb-8">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[3px] bg-red-50 border border-red-200/80 text-[#ed3237] text-xs font-bold uppercase tracking-wider mb-2.5">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[3px] bg-blue-50 border border-blue-200/80 text-[#3e4095] text-xs font-bold uppercase tracking-wider mb-2.5">
             <HardHat className="w-3.5 h-3.5" />
             <span>Năng lực cốt lõi</span>
           </div>
@@ -261,7 +261,7 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
                     {/* Bottom Image Overlay Details */}
                     <div className="absolute bottom-3 left-3 right-3 z-10 text-white">
                       <div className="flex items-center gap-2 mb-1">
-                        <div className="w-6 h-6 rounded-[3px] bg-[#ed3237] text-white flex items-center justify-center shrink-0 shadow">
+                        <div className="w-6 h-6 rounded-[3px] bg-[#3e4095] text-white flex items-center justify-center shrink-0 shadow">
                           {getServiceIcon(service.iconName)}
                         </div>
                         <span className="text-xs font-bold uppercase tracking-wider text-slate-200">
@@ -280,7 +280,7 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
                     <div className="space-y-4">
                       {/* Header */}
                       <div className="space-y-1.5">
-                        <div className="flex items-center gap-2 text-xs font-bold text-[#ed3237] uppercase tracking-wider">
+                        <div className="flex items-center gap-2 text-xs font-bold text-[#3e4095] uppercase tracking-wider">
                           <HardHat className="w-3.5 h-3.5" />
                           <span>Chuyên Môn Kỹ Thuật</span>
                         </div>
@@ -304,7 +304,7 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
                               key={hlIdx}
                               className="flex items-start gap-1.5 bg-slate-50 p-2 rounded-[3px] border border-slate-100"
                             >
-                              <CheckCircle2 className="w-3.5 h-3.5 text-[#ed3237] shrink-0 mt-0.5" />
+                              <CheckCircle2 className="w-3.5 h-3.5 text-[#3e4095] shrink-0 mt-0.5" />
                               <span className="leading-tight font-medium">{hl}</span>
                             </div>
                           ))}
@@ -314,7 +314,7 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
                       {/* Key Equipment / Machine Fleets */}
                       <div className="pt-1">
                         <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                          <Factory className="w-4 h-4 text-[#ed3237]" />
+                          <Factory className="w-4 h-4 text-[#3e4095]" />
                           <span>Thiết bị cơ giới & Dây chuyền chủ lực</span>
                         </h3>
                         <ul className="space-y-1 text-xs text-slate-600">

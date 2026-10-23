@@ -103,7 +103,7 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
                       {/* Tag badge */}
                       {slide.tag && (
                         <div className="mb-1.5 sm:mb-3">
-                          <span className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-0.5 sm:py-1 rounded-[2px] bg-[#ed3237] text-white text-[11px] sm:text-[13px] font-black uppercase tracking-wider shadow-lg shadow-black/50">
+                          <span className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-0.5 sm:py-1 rounded-[2px] bg-[#3e4095] text-white text-[11px] sm:text-[13px] font-black uppercase tracking-wider shadow-lg shadow-black/50">
                             <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                             <span>{slide.tag}</span>
                           </span>
@@ -141,7 +141,7 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
                           {slide.projectLink && (
                             <Link
                               href={slide.projectLink}
-                              className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white text-[11px] sm:text-sm font-bold uppercase tracking-wider shadow-xl shadow-[#ed3237]/30 transition-all hover:gap-3"
+                              className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white text-[11px] sm:text-sm font-bold uppercase tracking-wider shadow-xl shadow-[#3e4095]/30 transition-all hover:gap-3"
                             >
                               <span>Khám phá công trình</span>
                               <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -163,7 +163,7 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
         type="button"
         onClick={prevSlide}
         aria-label="Previous Slide"
-        className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3.5 rounded-full bg-white/70 hover:bg-[#ed3237] text-slate-800 hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-xl flex items-center justify-center group active:scale-95"
+        className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3.5 rounded-full bg-white/70 hover:bg-[#3e4095] text-slate-800 hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-xl flex items-center justify-center group active:scale-95"
       >
         <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6 group-hover:-translate-x-0.5 transition-transform" />
       </button>
@@ -172,7 +172,7 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
         type="button"
         onClick={nextSlide}
         aria-label="Next Slide"
-        className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3.5 rounded-full bg-white/70 hover:bg-[#ed3237] text-slate-800 hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-xl flex items-center justify-center group active:scale-95"
+        className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3.5 rounded-full bg-white/70 hover:bg-[#3e4095] text-slate-800 hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-xl flex items-center justify-center group active:scale-95"
       >
         <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform" />
       </button>
@@ -197,7 +197,7 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
               }`}
             >
               {isCurrent && (
-                <span className="absolute inset-0 bg-[#ed3237] rounded-full animate-slide-progress" />
+                <span className="absolute inset-0 bg-[#3e4095] rounded-full animate-slide-progress" />
               )}
             </button>
           );
@@ -205,7 +205,7 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
       </div>
 
       {/* Accent Ribbon */}
-      <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#ed3237] via-[#3e4095] to-[#ed3237] z-30" />
+      <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#3e4095] via-blue-500 to-[#3e4095] z-30" />
     </section>
   );
 }

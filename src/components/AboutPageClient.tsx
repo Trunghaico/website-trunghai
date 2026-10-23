@@ -9,7 +9,7 @@ interface AboutPageClientProps {
 }
 
 // Reusable 8-Point Rosette Icon matching Image 1
-function RosetteIcon({ color = "#ed3237" }: { color?: string }) {
+function RosetteIcon({ color = "#3e4095" }: { color?: string }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -77,7 +77,7 @@ function TiltCard({
             ? `perspective(1200px) rotateX(${rotate.x.toFixed(2)}deg) rotateY(${rotate.y.toFixed(2)}deg) translateZ(10px) scale3d(1.015, 1.015, 1.015)`
             : "perspective(1200px) rotateX(0deg) rotateY(0deg) translateZ(0px) scale3d(1, 1, 1)",
           boxShadow: isHovered
-            ? `${shadowX.toFixed(1)}px ${shadowY.toFixed(1)}px 24px -4px rgba(237, 50, 55, 0.16), 0 12px 24px -4px rgba(15, 23, 42, 0.10)`
+            ? `${shadowX.toFixed(1)}px ${shadowY.toFixed(1)}px 24px -4px rgba(62, 64, 149, 0.16), 0 12px 24px -4px rgba(15, 23, 42, 0.10)`
             : "0 2px 6px 0 rgba(0, 0, 0, 0.04)",
           transition: isHovered
             ? "transform 0.12s ease-out, box-shadow 0.15s ease-out"
@@ -135,7 +135,7 @@ function EquipmentBlueprint({
               <line x1="50" y1="5" x2="92" y2="24" />
               <line x1="50" y1="5" x2="8" y2="24" />
               <line x1="50" y1="24" x2="70" y2="50" strokeDasharray="2 2" />
-              <circle cx="50" cy="24" r="3" fill="#ed3237" stroke="#fff" strokeWidth="1" />
+              <circle cx="50" cy="24" r="3" fill="#3e4095" stroke="#fff" strokeWidth="1" />
             </svg>
           </div>
         </>
@@ -156,8 +156,8 @@ function EquipmentBlueprint({
               <line x1="82" y1="70" x2="60" y2="40" strokeWidth="2" stroke="#f59e0b" />
               <line x1="60" y1="40" x2="35" y2="18" strokeWidth="2" stroke="#f59e0b" />
               <line x1="35" y1="18" x2="10" y2="35" strokeWidth="1.8" stroke="#f59e0b" />
-              <line x1="10" y1="35" x2="10" y2="65" strokeWidth="1.5" stroke="#ed3237" strokeDasharray="3 2" />
-              <circle cx="82" cy="70" r="2.5" fill="#ed3237" />
+              <line x1="10" y1="35" x2="10" y2="65" strokeWidth="1.5" stroke="#3e4095" strokeDasharray="3 2" />
+              <circle cx="82" cy="70" r="2.5" fill="#3e4095" />
               <circle cx="60" cy="40" r="2.5" fill="#f59e0b" />
               <circle cx="35" cy="18" r="2.5" fill="#f59e0b" />
             </svg>
@@ -181,21 +181,21 @@ function EquipmentBlueprint({
               <line x1="70" y1="40" x2="50" y2="15" />
               <line x1="15" y1="40" x2="15" y2="85" strokeWidth="2" />
               <line x1="85" y1="40" x2="85" y2="85" strokeWidth="2" />
-              <circle cx="50" cy="15" r="3" fill="#ed3237" stroke="#fff" strokeWidth="1" />
+              <circle cx="50" cy="15" r="3" fill="#3e4095" stroke="#fff" strokeWidth="1" />
             </svg>
           </div>
         </>
       )}
 
-      {/* Red Category Badge matching Image 4 */}
+      {/* Blue Category Badge */}
       <div className="absolute top-3 left-3 z-20">
-        <span className="px-2.5 py-0.5 rounded-[2px] bg-[#ed3237] text-white text-[11px] font-bold uppercase tracking-wider shadow">
+        <span className="px-2.5 py-0.5 rounded-[2px] bg-[#3e4095] text-white text-[11px] font-bold uppercase tracking-wider shadow">
           {item.badge}
         </span>
       </div>
 
-      {/* Dark Blueprint Overlay Text Box matching Image 4 */}
-      <div className="absolute bottom-3 left-3 right-3 z-20 p-3 rounded-[2px] bg-[#182133]/90 border-l-[3.5px] border-[#ed3237] backdrop-blur-sm space-y-0.5">
+      {/* Dark Blueprint Overlay Text Box */}
+      <div className="absolute bottom-3 left-3 right-3 z-20 p-3 rounded-[2px] bg-[#182133]/90 border-l-[3.5px] border-[#3e4095] backdrop-blur-sm space-y-0.5">
         <div className="text-xs sm:text-sm font-bold text-white leading-tight truncate">
           {item.overlayTitle}
         </div>
@@ -214,11 +214,11 @@ function EquipmentBlueprint({
 }
 
 export default function AboutPageClient({ settings }: AboutPageClientProps) {
-  // Timeline Milestones matching Image 3
+  // Timeline Milestones
   const timelineMilestones = [
     {
       year: "2010",
-      yearColor: "text-[#ed3237]",
+      yearColor: "text-[#3e4095]",
       title: "Thành Lập Doanh Nghiệp",
       desc: "Khởi đầu với tên gọi Công ty CP Xây dựng TTNT Trung Hải, tập trung vào thiết kế thi công nội thất và hoàn thiện công trình dân dụng.",
     },
@@ -230,7 +230,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
     },
     {
       year: "2020",
-      yearColor: "text-[#ed3237]",
+      yearColor: "text-[#3e4095]",
       title: "Đầu Tư Nhà Xưởng Cơ Khí",
       desc: "Vận hành nhà máy chế tạo kết cấu thép và xưởng gia công cửa nhựa uPVC, vách kính mặt dựng công nghệ Đức, khép kín chuỗi giá trị xây lắp.",
     },
@@ -274,16 +274,16 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
   ];
 
   return (
-    <div className="bg-white text-slate-800 pt-20 sm:pt-24 selection:bg-[#ed3237] selection:text-white">
+    <div className="bg-white text-slate-800 pt-20 sm:pt-24 selection:bg-[#3e4095] selection:text-white">
       {/* 1. TỔNG QUAN DOANH NGHIỆP (PHẦN 1 - KHỚP 100% HÌNH 1) */}
       <section className="pt-6 sm:pt-10 pb-14 sm:pb-20 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             {/* Left Content Column */}
             <div className="lg:col-span-7 space-y-5 reveal-fade-left">
-              {/* Badge matching Image 1: TỔNG QUAN DOANH NGHIỆP */}
+              {/* Badge: TỔNG QUAN DOANH NGHIỆP */}
               <div>
-                <span className="inline-block px-4 py-1.5 rounded-[3px] bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/25">
+                <span className="inline-block px-4 py-1.5 rounded-[3px] bg-[#3e4095] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#3e4095]/25">
                   TỔNG QUAN DOANH NGHIỆP
                 </span>
               </div>
@@ -305,10 +305,10 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
 
               {/* 2 Feature Cards matching Image 1 */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                {/* Khối 1: PHÁP LÝ MINH BẠCH (Red border-l) */}
-                <div className="border-l-[3.5px] border-[#ed3237] pl-3.5 py-1.5 space-y-1 bg-slate-50/70 rounded-r-[3px]">
+                {/* Khối 1: PHÁP LÝ MINH BẠCH (Blue border-l) */}
+                <div className="border-l-[3.5px] border-[#3e4095] pl-3.5 py-1.5 space-y-1 bg-slate-50/70 rounded-r-[3px]">
                   <div className="flex items-center gap-2">
-                    <RosetteIcon color="#ed3237" />
+                    <RosetteIcon color="#3e4095" />
                     <h3 className="text-xs sm:text-sm font-bold text-slate-900 uppercase tracking-wide">
                       PHÁP LÝ MINH BẠCH
                     </h3>
@@ -356,26 +356,26 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
                       <line x1="10" y1="25" x2="90" y2="25" stroke="#f59e0b" strokeWidth="1.5" />
                       <line x1="50" y1="5" x2="90" y2="25" />
                       <line x1="50" y1="5" x2="10" y2="25" />
-                      <circle cx="50" cy="25" r="3.5" fill="#ed3237" stroke="#ffffff" strokeWidth="1" />
+                      <circle cx="50" cy="25" r="3.5" fill="#3e4095" stroke="#ffffff" strokeWidth="1" />
                     </svg>
                   </div>
 
-                  {/* Top Red Badge matching Image 1: TRUNG HẢI XD */}
+                  {/* Top Blue Badge */}
                   <div className="relative z-10" style={{ transform: "translateZ(14px)" }}>
-                    <span className="inline-block px-3 py-1 rounded-[2px] bg-[#ed3237] text-white text-[11px] font-bold uppercase tracking-wider shadow-md">
+                    <span className="inline-block px-3 py-1 rounded-[2px] bg-[#3e4095] text-white text-[11px] font-bold uppercase tracking-wider shadow-md">
                       TRUNG HẢI XD
                     </span>
                   </div>
 
-                  {/* Bottom Text Panel with Red Left Indicator matching Image 1 */}
+                  {/* Bottom Text Panel with Blue Left Indicator */}
                   <div
-                    className="relative z-10 p-5 rounded-[3px] bg-[#182133]/90 border-l-4 border-[#ed3237] backdrop-blur-md space-y-1 mt-20"
+                    className="relative z-10 p-5 rounded-[3px] bg-[#182133]/90 border-l-4 border-[#3e4095] backdrop-blur-md space-y-1 mt-20"
                     style={{ transform: "translateZ(12px)" }}
                   >
                     <h3 className="text-lg sm:text-xl font-black text-white leading-tight">
                       Công Trình Thi Công Tiêu Biểu
                     </h3>
-                    <div className="text-xs font-bold uppercase tracking-wider text-[#ed3237]">
+                    <div className="text-xs font-bold uppercase tracking-wider text-[#3e4095]">
                       TỔNG THẦU THI CÔNG XÂY LẮP
                     </div>
                     <div className="text-[11px] text-slate-400 font-light pt-1">
@@ -385,12 +385,12 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
                 </div>
               </TiltCard>
 
-              {/* Floating Solid Dark 3D Badge with 380+ Project Deliveries matching Image 1 */}
+              {/* Floating Solid Dark 3D Badge with 380+ Project Deliveries */}
               <div
                 className="absolute -bottom-6 right-2 sm:-right-4 z-20"
                 style={{ perspective: "1000px" }}
               >
-                <div className="p-4 sm:p-5 rounded-[3px] bg-[#0c1017] text-white border border-slate-800 border-b-4 border-b-[#ed3237] shadow-2xl shadow-black/80 min-w-[170px] sm:min-w-[190px] transition-transform duration-300 hover:scale-105">
+                <div className="p-4 sm:p-5 rounded-[3px] bg-[#0c1017] text-white border border-slate-800 border-b-4 border-b-[#3e4095] shadow-2xl shadow-black/80 min-w-[170px] sm:min-w-[190px] transition-transform duration-300 hover:scale-105">
                   <div className="text-3xl sm:text-4xl font-black tracking-tight text-amber-400 drop-shadow">
                     380+
                   </div>
@@ -410,7 +410,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
           {/* Section Header matching Image 2 */}
           <div className="text-center max-w-3xl mx-auto space-y-2.5 mb-10 sm:mb-14 reveal-on-scroll">
             <div>
-              <span className="inline-block px-4 py-1.5 rounded-[2px] bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/30">
+              <span className="inline-block px-4 py-1.5 rounded-[2px] bg-[#3e4095] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#3e4095]/30">
                 TRIẾT LÝ PHÁT TRIỂN
               </span>
             </div>
@@ -424,12 +424,12 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
 
           {/* 3 Pillars Grid with 3D Tilt Cards matching Image 2 */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            {/* Card 1: TẦM NHÌN (Red Top Border) */}
+            {/* Card 1: TẦM NHÌN (Blue Top Border) */}
             <div className="reveal-on-scroll delay-100">
-              <TiltCard className="bg-white rounded-[3px] border border-slate-200 border-t-4 border-t-[#ed3237] p-6 sm:p-8 flex flex-col justify-between shadow-sm h-full">
+              <TiltCard className="bg-white rounded-[3px] border border-slate-200 border-t-4 border-t-[#3e4095] p-6 sm:p-8 flex flex-col justify-between shadow-sm h-full">
                 <div className="space-y-4" style={{ transform: "translateZ(10px)" }}>
-                  {/* Red Target/Eye Icon */}
-                  <div className="w-12 h-12 rounded-full bg-red-50 text-[#ed3237] flex items-center justify-center">
+                  {/* Blue Target/Eye Icon */}
+                  <div className="w-12 h-12 rounded-full bg-blue-50 text-[#3e4095] flex items-center justify-center">
                     <Eye className="w-6 h-6 stroke-[2.5]" />
                   </div>
                   <h3 className="text-lg sm:text-xl font-black text-slate-900 uppercase tracking-tight">
@@ -498,7 +498,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
           {/* Section Header matching Image 3 */}
           <div className="text-center max-w-3xl mx-auto space-y-2.5 mb-10 sm:mb-14 reveal-on-scroll">
             <div>
-              <span className="inline-block px-4 py-1.5 rounded-[2px] bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/30">
+              <span className="inline-block px-4 py-1.5 rounded-[2px] bg-[#3e4095] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#3e4095]/30">
                 DẤU ẤN PHÁT TRIỂN
               </span>
             </div>
@@ -515,7 +515,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
             {timelineMilestones.map((item, idx) => (
               <div key={idx} className={`reveal-on-scroll delay-${(idx + 1) * 100}`}>
                 <TiltCard
-                  className="bg-white rounded-[3px] border border-slate-200 hover:border-[#ed3237]/50 p-6 flex flex-col justify-between shadow-sm h-full"
+                  className="bg-white rounded-[3px] border border-slate-200 hover:border-[#3e4095]/50 p-6 flex flex-col justify-between shadow-sm h-full"
                 >
                   <div className="space-y-3" style={{ transform: "translateZ(10px)" }}>
                     <div className={`text-3xl sm:text-4xl font-black tracking-tight ${item.yearColor}`}>
@@ -541,7 +541,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
           {/* Section Header matching Image 4 */}
           <div className="text-center max-w-3xl mx-auto space-y-2.5 mb-10 sm:mb-14 reveal-on-scroll">
             <div>
-              <span className="inline-block px-4 py-1.5 rounded-[2px] bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/30">
+              <span className="inline-block px-4 py-1.5 rounded-[2px] bg-[#3e4095] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#3e4095]/30">
                 NĂNG LỰC CƠ GIỚI
               </span>
             </div>
@@ -566,7 +566,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
 
                     {/* Body Content below matching Image 4 */}
                     <div className="p-5 sm:p-6 space-y-2" style={{ transform: "translateZ(8px)" }}>
-                      <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-[#ed3237] transition-colors leading-snug">
+                      <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-[#3e4095] transition-colors leading-snug">
                         {item.title}
                       </h3>
                       <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">

@@ -182,7 +182,7 @@ export default function PartnersSection({ partners }: PartnersSectionProps) {
         {/* Header căn giữa theo mẫu thiết kế */}
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14 reveal-on-scroll">
           <div className="inline-block mb-3 sm:mb-4">
-            <span className="inline-flex items-center justify-center px-4 py-1.5 rounded-[3px] bg-[#ed3237] text-white text-xs sm:text-[13px] font-bold uppercase tracking-wider shadow-sm">
+            <span className="inline-flex items-center justify-center px-4 py-1.5 rounded-[3px] bg-[#3e4095] text-white text-xs sm:text-[13px] font-bold uppercase tracking-wider shadow-sm">
               ĐỐI TÁC TIN CẬY
             </span>
           </div>
@@ -220,7 +220,7 @@ export default function PartnersSection({ partners }: PartnersSectionProps) {
                     key={`${partner.id}-${index}`}
                     {...wrapperProps}
                     title={partner.name}
-                    className="shrink-0 h-24 sm:h-28 lg:h-32 min-w-[170px] sm:min-w-[200px] lg:min-w-[220px] px-4 sm:px-6 bg-white border-2 border-slate-300 hover:border-[#ed3237] rounded-xl sm:rounded-2xl shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex items-center justify-center cursor-pointer group/card no-underline"
+                    className="shrink-0 h-24 sm:h-28 lg:h-32 min-w-[170px] sm:min-w-[200px] lg:min-w-[220px] px-4 sm:px-6 bg-white border-2 border-slate-300 hover:border-[#3e4095] rounded-xl sm:rounded-2xl shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex items-center justify-center cursor-pointer group/card no-underline"
                   >
                     <div className="transition-transform duration-300 group-hover/card:scale-105 flex items-center justify-center w-full h-full">
                       {partner.renderLogo()}

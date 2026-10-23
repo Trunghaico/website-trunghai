@@ -91,12 +91,12 @@ function CustomDropdown<T extends string>({
         onClick={() => setIsOpen((prev) => !prev)}
         className={`w-full h-10 px-3.5 rounded-[3px] bg-white border text-xs font-semibold flex items-center justify-between gap-2.5 transition-all cursor-pointer shadow-2xs select-none ${
           isOpen
-            ? "border-[#ed3237] ring-2 ring-[#ed3237]/15 text-slate-900"
+            ? "border-[#3e4095] ring-2 ring-[#3e4095]/15 text-slate-900"
             : "border-slate-200/90 text-slate-700 hover:border-slate-300 hover:bg-slate-50/60"
         }`}
       >
         <div className="flex items-center gap-2 min-w-0">
-          {CurrentIcon && <CurrentIcon className="w-3.5 h-3.5 text-[#ed3237] shrink-0" />}
+          {CurrentIcon && <CurrentIcon className="w-3.5 h-3.5 text-[#3e4095] shrink-0" />}
           <span className="truncate">{selectedOption?.label}</span>
           {typeof selectedOption?.count === "number" && (
             <span className="px-1.5 py-0.2 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold shrink-0">
@@ -106,7 +106,7 @@ function CustomDropdown<T extends string>({
         </div>
         <ChevronDown
           className={`w-3.5 h-3.5 text-slate-400 shrink-0 transition-transform duration-200 ${
-            isOpen ? "rotate-180 text-[#ed3237]" : ""
+            isOpen ? "rotate-180 text-[#3e4095]" : ""
           }`}
         />
       </button>
@@ -128,7 +128,7 @@ function CustomDropdown<T extends string>({
                 }}
                 className={`w-full px-3 py-2 text-left text-xs font-semibold flex items-center justify-between gap-2 transition-colors cursor-pointer ${
                   isSelected
-                    ? "bg-red-50 text-[#ed3237] font-bold"
+                    ? "bg-blue-50 text-[#3e4095] font-bold"
                     : "text-slate-700 hover:bg-slate-50 hover:text-slate-900"
                 }`}
               >
@@ -136,7 +136,7 @@ function CustomDropdown<T extends string>({
                   {ItemIcon && (
                     <ItemIcon
                       className={`w-3.5 h-3.5 shrink-0 ${
-                        isSelected ? "text-[#ed3237]" : "text-slate-400"
+                        isSelected ? "text-[#3e4095]" : "text-slate-400"
                       }`}
                     />
                   )}
@@ -148,14 +148,14 @@ function CustomDropdown<T extends string>({
                     <span
                       className={`px-1.5 py-0.2 rounded-full text-[10px] font-bold ${
                         isSelected
-                          ? "bg-red-200/60 text-[#ed3237]"
+                          ? "bg-blue-200/60 text-[#3e4095]"
                           : "bg-slate-100 text-slate-500"
                       }`}
                     >
                       {opt.count}
                     </span>
                   )}
-                  {isSelected && <Check className="w-3.5 h-3.5 text-[#ed3237]" />}
+                  {isSelected && <Check className="w-3.5 h-3.5 text-[#3e4095]" />}
                 </div>
               </button>
             );
@@ -279,7 +279,7 @@ export default function NewsPageClient({ initialNews }: NewsPageClientProps) {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen text-slate-800 pt-24 sm:pt-28 pb-16 sm:pb-20 selection:bg-[#ed3237] selection:text-white">
+    <div className="bg-slate-50 min-h-screen text-slate-800 pt-24 sm:pt-28 pb-16 sm:pb-20 selection:bg-[#3e4095] selection:text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb Navigation */}
         <nav aria-label="Breadcrumb" className="mb-6">
@@ -287,14 +287,14 @@ export default function NewsPageClient({ initialNews }: NewsPageClientProps) {
             <li className="flex items-center gap-1.5">
               <Link
                 href="/"
-                className="flex items-center gap-1 text-slate-600 hover:text-[#ed3237] transition-colors"
+                className="flex items-center gap-1 text-slate-600 hover:text-[#3e4095] transition-colors"
               >
                 <Home className="w-3.5 h-3.5" />
                 <span>Trang chủ</span>
               </Link>
             </li>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-            <li className="text-[#ed3237] font-semibold">Tin tức & Sự kiện</li>
+            <li className="text-[#3e4095] font-semibold">Tin tức & Sự kiện</li>
           </ol>
         </nav>
 
@@ -314,7 +314,7 @@ export default function NewsPageClient({ initialNews }: NewsPageClientProps) {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent lg:hidden" />
                   <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
-                    <span className="px-3 py-1 rounded-[2px] bg-[#ed3237] text-white text-xs font-black uppercase tracking-wider shadow-lg flex items-center gap-1.5">
+                    <span className="px-3 py-1 rounded-[2px] bg-[#3e4095] text-white text-xs font-black uppercase tracking-wider shadow-lg flex items-center gap-1.5">
                       <Flame className="w-3.5 h-3.5 animate-pulse" />
                       <span>Bài viết tiêu điểm</span>
                     </span>
@@ -328,18 +328,18 @@ export default function NewsPageClient({ initialNews }: NewsPageClientProps) {
                 <div className="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between bg-white">
                   <div>
                     <div className="hidden lg:flex items-center gap-2 mb-3">
-                      <span className="px-2.5 py-0.5 rounded-[2px] bg-[#ed3237]/10 text-[#ed3237] text-xs font-black uppercase tracking-wider">
+                      <span className="px-2.5 py-0.5 rounded-[2px] bg-blue-50 text-[#3e4095] text-xs font-black uppercase tracking-wider">
                         {featuredPost.categoryName}
                       </span>
                       <span className="text-slate-300">•</span>
                       <span className="inline-flex items-center gap-1 text-xs text-slate-500 font-medium">
-                        <Calendar className="w-3.5 h-3.5 text-[#ed3237]" />
+                        <Calendar className="w-3.5 h-3.5 text-[#3e4095]" />
                         <span>{featuredPost.date}</span>
                       </span>
                     </div>
 
                     <Link href={`/tin-tuc/${featuredPost.slug || featuredPost.id}`}>
-                      <h2 className="text-xl sm:text-2xl font-black text-slate-900 group-hover:text-[#ed3237] transition-colors leading-snug">
+                      <h2 className="text-xl sm:text-2xl font-black text-slate-900 group-hover:text-[#3e4095] transition-colors leading-snug">
                         {featuredPost.title}
                       </h2>
                     </Link>
@@ -357,7 +357,7 @@ export default function NewsPageClient({ initialNews }: NewsPageClientProps) {
 
                     <Link
                       href={`/tin-tuc/${featuredPost.slug || featuredPost.id}`}
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white text-xs font-bold uppercase tracking-wider shadow-md transition-all group-hover:gap-3"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white text-xs font-bold uppercase tracking-wider shadow-md transition-all group-hover:gap-3"
                     >
                       <span>Đọc toàn bộ</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -380,7 +380,7 @@ export default function NewsPageClient({ initialNews }: NewsPageClientProps) {
                   placeholder="Tìm kiếm bài viết, tin dự án..."
                   value={searchQuery}
                   onChange={(e) => handleSearchChange(e.target.value)}
-                  className="w-full h-10 pl-9 pr-7 rounded-[3px] bg-white border border-slate-200/90 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#ed3237] focus:ring-2 focus:ring-[#ed3237]/15 hover:border-slate-300 transition-all shadow-2xs"
+                  className="w-full h-10 pl-9 pr-7 rounded-[3px] bg-white border border-slate-200/90 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#3e4095] focus:ring-2 focus:ring-[#3e4095]/15 hover:border-slate-300 transition-all shadow-2xs"
                 />
                 <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                 {searchQuery && (
@@ -436,7 +436,7 @@ export default function NewsPageClient({ initialNews }: NewsPageClientProps) {
                 <button
                   type="button"
                   onClick={handleResetFilters}
-                  className="inline-flex items-center gap-1 text-[#ed3237] hover:underline font-semibold cursor-pointer shrink-0"
+                  className="inline-flex items-center gap-1 text-[#3e4095] hover:underline font-semibold cursor-pointer shrink-0"
                 >
                   <RotateCcw className="w-3 h-3" />
                   <span>Đặt lại</span>
@@ -460,7 +460,7 @@ export default function NewsPageClient({ initialNews }: NewsPageClientProps) {
               <button
                 type="button"
                 onClick={handleResetFilters}
-                className="mt-5 inline-flex items-center gap-2 px-4 py-2 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white text-xs font-bold uppercase tracking-wider transition-colors shadow cursor-pointer"
+                className="mt-5 inline-flex items-center gap-2 px-4 py-2 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white text-xs font-bold uppercase tracking-wider transition-colors shadow cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>Xem tất cả bài viết</span>
@@ -472,7 +472,7 @@ export default function NewsPageClient({ initialNews }: NewsPageClientProps) {
                 {paginatedNews.map((post) => (
                   <article
                     key={post.id}
-                    className="group rounded-[3px] bg-white border border-slate-200 hover:border-[#ed3237]/60 hover:shadow-xl hover:shadow-[#ed3237]/10 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-2xs"
+                    className="group rounded-[3px] bg-white border border-slate-200 hover:border-[#3e4095]/60 hover:shadow-xl hover:shadow-[#3e4095]/10 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-2xs"
                   >
                     <div>
                       {/* Thumbnail Image */}
@@ -499,7 +499,7 @@ export default function NewsPageClient({ initialNews }: NewsPageClientProps) {
                         {/* Metadata row */}
                         <div className="flex items-center gap-3 text-[11px] text-slate-500 mb-2.5">
                           <span className="inline-flex items-center gap-1 font-semibold text-slate-600">
-                            <Calendar className="w-3.5 h-3.5 text-[#ed3237]" />
+                            <Calendar className="w-3.5 h-3.5 text-[#3e4095]" />
                             <span>{post.date}</span>
                           </span>
                           {post.author && (
@@ -515,7 +515,7 @@ export default function NewsPageClient({ initialNews }: NewsPageClientProps) {
 
                         {/* Title Link */}
                         <Link href={`/tin-tuc/${post.slug || post.id}`} className="block">
-                          <h3 className="text-sm sm:text-base font-bold text-slate-900 group-hover:text-[#ed3237] transition-colors line-clamp-2 leading-snug">
+                          <h3 className="text-sm sm:text-base font-bold text-slate-900 group-hover:text-[#3e4095] transition-colors line-clamp-2 leading-snug">
                             {post.title}
                           </h3>
                         </Link>
@@ -531,7 +531,7 @@ export default function NewsPageClient({ initialNews }: NewsPageClientProps) {
                     <div className="px-5 pb-4 pt-3 border-t border-slate-100 flex items-center justify-between">
                       <Link
                         href={`/tin-tuc/${post.slug || post.id}`}
-                        className="inline-flex items-center gap-1.5 text-xs font-bold text-[#ed3237] group-hover:gap-2.5 transition-all"
+                        className="inline-flex items-center gap-1.5 text-xs font-bold text-[#3e4095] group-hover:gap-2.5 transition-all"
                       >
                         <span>Xem chi tiết</span>
                         <ArrowRight className="w-3.5 h-3.5" />
@@ -567,7 +567,7 @@ export default function NewsPageClient({ initialNews }: NewsPageClientProps) {
                         onClick={() => handlePageChange(page)}
                         className={`w-9 h-9 rounded-[3px] text-xs font-bold transition-all cursor-pointer ${
                           isCurrent
-                            ? "bg-[#ed3237] text-white shadow-sm shadow-[#ed3237]/30"
+                            ? "bg-[#3e4095] text-white shadow-sm shadow-[#3e4095]/30"
                             : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 shadow-2xs"
                         }`}
                       >

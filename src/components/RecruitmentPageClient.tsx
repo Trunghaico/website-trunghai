@@ -118,7 +118,7 @@ export default function RecruitmentPageClient({
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen text-slate-800 pt-28 sm:pt-32 pb-20 selection:bg-[#ed3237] selection:text-white">
+    <div className="bg-slate-50 min-h-screen text-slate-800 pt-28 sm:pt-32 pb-20 selection:bg-[#3e4095] selection:text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb Navigation */}
         <nav aria-label="Breadcrumb" className="mb-6">
@@ -126,21 +126,21 @@ export default function RecruitmentPageClient({
             <li className="flex items-center gap-1.5">
               <Link
                 href="/"
-                className="flex items-center gap-1 text-slate-600 hover:text-[#ed3237] transition-colors"
+                className="flex items-center gap-1 text-slate-600 hover:text-[#3e4095] transition-colors"
               >
                 <Home className="w-3.5 h-3.5" />
                 <span>Trang chủ</span>
               </Link>
             </li>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-            <li className="text-[#ed3237] font-semibold">Tuyển dụng</li>
+            <li className="text-[#3e4095] font-semibold">Tuyển dụng</li>
           </ol>
         </nav>
 
         {/* Page Title & Count Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-slate-200 mb-6">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[3px] bg-red-50 border border-red-200/80 text-[#ed3237] text-xs font-bold uppercase tracking-wider mb-2.5">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[3px] bg-blue-50 border border-blue-200/80 text-[#3e4095] text-xs font-bold uppercase tracking-wider mb-2.5">
               <Briefcase className="w-3.5 h-3.5" />
               <span>Cơ hội việc làm</span>
             </div>
@@ -150,7 +150,7 @@ export default function RecruitmentPageClient({
           </div>
           <div className="text-xs sm:text-sm text-slate-600 bg-white px-4 py-2 rounded-[3px] border border-slate-200 shadow-2xs self-start md:self-auto">
             Hiện có{" "}
-            <span className="font-extrabold text-[#ed3237] text-base">
+            <span className="font-extrabold text-[#3e4095] text-base">
               {filteredJobs.length}
             </span>{" "}
             vị trí đang mở
@@ -158,9 +158,9 @@ export default function RecruitmentPageClient({
         </div>
 
         {/* Khối nổi bật: Hướng dẫn nộp CV qua Email trực tiếp */}
-        <div className="mb-8 p-4 sm:p-5 rounded-[3px] bg-gradient-to-r from-red-50/90 via-white to-red-50/70 border-l-4 border-l-[#ed3237] border-y border-r border-slate-200 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="mb-8 p-4 sm:p-5 rounded-[3px] bg-gradient-to-r from-blue-50/90 via-white to-blue-50/70 border-l-4 border-l-[#3e4095] border-y border-r border-slate-200 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-start sm:items-center gap-3.5">
-            <div className="w-10 h-10 rounded-[3px] bg-[#ed3237] text-white flex items-center justify-center shrink-0 shadow-2xs">
+            <div className="w-10 h-10 rounded-[3px] bg-[#3e4095] text-white flex items-center justify-center shrink-0 shadow-2xs">
               <Mail className="w-5 h-5" />
             </div>
             <div>
@@ -171,7 +171,7 @@ export default function RecruitmentPageClient({
                 <span className="text-xs text-slate-700">Email nhận CV:</span>
                 <a
                   href={`mailto:${HR_EMAIL}?subject=Ứng tuyển việc làm - Trung Hải JSC`}
-                  className="text-base sm:text-lg font-extrabold text-[#ed3237] hover:underline cursor-pointer"
+                  className="text-base sm:text-lg font-extrabold text-[#3e4095] hover:underline cursor-pointer"
                 >
                   {HR_EMAIL}
                 </a>
@@ -199,7 +199,7 @@ export default function RecruitmentPageClient({
             </button>
             <a
               href={`mailto:${HR_EMAIL}?subject=Ứng tuyển việc làm - Trung Hải JSC`}
-              className="px-4 py-2 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer"
+              className="px-4 py-2 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer"
             >
               <Send className="w-3.5 h-3.5" />
               <span>Gửi thư ứng tuyển</span>
@@ -218,7 +218,7 @@ export default function RecruitmentPageClient({
                 placeholder="Tìm vị trí, kỹ năng, chức danh..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-9 pr-3.5 py-2.5 rounded-[3px] border border-slate-200 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-[#ed3237] focus:ring-1 focus:ring-[#ed3237]"
+                className="w-full pl-9 pr-3.5 py-2.5 rounded-[3px] border border-slate-200 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-[#3e4095] focus:ring-1 focus:ring-[#3e4095]"
               />
             </div>
 
@@ -227,7 +227,7 @@ export default function RecruitmentPageClient({
               <select
                 value={selectedDepartment}
                 onChange={(e) => setSelectedDepartment(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-[3px] border border-slate-200 text-sm text-slate-800 focus:outline-none focus:border-[#ed3237] focus:ring-1 focus:ring-[#ed3237] bg-white cursor-pointer"
+                className="w-full px-3.5 py-2.5 rounded-[3px] border border-slate-200 text-sm text-slate-800 focus:outline-none focus:border-[#3e4095] focus:ring-1 focus:ring-[#3e4095] bg-white cursor-pointer"
               >
                 <option value="all">Tất cả phòng ban</option>
                 {departments.map((dept) => (
@@ -243,7 +243,7 @@ export default function RecruitmentPageClient({
               <select
                 value={selectedLocation}
                 onChange={(e) => setSelectedLocation(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-[3px] border border-slate-200 text-sm text-slate-800 focus:outline-none focus:border-[#ed3237] focus:ring-1 focus:ring-[#ed3237] bg-white cursor-pointer"
+                className="w-full px-3.5 py-2.5 rounded-[3px] border border-slate-200 text-sm text-slate-800 focus:outline-none focus:border-[#3e4095] focus:ring-1 focus:ring-[#3e4095] bg-white cursor-pointer"
               >
                 <option value="all">Tất cả địa điểm</option>
                 {locations.map((loc) => (
@@ -259,7 +259,7 @@ export default function RecruitmentPageClient({
               <select
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-[3px] border border-slate-200 text-sm text-slate-800 focus:outline-none focus:border-[#ed3237] focus:ring-1 focus:ring-[#ed3237] bg-white cursor-pointer"
+                className="w-full px-3.5 py-2.5 rounded-[3px] border border-slate-200 text-sm text-slate-800 focus:outline-none focus:border-[#3e4095] focus:ring-1 focus:ring-[#3e4095] bg-white cursor-pointer"
               >
                 <option value="all">Tất cả hình thức</option>
                 <option value="Toàn thời gian">Toàn thời gian</option>
@@ -272,13 +272,13 @@ export default function RecruitmentPageClient({
           {hasActiveFilters && (
             <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
               <span className="text-slate-500 flex items-center gap-1.5">
-                <SlidersHorizontal className="w-3.5 h-3.5 text-[#ed3237]" />
+                <SlidersHorizontal className="w-3.5 h-3.5 text-[#3e4095]" />
                 Đang áp dụng bộ lọc tùy chỉnh
               </span>
               <button
                 type="button"
                 onClick={handleResetFilters}
-                className="inline-flex items-center gap-1.5 text-[#ed3237] hover:text-[#d0282d] font-semibold transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-[#3e4095] hover:text-[#2d2f70] font-semibold transition-colors cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>Đặt lại bộ lọc</span>
@@ -300,7 +300,7 @@ export default function RecruitmentPageClient({
             <button
               type="button"
               onClick={handleResetFilters}
-              className="mt-2 px-4 py-2 rounded-[3px] bg-[#ed3237] text-white text-xs font-semibold hover:bg-[#d0282d] transition-colors cursor-pointer"
+              className="mt-2 px-4 py-2 rounded-[3px] bg-[#3e4095] text-white text-xs font-semibold hover:bg-[#2d2f70] transition-colors cursor-pointer"
             >
               Xem tất cả vị trí tuyển dụng
             </button>
@@ -314,7 +314,7 @@ export default function RecruitmentPageClient({
                   key={job.id}
                   className={`rounded-[3px] border transition-all duration-200 overflow-hidden bg-white ${
                     isExpanded
-                      ? "border-[#ed3237]/60 shadow-md shadow-[#ed3237]/5 ring-1 ring-[#ed3237]/20"
+                      ? "border-[#3e4095]/60 shadow-md shadow-[#3e4095]/5 ring-1 ring-[#3e4095]/20"
                       : "border-slate-200 hover:border-slate-300 hover:shadow-2xs"
                   }`}
                 >
@@ -325,7 +325,7 @@ export default function RecruitmentPageClient({
                   >
                     <div className="space-y-2 flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="px-2 py-0.5 rounded-[2px] bg-red-100 text-[#ed3237] text-xs font-bold">
+                        <span className="px-2 py-0.5 rounded-[2px] bg-blue-100 text-[#3e4095] text-xs font-bold">
                           Đang tuyển
                         </span>
                         <span className="px-2 py-0.5 rounded-[2px] bg-[#3e4095]/10 text-[#3e4095] text-xs font-bold">
@@ -336,13 +336,13 @@ export default function RecruitmentPageClient({
                         </span>
                       </div>
 
-                      <h2 className="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-[#ed3237] transition-colors">
+                      <h2 className="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-[#3e4095] transition-colors">
                         {job.title}
                       </h2>
 
                       <div className="flex items-center gap-4 sm:gap-6 text-xs text-slate-600 flex-wrap">
                         <span className="flex items-center gap-1.5">
-                          <MapPin className="w-3.5 h-3.5 text-[#ed3237] shrink-0" />
+                          <MapPin className="w-3.5 h-3.5 text-[#3e4095] shrink-0" />
                           <span>{job.location}</span>
                         </span>
                         <span className="flex items-center gap-1.5 text-emerald-600 font-bold">
@@ -363,13 +363,13 @@ export default function RecruitmentPageClient({
                     </div>
 
                     <div className="flex items-center gap-3 shrink-0 pt-2 md:pt-0">
-                      <span className="text-xs font-semibold text-[#ed3237] group-hover:underline">
+                      <span className="text-xs font-semibold text-[#3e4095] group-hover:underline">
                         {isExpanded ? "Thu gọn" : "Xem chi tiết"}
                       </span>
                       <div
                         className={`p-2 rounded-[3px] transition-transform duration-200 ${
                           isExpanded
-                            ? "rotate-180 bg-red-50 text-[#ed3237]"
+                            ? "rotate-180 bg-blue-50 text-[#3e4095]"
                             : "bg-slate-100 text-slate-600"
                         }`}
                       >
@@ -385,13 +385,13 @@ export default function RecruitmentPageClient({
                       {job.description && job.description.length > 0 && (
                         <div>
                           <h3 className="font-bold text-slate-900 mb-2.5 flex items-center gap-2 text-sm sm:text-base">
-                            <span className="w-2 h-2 rounded-full bg-[#ed3237]" />
+                            <span className="w-2 h-2 rounded-full bg-[#3e4095]" />
                             <span>Mô tả công việc:</span>
                           </h3>
                           <ul className="space-y-2 list-none text-slate-600">
                             {job.description.map((item, idx) => (
                               <li key={idx} className="flex items-start gap-2.5">
-                                <span className="text-[#ed3237] mt-1 shrink-0 font-bold">
+                                <span className="text-[#3e4095] mt-1 shrink-0 font-bold">
                                   •
                                 </span>
                                 <span>{item}</span>
@@ -443,10 +443,10 @@ export default function RecruitmentPageClient({
                       )}
 
                       {/* Khối nổi bật gửi CV qua email */}
-                      <div className="p-4 sm:p-5 rounded-[3px] bg-gradient-to-br from-red-50/80 via-white to-red-50/50 border border-[#ed3237]/35 shadow-2xs space-y-3">
+                      <div className="p-4 sm:p-5 rounded-[3px] bg-gradient-to-br from-blue-50/80 via-white to-blue-50/50 border border-[#3e4095]/35 shadow-2xs space-y-3">
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                           <div className="flex items-start sm:items-center gap-3">
-                            <div className="w-9 h-9 rounded-[3px] bg-[#ed3237] text-white flex items-center justify-center shrink-0">
+                            <div className="w-9 h-9 rounded-[3px] bg-[#3e4095] text-white flex items-center justify-center shrink-0">
                               <Mail className="w-4 h-4" />
                             </div>
                             <div>
@@ -455,7 +455,7 @@ export default function RecruitmentPageClient({
                               </div>
                               <a
                                 href={`mailto:${HR_EMAIL}?subject=Ứng tuyển ${encodeURIComponent(job.title)} - [Họ và tên]`}
-                                className="text-base sm:text-lg font-extrabold text-[#ed3237] hover:underline cursor-pointer"
+                                className="text-base sm:text-lg font-extrabold text-[#3e4095] hover:underline cursor-pointer"
                               >
                                 {HR_EMAIL}
                               </a>
@@ -482,7 +482,7 @@ export default function RecruitmentPageClient({
                             </button>
                             <a
                               href={`mailto:${HR_EMAIL}?subject=Ứng tuyển ${encodeURIComponent(job.title)} - [Họ và tên]`}
-                              className="px-4 py-2 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer"
+                              className="px-4 py-2 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer"
                             >
                               <Send className="w-3.5 h-3.5" />
                               <span>Soạn Email Ứng Tuyển</span>
@@ -490,15 +490,15 @@ export default function RecruitmentPageClient({
                           </div>
                         </div>
 
-                        <div className="pt-2.5 border-t border-red-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-slate-600">
+                        <div className="pt-2.5 border-t border-blue-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-slate-600">
                           <div>
                             💡 <strong>Gợi ý tiêu đề email:</strong>{" "}
-                            <code className="px-1.5 py-0.5 rounded-[2px] bg-red-100/70 text-[#ed3237] font-semibold">
+                            <code className="px-1.5 py-0.5 rounded-[2px] bg-blue-100/70 text-[#3e4095] font-semibold">
                               [Họ và tên] - Ứng tuyển {job.title}
                             </code>
                           </div>
                           <div className="flex items-center gap-1.5 text-slate-500">
-                            <Calendar className="w-3.5 h-3.5 text-[#ed3237]" />
+                            <Calendar className="w-3.5 h-3.5 text-[#3e4095]" />
                             <span>
                               Hạn tiếp nhận:{" "}
                               <strong className="text-slate-800">

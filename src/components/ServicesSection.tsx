@@ -73,14 +73,14 @@ function Service3DCard({
             ? `perspective(1200px) rotateX(${rotate.x.toFixed(2)}deg) rotateY(${rotate.y.toFixed(2)}deg) translateZ(8px) scale3d(1.012, 1.012, 1.012)`
             : "perspective(1200px) rotateX(0deg) rotateY(0deg) translateZ(0px) scale3d(1, 1, 1)",
           boxShadow: isHovered
-            ? `${shadowX.toFixed(1)}px ${shadowY.toFixed(1)}px 18px -4px rgba(237, 50, 55, 0.16), 0 6px 14px -3px rgba(15, 23, 42, 0.08)`
+            ? `${shadowX.toFixed(1)}px ${shadowY.toFixed(1)}px 18px -4px rgba(62, 64, 149, 0.16), 0 6px 14px -3px rgba(15, 23, 42, 0.08)`
             : "0 1px 3px 0 rgba(0, 0, 0, 0.05)",
           transition: isHovered
             ? "transform 0.12s ease-out, box-shadow 0.15s ease-out"
             : "transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1)",
           transformStyle: "preserve-3d",
         }}
-        className="relative bg-white rounded-[3px] border border-slate-200 hover:border-[#ed3237]/60 overflow-hidden flex flex-col justify-between group cursor-pointer select-none"
+        className="relative bg-white rounded-[3px] border border-slate-200 hover:border-[#3e4095]/60 overflow-hidden flex flex-col justify-between group cursor-pointer select-none"
       >
         {/* Dynamic 3D Glare / Sheen Layer */}
         <div
@@ -121,7 +121,7 @@ function Service3DCard({
           <div className="p-3.5 sm:p-4 space-y-2.5" style={{ transform: "translateZ(8px)" }}>
             {/* Icon popping out */}
             <div
-              className="w-7 h-7 rounded-[3px] bg-red-50 text-[#ed3237] flex items-center justify-center transition-all duration-300 group-hover:scale-108 group-hover:bg-[#ed3237] group-hover:text-white group-hover:shadow-md"
+              className="w-7 h-7 rounded-[3px] bg-blue-50 text-[#3e4095] flex items-center justify-center transition-all duration-300 group-hover:scale-108 group-hover:bg-[#3e4095] group-hover:text-white group-hover:shadow-md"
               style={{
                 transform: isHovered ? "translateZ(12px)" : "translateZ(0px)",
               }}
@@ -131,7 +131,7 @@ function Service3DCard({
 
             {/* Title */}
             <h3
-              className="text-sm sm:text-base font-bold text-slate-900 group-hover:text-[#ed3237] transition-colors leading-snug line-clamp-1"
+              className="text-sm sm:text-base font-bold text-slate-900 group-hover:text-[#3e4095] transition-colors leading-snug line-clamp-1"
               style={{
                 transform: isHovered ? "translateZ(10px)" : "translateZ(0px)",
               }}
@@ -169,7 +169,7 @@ function Service3DCard({
         >
           <Link
             href={item.link}
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#ed3237] hover:text-[#3e4095] uppercase tracking-wider transition-all group-hover:gap-2.5"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#3e4095] hover:text-[#2d2f70] uppercase tracking-wider transition-all group-hover:gap-2.5"
           >
             <span>XEM CHI TIẾT</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
@@ -203,7 +203,7 @@ export default function ServicesSection() {
       image: "https://6adae65b086c9bf0741038e3.imgix.net/sandbox/h%C3%ACnh%2010.jpg",
       bullets: [
         "Đường cao tốc, quốc lộ, tỉnh lộ, đô thị & nông thôn",
-        "Cầu cạn, cầu vượt sông, hầm xuyên núi, hầm chui ngã tư",
+        "Cầu cạn, cầu vượt sông, hầm xuyên núi",
         "Lắp đặt hệ thống an toàn, chiếu sáng & ITS",
       ],
       link: "#projects",
@@ -228,7 +228,7 @@ export default function ServicesSection() {
       desc: "Gia công khung thép công trình, Gia công .",
       image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80",
       bullets: [
-        "Cấu kiện nhôm kính định hình",
+        "Gia công kết cấu ",
         "Cửa uPVC cách âm cách nhiệt",
         "Cơ điện MEP đồng bộ",
       ],
@@ -242,7 +242,7 @@ export default function ServicesSection() {
         {/* Section Header with compact spacing */}
         <div className="text-center max-w-3xl mx-auto space-y-2 mb-6 sm:mb-8 reveal-on-scroll">
           <div>
-            <span className="inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/30">
+            <span className="inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-[#3e4095] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#3e4095]/30">
               NĂNG LỰC CỐT LÕI
             </span>
           </div>

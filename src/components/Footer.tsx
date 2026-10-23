@@ -15,10 +15,10 @@ export default function Footer({ settings }: FooterProps) {
   };
 
   return (
-    <footer className="bg-[#151f32] text-slate-200 border-t-2 border-[#ed3237] pt-14 sm:pt-16 pb-12 relative overflow-hidden">
+    <footer className="bg-[#151f32] text-slate-200 border-t-2 border-[#3e4095] pt-14 sm:pt-16 pb-12 relative overflow-hidden">
       {/* Subtle ambient light gradient */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#3e4095]/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#ed3237]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#3e4095]/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 pb-12 border-b border-slate-700/70">
@@ -49,49 +49,49 @@ export default function Footer({ settings }: FooterProps) {
           {/* Quick Links (3 cols) */}
           <div className="lg:col-span-3 space-y-4">
             <h4 className="text-base font-bold text-white uppercase tracking-wider flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#ed3237]" />
+              <span className="w-2 h-2 rounded-full bg-[#3e4095]" />
               <span>Liên Kết Nhanh</span>
             </h4>
             <ul className="space-y-2.5 text-sm text-slate-300">
               <li>
                 <Link href="/" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
-                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237]" />
+                  <ChevronRight className="w-3.5 h-3.5 text-[#3e4095]" />
                   <span>Trang chủ</span>
                 </Link>
               </li>
               <li>
                 <Link href="/gioi-thieu" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
-                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237]" />
+                  <ChevronRight className="w-3.5 h-3.5 text-[#3e4095]" />
                   <span>Giới thiệu doanh nghiệp</span>
                 </Link>
               </li>
               <li>
                 <Link href="/linh-vuc-hoat-dong" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
-                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237]" />
+                  <ChevronRight className="w-3.5 h-3.5 text-[#3e4095]" />
                   <span>Lĩnh vực hoạt động</span>
                 </Link>
               </li>
               <li>
                 <Link href="/cong-trinh" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
-                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237]" />
+                  <ChevronRight className="w-3.5 h-3.5 text-[#3e4095]" />
                   <span>Công trình tiêu biểu</span>
                 </Link>
               </li>
               <li>
                 <Link href="/tin-tuc" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
-                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237]" />
+                  <ChevronRight className="w-3.5 h-3.5 text-[#3e4095]" />
                   <span>Tin tức & Sự kiện</span>
                 </Link>
               </li>
               <li>
                 <Link href="/tuyen-dung" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
-                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237]" />
+                  <ChevronRight className="w-3.5 h-3.5 text-[#3e4095]" />
                   <span>Cơ hội tuyển dụng</span>
                 </Link>
               </li>
               <li>
                 <Link href="/lien-he" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
-                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237]" />
+                  <ChevronRight className="w-3.5 h-3.5 text-[#3e4095]" />
                   <span>Liên hệ hợp tác</span>
                 </Link>
               </li>
@@ -135,37 +135,37 @@ export default function Footer({ settings }: FooterProps) {
           {/* Contact Details (3 cols) */}
           <div className="lg:col-span-3 space-y-4">
             <h4 className="text-base font-bold text-white uppercase tracking-wider flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#ed3237]" />
+              <span className="w-2 h-2 rounded-full bg-[#3e4095]" />
               <span>Liên Hệ Trụ Sở</span>
             </h4>
             <div className="space-y-3 text-sm text-slate-300">
               <div className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-[#ed3237] shrink-0 mt-1" />
+                <MapPin className="w-4 h-4 text-[#3e4095] shrink-0 mt-1" />
                 <span className="leading-snug">{settings.address || "12-14 Đường D5, Khu phố 12, Phường An Khánh, Tp. Hồ Chí Minh"}</span>
               </div>
               <div className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-[#ed3237] shrink-0" />
+                <Phone className="w-4 h-4 text-[#3e4095] shrink-0" />
                 {settings.phone && settings.hotline && settings.phone !== settings.hotline ? (
                   <span className="font-semibold text-white">
-                    <a href={`tel:${settings.phone.replace(/[^0-9]/g, "")}`} className="hover:text-red-400 transition-colors">
+                    <a href={`tel:${settings.phone.replace(/[^0-9]/g, "")}`} className="hover:text-blue-300 transition-colors">
                       {settings.phone}
                     </a>{" "}
                     /{" "}
-                    <a href={`tel:${settings.hotline.replace(/[^0-9]/g, "")}`} className="hover:text-red-400 transition-colors">
+                    <a href={`tel:${settings.hotline.replace(/[^0-9]/g, "")}`} className="hover:text-blue-300 transition-colors">
                       {settings.hotline}
                     </a>
                   </span>
                 ) : (
                   <a
                     href={`tel:${(settings.hotline || settings.phone || "0966.700.045").replace(/[^0-9]/g, "")}`}
-                    className="font-semibold text-white hover:text-red-400 transition-colors"
+                    className="font-semibold text-white hover:text-blue-300 transition-colors"
                   >
                     {settings.hotline || settings.phone || "0966.700.045"}
                   </a>
                 )}
               </div>
               <div className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-[#ed3237] shrink-0" />
+                <Mail className="w-4 h-4 text-[#3e4095] shrink-0" />
                 <a
                   href={`mailto:${settings.email || "info@trunghaico.vn"}`}
                   className="text-slate-200 hover:text-white transition-colors"
@@ -186,7 +186,7 @@ export default function Footer({ settings }: FooterProps) {
             <span className="text-slate-400 font-medium">Tiêu chuẩn ISO 9001:2015 & OHSAS 18001</span>
             <button
               onClick={scrollToTop}
-              className="p-2 rounded-[3px] bg-slate-800 hover:bg-[#ed3237] text-slate-300 hover:text-white border border-slate-700 transition-all shadow"
+              className="p-2 rounded-[3px] bg-slate-800 hover:bg-[#3e4095] text-slate-300 hover:text-white border border-slate-700 transition-all shadow"
               aria-label="Về đầu trang"
               title="Về đầu trang"
             >
@@ -196,10 +196,10 @@ export default function Footer({ settings }: FooterProps) {
         </div>
       </div>
 
-      {/* Floating Logo Red Back to Top Button */}
+      {/* Floating Logo Blue Back to Top Button */}
       <button
         onClick={scrollToTop}
-        className="fixed bottom-6 right-6 z-40 p-3 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white shadow-xl shadow-[#ed3237]/35 transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer"
+        className="fixed bottom-6 right-6 z-40 p-3 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white shadow-xl shadow-[#3e4095]/35 transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer"
         aria-label="Về đầu trang"
         title="Lên đầu trang"
       >

@@ -53,7 +53,7 @@ export default function ProjectDetailView({
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen text-slate-800 pt-28 sm:pt-32 pb-20 selection:bg-[#ed3237] selection:text-white">
+    <div className="bg-slate-50 min-h-screen text-slate-800 pt-28 sm:pt-32 pb-20 selection:bg-[#3e4095] selection:text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb Navigation */}
         <nav aria-label="Breadcrumb" className="mb-6">
@@ -61,7 +61,7 @@ export default function ProjectDetailView({
             <li>
               <Link
                 href="/"
-                className="text-slate-600 hover:text-[#ed3237] transition-colors"
+                className="text-slate-600 hover:text-[#3e4095] transition-colors"
               >
                 Trang chủ
               </Link>
@@ -70,13 +70,13 @@ export default function ProjectDetailView({
             <li>
               <Link
                 href="/cong-trinh"
-                className="text-slate-600 hover:text-[#ed3237] transition-colors"
+                className="text-slate-600 hover:text-[#3e4095] transition-colors"
               >
                 Công trình tiêu biểu
               </Link>
             </li>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-            <li className="text-[#ed3237] font-semibold truncate max-w-[240px] sm:max-w-md">
+            <li className="text-[#3e4095] font-semibold truncate max-w-[240px] sm:max-w-md">
               {project.title}
             </li>
           </ol>
@@ -86,7 +86,7 @@ export default function ProjectDetailView({
         <div className="mb-4">
           <Link
             href="/cong-trinh"
-            className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-slate-600 hover:text-[#ed3237] transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-slate-600 hover:text-[#3e4095] transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Quay lại danh mục công trình</span>
@@ -109,7 +109,7 @@ export default function ProjectDetailView({
                   </span>
                 )}
                 {project.featured && (
-                  <span className="px-2.5 py-1 rounded-[3px] bg-red-50 text-[#ed3237] border border-red-200 text-xs font-bold flex items-center gap-1">
+                  <span className="px-2.5 py-1 rounded-[3px] bg-blue-50 text-[#3e4095] border border-blue-200 text-xs font-bold flex items-center gap-1">
                     <Award className="w-3.5 h-3.5" />
                     <span>Dự án trọng điểm</span>
                   </span>
@@ -123,7 +123,7 @@ export default function ProjectDetailView({
               {/* Quick Meta Strip */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs text-slate-600 bg-slate-50 p-3.5 rounded-[3px] border border-slate-100">
                 <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-[#ed3237] shrink-0" />
+                  <MapPin className="w-4 h-4 text-[#3e4095] shrink-0" />
                   <div>
                     <span className="text-[10px] text-slate-400 uppercase font-bold block">Địa điểm</span>
                     <span className="font-semibold text-slate-800">{project.location}</span>
@@ -164,7 +164,7 @@ export default function ProjectDetailView({
                 <button
                   type="button"
                   onClick={() => openLightbox(selectedImageIndex)}
-                  className="absolute bottom-3 right-3 p-2 bg-black/60 hover:bg-[#ed3237] text-white rounded-[3px] backdrop-blur-sm transition-colors cursor-pointer"
+                  className="absolute bottom-3 right-3 p-2 bg-black/60 hover:bg-[#3e4095] text-white rounded-[3px] backdrop-blur-sm transition-colors cursor-pointer"
                   title="Xem ảnh phóng to"
                 >
                   <Maximize2 className="w-4 h-4" />
@@ -181,7 +181,7 @@ export default function ProjectDetailView({
                       onClick={() => setSelectedImageIndex(idx)}
                       className={`relative w-20 h-14 sm:w-24 sm:h-16 shrink-0 rounded-[3px] overflow-hidden border-2 transition-all cursor-pointer ${
                         selectedImageIndex === idx
-                          ? "border-[#ed3237] ring-2 ring-red-200"
+                          ? "border-[#3e4095] ring-2 ring-blue-200"
                           : "border-transparent opacity-70 hover:opacity-100"
                       }`}
                     >
@@ -193,9 +193,9 @@ export default function ProjectDetailView({
             </div>
 
             {/* Technical Scale Box */}
-            <div className="p-4 sm:p-5 rounded-[3px] bg-gradient-to-r from-red-50/80 via-white to-red-50/50 border-l-4 border-l-[#ed3237] border-y border-r border-slate-200 shadow-2xs">
+            <div className="p-4 sm:p-5 rounded-[3px] bg-gradient-to-r from-blue-50/80 via-white to-blue-50/50 border-l-4 border-l-[#3e4095] border-y border-r border-slate-200 shadow-2xs">
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#3e4095] mb-1.5">
-                <Layers className="w-4 h-4 text-[#ed3237]" />
+                <Layers className="w-4 h-4 text-[#3e4095]" />
                 <span>Quy mô & Thông số kỹ thuật chủ đạo</span>
               </div>
               <p className="text-sm sm:text-base font-semibold text-slate-800 leading-relaxed">
@@ -225,7 +225,7 @@ export default function ProjectDetailView({
             <div className="pt-2">
               <Link
                 href="/cong-trinh"
-                className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#ed3237] hover:underline"
+                className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#3e4095] hover:underline"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Quay lại danh mục tất cả công trình</span>
@@ -238,12 +238,12 @@ export default function ProjectDetailView({
             <div className="bg-white rounded-[3px] border border-slate-200 shadow-sm p-5 space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                 <h3 className="text-sm sm:text-base font-extrabold text-slate-900 uppercase tracking-wide flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-[#ed3237]" />
+                  <span className="w-2 h-2 rounded-full bg-[#3e4095]" />
                   <span>Công Trình Tiêu Biểu Khác</span>
                 </h3>
                 <Link
                   href="/cong-trinh"
-                  className="text-xs text-[#ed3237] hover:underline font-bold shrink-0"
+                  className="text-xs text-[#3e4095] hover:underline font-bold shrink-0"
                 >
                   Xem tất cả
                 </Link>
@@ -271,7 +271,7 @@ export default function ProjectDetailView({
                         <span className="text-[10px] text-[#3e4095] font-extrabold uppercase tracking-wider block truncate">
                           {rel.categoryName}
                         </span>
-                        <h4 className="text-xs font-bold text-slate-900 group-hover:text-[#ed3237] line-clamp-2 leading-snug transition-colors">
+                        <h4 className="text-xs font-bold text-slate-900 group-hover:text-[#3e4095] line-clamp-2 leading-snug transition-colors">
                           {rel.title}
                         </h4>
                         <span className="text-[11px] text-slate-500 font-medium block">
@@ -317,14 +317,14 @@ export default function ProjectDetailView({
                 <button
                   type="button"
                   onClick={prevImage}
-                  className="absolute left-2 p-2 bg-black/50 hover:bg-[#ed3237] text-white rounded-full transition-colors cursor-pointer"
+                  className="absolute left-2 p-2 bg-black/50 hover:bg-[#3e4095] text-white rounded-full transition-colors cursor-pointer"
                 >
                   <ChevronLeft className="w-6 h-6" />
                 </button>
                 <button
                   type="button"
                   onClick={nextImage}
-                  className="absolute right-2 p-2 bg-black/50 hover:bg-[#ed3237] text-white rounded-full transition-colors cursor-pointer"
+                  className="absolute right-2 p-2 bg-black/50 hover:bg-[#3e4095] text-white rounded-full transition-colors cursor-pointer"
                 >
                   <ChevronRight className="w-6 h-6" />
                 </button>

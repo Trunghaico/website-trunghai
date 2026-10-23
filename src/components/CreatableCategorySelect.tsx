@@ -143,7 +143,7 @@ export default function CreatableCategorySelect({
       <div
         className={`w-full flex items-center rounded-[3px] bg-white border text-xs transition-all ${
           isOpen
-            ? "border-[#ed3237] ring-1 ring-[#ed3237]/25 shadow-2xs"
+            ? "border-[#3e4095] ring-1 ring-[#3e4095]/25 shadow-2xs"
             : "border-slate-200 hover:border-slate-300"
         }`}
       >
@@ -191,7 +191,7 @@ export default function CreatableCategorySelect({
           >
             <ChevronDown
               className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                isOpen ? "rotate-180 text-[#ed3237]" : ""
+                isOpen ? "rotate-180 text-[#3e4095]" : ""
               }`}
             />
           </button>
@@ -209,9 +209,9 @@ export default function CreatableCategorySelect({
                 e.preventDefault();
                 handleCreateNew(inputValue);
               }}
-              className="w-full px-3 py-2.5 text-left text-xs font-semibold text-[#ed3237] bg-red-50/70 hover:bg-red-100/80 border-b border-red-100 flex items-center gap-2 transition-colors cursor-pointer group"
+              className="w-full px-3 py-2.5 text-left text-xs font-semibold text-[#3e4095] bg-blue-50/70 hover:bg-blue-100/80 border-b border-blue-100 flex items-center gap-2 transition-colors cursor-pointer group"
             >
-              <div className="w-5 h-5 rounded-[3px] bg-[#ed3237] text-white flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-2xs">
+              <div className="w-5 h-5 rounded-[3px] bg-[#3e4095] text-white flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-2xs">
                 <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
               </div>
               <div className="min-w-0 flex-1 truncate">
@@ -240,14 +240,14 @@ export default function CreatableCategorySelect({
                     }}
                     className={`w-full px-3 py-2 text-left text-xs flex items-center justify-between transition-colors cursor-pointer ${
                       isSelected
-                        ? "bg-red-50/70 font-bold text-[#ed3237]"
+                        ? "bg-blue-50/70 font-bold text-[#3e4095]"
                         : "text-slate-700 hover:bg-slate-50 hover:text-slate-900"
                     }`}
                   >
                     <div className="flex items-center gap-2 min-w-0">
                       <span
                         className={`w-1.5 h-1.5 rounded-full shrink-0 ${
-                          isSelected ? "bg-[#ed3237]" : "bg-slate-300"
+                          isSelected ? "bg-[#3e4095]" : "bg-slate-300"
                         }`}
                       />
                       <span className="truncate">{cat.name}</span>
@@ -257,7 +257,7 @@ export default function CreatableCategorySelect({
                     </div>
 
                     {isSelected && (
-                      <Check className="w-3.5 h-3.5 text-[#ed3237] shrink-0 ml-2" />
+                      <Check className="w-3.5 h-3.5 text-[#3e4095] shrink-0 ml-2" />
                     )}
                   </button>
                 );

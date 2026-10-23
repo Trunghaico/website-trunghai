@@ -116,7 +116,7 @@ export default async function GioiThieuPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col selection:bg-[#ed3237] selection:text-white">
+      <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col selection:bg-[#3e4095] selection:text-white">
         {/* Header điều hướng */}
         <Header hotline={settings.hotline || settings.phone} />
 

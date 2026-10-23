@@ -23,8 +23,8 @@ export default function AboutSection() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity" />
             </div>
 
-            {/* Overlapping Solid Red Badge with Hover Float & Glow Animation */}
-            <div className="absolute bottom-0 right-0 sm:-bottom-3 sm:-right-2 bg-[#ed3237] text-white p-4 sm:p-6 rounded-[3px] shadow-xl shadow-[#ed3237]/30 min-w-[170px] sm:min-w-[200px] z-10 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[#ed3237]/50 cursor-default">
+            {/* Overlapping Solid Blue Badge with Hover Float & Glow Animation */}
+            <div className="absolute bottom-0 right-0 sm:-bottom-3 sm:-right-2 bg-[#3e4095] text-white p-4 sm:p-6 rounded-[3px] shadow-xl shadow-[#3e4095]/30 min-w-[170px] sm:min-w-[200px] z-10 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[#3e4095]/50 cursor-default">
               <div className="text-2xl sm:text-4xl font-extrabold tracking-tight">
                 15+
               </div>
@@ -38,7 +38,7 @@ export default function AboutSection() {
           <div className="lg:col-span-6 space-y-4 sm:space-y-5 reveal-fade-right">
             {/* Tag Badge */}
             <div>
-              <span className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/30">
+              <span className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-[#3e4095] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#3e4095]/30">
                 <span className="w-2 h-2 rounded-full bg-white animate-ping" />
                 <span>VỀ CHÚNG TÔI</span>
               </span>
@@ -61,9 +61,9 @@ export default function AboutSection() {
 
             {/* Vision & Mission 2-column Grid with Hover Shift & Border Thickening */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-              {/* Tầm nhìn (Brand Red border with hover animation) */}
-              <div className="group/item border-l-2 hover:border-l-4 border-[#ed3237] pl-4 py-1 space-y-1 hover:bg-slate-50/80 rounded-r-[3px] transition-all duration-300 hover:translate-x-1">
-                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wide group-hover/item:text-[#ed3237] transition-colors">
+              {/* Tầm nhìn (Brand Blue border with hover animation) */}
+              <div className="group/item border-l-2 hover:border-l-4 border-[#3e4095] pl-4 py-1 space-y-1 hover:bg-slate-50/80 rounded-r-[3px] transition-all duration-300 hover:translate-x-1">
+                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wide group-hover/item:text-[#3e4095] transition-colors">
                   TẦM NHÌN
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">

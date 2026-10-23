@@ -22,7 +22,7 @@ export default async function HomePage() {
   ]);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col selection:bg-[#ed3237] selection:text-white">
+    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col selection:bg-[#3e4095] selection:text-white">
       {/* 1. Transparent-on-top Sticky Header */}
       <Header hotline={settings.hotline || settings.phone} />
 
