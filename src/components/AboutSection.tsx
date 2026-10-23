@@ -14,7 +14,7 @@ export default function AboutSection() {
             {/* Image Box with zoom on hover */}
             <div className="relative rounded-[3px] overflow-hidden shadow-lg aspect-[16/11] w-full bg-slate-100 border border-slate-200">
               <Image
-                src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80"
+                src="https://6adae65b086c9bf0741038e3.imgix.net/sandbox/trangchu.jpg"
                 alt="Tập thể cán bộ công nhân viên Công ty Trung Hải"
                 fill
                 priority
@@ -26,7 +26,7 @@ export default function AboutSection() {
             {/* Overlapping Solid Red Badge with Hover Float & Glow Animation */}
             <div className="absolute bottom-0 right-0 sm:-bottom-3 sm:-right-2 bg-[#ed3237] text-white p-4 sm:p-6 rounded-[3px] shadow-xl shadow-[#ed3237]/30 min-w-[170px] sm:min-w-[200px] z-10 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[#ed3237]/50 cursor-default">
               <div className="text-2xl sm:text-4xl font-extrabold tracking-tight">
-                12+
+                15+
               </div>
               <div className="text-[11px] sm:text-xs font-bold uppercase tracking-wider mt-1.5 leading-snug">
                 NĂM KIẾN TẠO GIÁ TRỊ BỀN VỮNG

@@ -144,7 +144,7 @@ export default function StatsCounter() {
   const stats = [
     {
       icon: Award,
-      value: "12+",
+      value: "15+",
       label: "Năm Kinh Nghiệm",
       desc: "Xây dựng hạ tầng giao thông trọng điểm",
     },
@@ -162,7 +162,7 @@ export default function StatsCounter() {
     },
     {
       icon: TrendingUp,
-      value: "5.000+",
+      value: "10.000+",
       label: "Tỷ Đồng Gói Thầu",
       desc: "Tổng giá trị các công trình đã hoàn thành",
     },
