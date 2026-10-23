@@ -202,7 +202,7 @@ export default function ServicesSection() {
       desc: "Công trình đường cao tốc & Hầm xuyên núi, Hầm chui ",
       image: "https://6adae65b086c9bf0741038e3.imgix.net/sandbox/h%C3%ACnh%2010.jpg",
       bullets: [
-        "Đường cao tốc, quốc lộ, tỉnh lộ, đô thị & nông thôn",
+        "Đường cao tốc, quốc lộ, tỉnh lộ, đô thị",
         "Cầu cạn, cầu vượt sông, hầm xuyên núi",
         "Lắp đặt hệ thống an toàn, chiếu sáng & ITS",
       ],

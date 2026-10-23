@@ -220,25 +220,25 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
       year: "2010",
       yearColor: "text-[#3e4095]",
       title: "Thành Lập Doanh Nghiệp",
-      desc: "Khởi đầu với tên gọi Công ty CP Xây dựng TTNT Trung Hải, tập trung vào thiết kế thi công nội thất và hoàn thiện công trình dân dụng.",
+      desc: "Khởi đầu với tên gọi Công ty CP Xây dựng và Đầu tư Trung Hải, tập trung vào thiết kế thi công nội thất và hoàn thiện công trình nhỏ.",
     },
     {
       year: "2015",
       yearColor: "text-[#f59e0b]",
       title: "Mở Rộng Quy Mô Thi Công",
-      desc: "Nâng cấp thành Công ty CP Đầu tư Xây lắp Trung Hải, chính thức tham gia thi công các dự án nhà cao tầng và hạ tầng kỹ thuật đô thị.",
+      desc: "Nâng cấp thành Công ty Cổ Phần Xây dựng và Đầu tư Trung Hải, chính thức tham gia thi công các dự án nhà cao tầng và hạ tầng kỹ thuật đô thị.",
     },
     {
       year: "2020",
       yearColor: "text-[#3e4095]",
-      title: "Đầu Tư Nhà Xưởng Cơ Khí",
-      desc: "Vận hành nhà máy chế tạo kết cấu thép và xưởng gia công cửa nhựa uPVC, vách kính mặt dựng công nghệ Đức, khép kín chuỗi giá trị xây lắp.",
+      title: "Đầu Tư vận hành đường cao tốc, Hầm đường bộ",
+      desc: "Vận hành khai thác, bảo trì, bảo dưỡng các dự án giao thông trọng điểm Quốc gia",
     },
     {
       year: "2026",
       yearColor: "text-[#f59e0b]",
-      title: "Chuyển Đổi Số & Bền Vững",
-      desc: "Áp dụng công nghệ số hóa mô hình BIM, quản trị hiện đại, sẵn sàng đấu thầu và đảm nhận các siêu dự án công nghiệp & thương mại lớn.",
+      title: "Phát triển dự án",
+      desc: "Phát triển các dự án trọng điểm quốc gia, các tuyến đường cao tốc lớn Bắc - Nam và các dự án công nghiệp, thương mại lớn",
     },
   ];
 
@@ -363,7 +363,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
                   {/* Top Blue Badge */}
                   <div className="relative z-10" style={{ transform: "translateZ(14px)" }}>
                     <span className="inline-block px-3 py-1 rounded-[2px] bg-[#3e4095] text-white text-[11px] font-bold uppercase tracking-wider shadow-md">
-                      TRUNG HẢI XD
+                      TRUNG HẢI
                     </span>
                   </div>
 
@@ -379,7 +379,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
                       TỔNG THẦU THI CÔNG XÂY LẮP
                     </div>
                     <div className="text-[11px] text-slate-400 font-light pt-1">
-                      CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP TRUNG HẢI • ISO 9001:2015
+                      CÔNG TY CỔ PHẦN XÂY DỰNG VÀ ĐẦU TƯ TRUNG HẢI
                     </div>
                   </div>
                 </div>
@@ -392,10 +392,10 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
               >
                 <div className="p-4 sm:p-5 rounded-[3px] bg-[#0c1017] text-white border border-slate-800 border-b-4 border-b-[#3e4095] shadow-2xl shadow-black/80 min-w-[170px] sm:min-w-[190px] transition-transform duration-300 hover:scale-105">
                   <div className="text-3xl sm:text-4xl font-black tracking-tight text-amber-400 drop-shadow">
-                    380+
+                    HƠN 5000+ TỶ
                   </div>
                   <div className="text-[11px] sm:text-xs font-black uppercase tracking-wider mt-1 text-white leading-snug">
-                    DỰ ÁN BÀN GIAO THÀNH CÔNG
+                    QUỸ ĐẦU TƯ CÁC DỰ ÁN
                   </div>
                 </div>
               </div>
@@ -436,7 +436,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
                     TẦM NHÌN
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                    Trở thành một trong những tổng thầu xây lắp công trình dân dụng & công nghiệp hàng đầu khu vực miền Nam, tiên phong áp dụng kỹ thuật số BIM và vật liệu xây dựng bền vững, thân thiện với môi trường.
+                    Trở thành một trong những doanh nghiệp xây dựng và đầu tư uy tín hàng đầu trong khu vực, tiên phong ứng dụng công nghệ hiện đại và giải pháp xây dựng bền vững, thân thiện với môi trường.
                   </p>
                 </div>
               </TiltCard>
@@ -454,7 +454,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
                     SỨ MỆNH
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                    Kiến tạo không gian sống và sản xuất an toàn, kiên cố; mang đến giá trị gia tăng vượt trội và tối ưu hóa ngân sách cho Chủ đầu tư; xây dựng môi trường làm việc chuyên nghiệp, nhân văn cho người lao động.
+                    Kiến tạo những công trình chất lượng vượt trội, đảm bảo tiến độ và tối ưu hóa hiệu quả kinh tế. Xây dựng môi trường làm việc an toàn, chuyên nghiệp, tạo cơ hội phát triển tối đa cho mỗi cá nhân. Đóng góp vào diện mạo hạ tầng đô thị hiện đại, thúc đẩy sự phát triển kinh tế – xã hội của địa phương.
                   </p>
                 </div>
               </TiltCard>
