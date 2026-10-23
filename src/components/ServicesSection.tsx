@@ -199,7 +199,7 @@ export default function ServicesSection() {
       tag: "GIAO THÔNG",
       icon: Factory,
       title: "Xây Dựng Công Trình Giao Thông",
-      desc: "Công trình đường cao tốc & Hầm xuyên núi ",
+      desc: "Công trình đường cao tốc & Hầm xuyên núi, Hầm chui ",
       image: "https://6adae65b086c9bf0741038e3.imgix.net/sandbox/h%C3%ACnh%2010.jpg",
       bullets: [
         "Đường cao tốc, quốc lộ, tỉnh lộ, đô thị & nông thôn",
@@ -225,7 +225,7 @@ export default function ServicesSection() {
       tag: "KẾT CẤU & CƠ ĐIỆN",
       icon: Hammer,
       title: "Kết Cấu Thép & Kiến Trúc",
-      desc: "Gia công kết cấu dầm, cột, cống hộp",
+      desc: "Gia công kết cấu dầm, cột, cống hộp, dựng cột bê tông thép",
       image: "https://6adae65b086c9bf0741038e3.imgix.net/sandbox/_MG_6389.jpg",
       bullets: [
         "Gia công kết cấu bãi đúc dầm",
