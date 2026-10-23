@@ -172,9 +172,9 @@ export const initialProjects: Project[] = [
     year: "2018 - 2021",
     value: "950 Tỷ VNĐ",
     scale: "Cầu dầm Super T bê tông cốt thép dự ứng lực, nhịp đúc hẫng cân bằng",
-    thumbnail: "https://images.unsplash.com/photo-1545558014-8692077e9b5c?auto=format&fit=crop&w=1200&q=80",
+    thumbnail: "https://6adae65b086c9bf0741038e3.imgix.net/sandbox/_MG_3970.jpg",
     gallery: [
-      "https://images.unsplash.com/photo-1545558014-8692077e9b5c?auto=format&fit=crop&w=1200&q=80",
+      "https://6adae65b086c9bf0741038e3.imgix.net/sandbox/_MG_3970.jpg",
     ],
     description:
       "Thi công hệ thống cầu cạn và các nhánh nút giao liên thông, kết nối các tuyến cao tốc huyết mạch với các khu kinh tế ven biển.",
@@ -195,9 +195,9 @@ export const initialProjects: Project[] = [
     year: "2020 - 2023",
     value: "420 Tỷ VNĐ",
     scale: "Hệ thống neo cáp dự ứng lực, lưới thép cường độ cao, tường chắn bê tông",
-    thumbnail: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80",
+    thumbnail: "https://6adae65b086c9bf0741038e3.imgix.net/sandbox/_VTS2047.jpg",
     gallery: [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80",
+      "https://6adae65b086c9bf0741038e3.imgix.net/sandbox/_VTS2047.jpg",
     ],
     description:
       "Ứng dụng công nghệ khoan neo trong đá, phun vữa gia cố và lưới chắn đá rơi để bảo vệ tuyệt đối an toàn cho các cung đường đèo hiểm trở vào mùa mưa bão.",
@@ -221,7 +221,7 @@ export const initialProjects: Project[] = [
     thumbnail: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80",
     gallery: [
       "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1545558014-8692077e9b5c?auto=format&fit=crop&w=1200&q=80",
+      "https://6adae65b086c9bf0741038e3.imgix.net/sandbox/_MG_6389.jpg",
     ],
     description:
       "Công trình cầu vượt sông kết hợp tuyến tránh đô thị nhằm giải tỏa ùn tắc giao thông cửa ngõ, kết nối các khu công nghiệp trọng điểm với hệ thống cảng cạn quốc tế.",
