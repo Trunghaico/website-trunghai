@@ -183,11 +183,11 @@ function Service3DCard({
 export default function ServicesSection() {
   const services = [
     {
-      tag: "DÂN DỤNG",
+      tag: "ĐƯỜNG BỘ",
       icon: Building2,
-      title: "Xây Dựng Dân Dụng & Cao Tầng",
-      desc: "Thi công tòa nhà văn phòng, khu chung cư cao cấp, trung tâm thương mại và biệt thự.",
-      image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80",
+      title: "Xây Dựng Công Trình Đường Bộ",
+      desc: "Thi công Cầu đường bộ, Hầm đường bộ, Nền đường.",
+      image: "https://6adae65b086c9bf0741038e3.imgix.net/sandbox/_MG_3970.jpg",
       bullets: [
         "Thi công phần thô & hoàn thiện",
         "Tầng hầm kỹ thuật phức tạp",
@@ -196,27 +196,27 @@ export default function ServicesSection() {
       link: "#projects",
     },
     {
-      tag: "CÔNG NGHIỆP",
+      tag: "GIAO THÔNG",
       icon: Factory,
-      title: "Công Trình Công Nghiệp & Nhà Xưởng",
-      desc: "Xây dựng nhà xưởng sản xuất, kho vận logistics và khu chế xuất công nghệ cao.",
-      image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80",
+      title: "Xây Dựng Công Trình Giao Thông",
+      desc: "Công trình đường cao tốc & Hầm xuyên núi ",
+      image: "https://6adae65b086c9bf0741038e3.imgix.net/sandbox/h%C3%ACnh%2010.jpg",
       bullets: [
-        "Khẩu độ lớn, vượt nhịp thông thoáng",
-        "Nền epoxy chịu tải trọng cao",
-        "Thông gió & PCCC chuẩn mực",
+        "Đường cao tốc, quốc lộ, tỉnh lộ, đô thị & nông thôn",
+        "Cầu cạn, cầu vượt sông, hầm xuyên núi, hầm chui ngã tư",
+        "Lắp đặt hệ thống an toàn, chiếu sáng & ITS",
       ],
       link: "#projects",
     },
     {
-      tag: "HẠ TẦNG",
+      tag: "THIẾT BỊ & VẬT TƯ",
       icon: Route,
-      title: "Hạ Tầng Kỹ Thuật & Giao Thông",
-      desc: "Thi công hệ thống đường nội khu, cấp thoát nước đô thị và san lấp mặt bằng.",
-      image: "https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?auto=format&fit=crop&w=800&q=80",
+      title: "Cung cấp thiết bị thi công & Vật tư",
+      desc: "Đảm đầy đủ thiết bị thi công và cung cấp các vật tư mua sắm cho công trình",
+      image: "https://6adae65b086c9bf0741038e3.imgix.net/sandbox/_VTS2047.jpg",
       bullets: [
-        "Cống hộp bê tông ly tâm",
-        "Thảm nhựa đường asphalt cao cấp",
+        "Cung cấp thiết bị thi công chuyên dụng",
+        "Vật tư xây dựng chất lượng cao",
         "Hệ thống điện & chiếu sáng",
       ],
       link: "#projects",
@@ -224,8 +224,8 @@ export default function ServicesSection() {
     {
       tag: "KẾT CẤU & CƠ ĐIỆN",
       icon: Hammer,
-      title: "Kết Cấu Thép & Nhôm Kính Kiến Trúc",
-      desc: "Gia công khung thép tiền chế, vách kính mặt dựng facade kính hộp an toàn.",
+      title: "Kết Cấu Thép & Kiến Trúc",
+      desc: "Gia công khung thép công trình, Gia công .",
       image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80",
       bullets: [
         "Cấu kiện nhôm kính định hình",
