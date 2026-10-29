@@ -104,7 +104,9 @@ function Project3DCard({
               }}
             >
               <span className="px-2.5 py-0.5 rounded-[2px] bg-[#3e4095] text-white text-[11px] font-bold uppercase tracking-wider shadow">
-                {project.categoryName}
+                {project.category === "ham" || project.categoryName?.toLowerCase().includes("hầm xuyên núi")
+                  ? "Đèo & Hầm Núi"
+                  : project.categoryName}
               </span>
             </div>
 

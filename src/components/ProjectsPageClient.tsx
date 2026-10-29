@@ -125,7 +125,9 @@ function Project3DItem({
               }}
             >
               <span className="px-2.5 py-1 rounded-[2px] bg-[#3e4095] text-white text-[11px] font-bold uppercase tracking-wider shadow">
-                {project.categoryName}
+                {project.category === "ham" || project.categoryName?.toLowerCase().includes("hầm xuyên núi")
+                  ? "Đèo & Hầm Núi"
+                  : project.categoryName}
               </span>
             </div>
 
@@ -278,7 +280,8 @@ export default function ProjectsPageClient({
         p.location.toLowerCase().includes(q) ||
         p.client.toLowerCase().includes(q) ||
         p.scale.toLowerCase().includes(q) ||
-        p.categoryName.toLowerCase().includes(q);
+        p.categoryName.toLowerCase().includes(q) ||
+        (p.category === "ham" && "đèo & hầm núi".includes(q));
 
       return matchCategory && matchSearch;
     });

@@ -101,7 +101,9 @@ export default function ProjectDetailView({
             <header className="space-y-4 border-b border-slate-100 pb-6">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="px-3 py-1 rounded-[3px] bg-[#3e4095] text-white text-xs font-bold uppercase tracking-wider shadow-2xs">
-                  {project.categoryName}
+                  {project.category === "ham" || project.categoryName?.toLowerCase().includes("hầm xuyên núi")
+                    ? "Đèo & Hầm Núi"
+                    : project.categoryName}
                 </span>
                 {project.value && (
                   <span className="px-3 py-1 rounded-[3px] bg-amber-50 text-amber-700 border border-amber-200 text-xs font-bold">
@@ -269,7 +271,9 @@ export default function ProjectDetailView({
                       </div>
                       <div className="min-w-0 flex-1 space-y-1">
                         <span className="text-[10px] text-[#3e4095] font-extrabold uppercase tracking-wider block truncate">
-                          {rel.categoryName}
+                          {rel.category === "ham" || rel.categoryName?.toLowerCase().includes("hầm xuyên núi")
+                            ? "Đèo & Hầm Núi"
+                            : rel.categoryName}
                         </span>
                         <h4 className="text-xs font-bold text-slate-900 group-hover:text-[#3e4095] line-clamp-2 leading-snug transition-colors">
                           {rel.title}

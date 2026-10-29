@@ -32,6 +32,10 @@ export async function POST(req: Request) {
         .replace(/^-|-$/g, "");
     }
 
+    if (body.category === "ham" || body.categoryName?.toLowerCase().includes("hầm xuyên núi")) {
+      body.categoryName = "Đèo & Hầm Núi";
+    }
+
     const saved = await db.saveProject(body);
     return NextResponse.json(saved);
   } catch (err: any) {

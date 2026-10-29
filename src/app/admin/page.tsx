@@ -1205,7 +1205,11 @@ export default function AdminPage() {
                             </div>
                             <div className="min-w-0">
                               <div className="font-semibold text-slate-800 truncate">{p.title}</div>
-                              <div className="text-[11px] text-slate-500">{p.categoryName} • {p.location}</div>
+                              <div className="text-[11px] text-slate-500">
+                                {p.category === "ham" || p.categoryName?.toLowerCase().includes("hầm xuyên núi")
+                                  ? "Đèo & Hầm Núi"
+                                  : p.categoryName} • {p.location}
+                              </div>
                             </div>
                           </div>
                           <span className="text-[11px] font-semibold text-slate-500 shrink-0 ml-2">
@@ -1463,7 +1467,9 @@ export default function AdminPage() {
                                   </td>
                                   <td className="py-2.5 px-3.5">
                                     <span className="px-2 py-0.5 rounded-[3px] bg-slate-100 text-slate-700 text-[11px] font-medium border border-slate-200">
-                                      {p.categoryName}
+                                      {p.category === "ham" || p.categoryName?.toLowerCase().includes("hầm xuyên núi")
+                                        ? "Đèo & Hầm Núi"
+                                        : p.categoryName}
                                     </span>
                                   </td>
                                   <td className="py-2.5 px-3.5 text-slate-500">{p.location}</td>
@@ -1471,7 +1477,13 @@ export default function AdminPage() {
                                   <td className="py-2.5 px-3.5 text-right space-x-1">
                                     <button
                                       onClick={() => {
-                                        setProjectForm(p);
+                                        setProjectForm({
+                                          ...p,
+                                          categoryName:
+                                            p.category === "ham" || p.categoryName?.toLowerCase().includes("hầm xuyên núi")
+                                              ? "Đèo & Hầm Núi"
+                                              : p.categoryName,
+                                        });
                                         setIsEditingProject(true);
                                       }}
                                       className="p-1.5 rounded-[3px] border border-slate-200 hover:bg-slate-100 text-slate-600 transition-colors"

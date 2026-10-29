@@ -140,20 +140,34 @@ export const db = {
 
   // === PROJECTS ===
   async getProjects(): Promise<Project[]> {
+    const normalizeProjectCategory = (r: any): Project => {
+      let catName = r.categoryName;
+      if (r.category === "ham" || catName?.toLowerCase().includes("hầm xuyên núi")) {
+        catName = "Đèo & Hầm Núi";
+      }
+      return {
+        ...r,
+        categoryName: catName,
+        gallery: typeof r.gallery === "string" ? JSON.parse(r.gallery) : r.gallery || [],
+        highlights: typeof r.highlights === "string" ? JSON.parse(r.highlights) : r.highlights || [],
+        featured: Boolean(r.featured),
+      };
+    };
+
     if (isCloudflareD1Configured) {
       try {
+        // Tự động đồng bộ hóa toàn bộ dự án cũ trong D1 sang 'Đèo & Hầm Núi'
+        executeD1Query(
+          "UPDATE projects SET categoryName = 'Đèo & Hầm Núi' WHERE category = 'ham' OR categoryName LIKE '%Hầm Xuyên Núi%' OR categoryName LIKE '%Hầm xuyên núi%'"
+        ).catch(() => {});
+
         const rows = await executeD1Query<any>("SELECT * FROM projects ORDER BY created_at DESC");
-        return rows.map((r) => ({
-          ...r,
-          gallery: typeof r.gallery === "string" ? JSON.parse(r.gallery) : r.gallery || [],
-          highlights: typeof r.highlights === "string" ? JSON.parse(r.highlights) : r.highlights || [],
-          featured: Boolean(r.featured),
-        }));
+        return rows.map(normalizeProjectCategory);
       } catch (err) {
         console.warn("Cloudflare D1 query error, falling back to memory store:", err);
       }
     }
-    return memoryStore.projects;
+    return memoryStore.projects.map(normalizeProjectCategory);
   },
 
   async getProjectById(id: string): Promise<Project | undefined> {
@@ -167,27 +181,35 @@ export const db = {
   },
 
   async saveProject(project: Project): Promise<Project> {
+    const projectToSave: Project = {
+      ...project,
+      categoryName:
+        project.category === "ham" || project.categoryName?.toLowerCase().includes("hầm xuyên núi")
+          ? "Đèo & Hầm Núi"
+          : project.categoryName,
+    };
+
     if (isCloudflareD1Configured) {
       try {
         await executeD1Query(
           `INSERT OR REPLACE INTO projects (id, title, slug, category, categoryName, client, location, year, value, scale, thumbnail, gallery, description, highlights, featured)
            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
           [
-            project.id,
-            project.title,
-            project.slug,
-            project.category,
-            project.categoryName,
-            project.client,
-            project.location,
-            project.year,
-            project.value || "",
-            project.scale,
-            project.thumbnail,
-            JSON.stringify(project.gallery || []),
-            project.description,
-            JSON.stringify(project.highlights || []),
-            project.featured ? 1 : 0,
+            projectToSave.id,
+            projectToSave.title,
+            projectToSave.slug,
+            projectToSave.category,
+            projectToSave.categoryName,
+            projectToSave.client,
+            projectToSave.location,
+            projectToSave.year,
+            projectToSave.value || "",
+            projectToSave.scale,
+            projectToSave.thumbnail,
+            JSON.stringify(projectToSave.gallery || []),
+            projectToSave.description,
+            JSON.stringify(projectToSave.highlights || []),
+            projectToSave.featured ? 1 : 0,
           ]
         );
       } catch (err) {
@@ -195,13 +217,13 @@ export const db = {
       }
     }
 
-    const index = memoryStore.projects.findIndex((p) => p.id === project.id);
+    const index = memoryStore.projects.findIndex((p) => p.id === projectToSave.id);
     if (index >= 0) {
-      memoryStore.projects[index] = project;
+      memoryStore.projects[index] = projectToSave;
     } else {
-      memoryStore.projects.unshift(project);
+      memoryStore.projects.unshift(projectToSave);
     }
-    return project;
+    return projectToSave;
   },
 
   async deleteProject(id: string): Promise<boolean> {
