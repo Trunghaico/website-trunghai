@@ -55,33 +55,36 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "Missing news id" }, { status: 400 });
     }
 
-    // 1. Tìm bài viết để quét các ảnh trên Cloudinary cần hủy (Thumbnail + Ảnh trong nội dung)
-    const allNews = await db.getNews();
-    const targetPost = allNews.find((n) => n.id === id);
+    // 1. Quét và hủy các ảnh trên Cloudinary nếu có (không làm gián đoạn việc xóa bài viết nếu Cloudinary lỗi)
+    try {
+      const allNews = await db.getNews();
+      const targetPost = allNews.find((n) => n.id === id || n.slug === id);
 
-    if (targetPost) {
-      const urlsToDelete: string[] = [];
+      if (targetPost) {
+        const urlsToDelete: string[] = [];
 
-      // Ảnh thumbnail đại diện
-      if (targetPost.thumbnail && targetPost.thumbnail.includes("res.cloudinary.com")) {
-        urlsToDelete.push(targetPost.thumbnail);
+        // Ảnh thumbnail đại diện
+        if (targetPost.thumbnail && targetPost.thumbnail.includes("res.cloudinary.com")) {
+          urlsToDelete.push(targetPost.thumbnail);
+        }
+
+        // Các hình ảnh chèn trong nội dung HTML bài viết
+        if (targetPost.content) {
+          const contentUrls = extractCloudinaryUrlsFromHtml(targetPost.content);
+          urlsToDelete.push(...contentUrls);
+        }
+
+        if (urlsToDelete.length > 0) {
+          await deleteMultipleFromCloudinary(urlsToDelete);
+        }
       }
-
-      // Các hình ảnh chèn trong nội dung HTML bài viết (soạn từ Quill)
-      if (targetPost.content) {
-        const contentUrls = extractCloudinaryUrlsFromHtml(targetPost.content);
-        urlsToDelete.push(...contentUrls);
-      }
-
-      // Gọi Cloudinary Destroy API hủy tất cả ảnh liên quan
-      if (urlsToDelete.length > 0) {
-        await deleteMultipleFromCloudinary(urlsToDelete);
-      }
+    } catch (imgErr) {
+      console.warn("Cloudinary cleanup warning, proceeding with post deletion:", imgErr);
     }
 
     // 2. Xóa bản ghi bài viết trong cơ sở dữ liệu
     const success = await db.deleteNews(id);
-    return NextResponse.json({ success });
+    return NextResponse.json({ success: Boolean(success) });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }

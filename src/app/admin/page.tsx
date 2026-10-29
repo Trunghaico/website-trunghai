@@ -410,13 +410,16 @@ export default function AdminPage() {
   const handleDeleteNews = async (id: string) => {
     if (!confirm("Bạn có chắc chắn muốn xóa tin tức này?")) return;
     try {
-      const res = await fetch(`/api/news?id=${id}`, { method: "DELETE" });
-      if (res.ok) {
+      const res = await fetch(`/api/news?id=${encodeURIComponent(id)}`, { method: "DELETE" });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.success !== false) {
         showNotice("Đã xóa tin tức thành công");
-        loadData();
+        await loadData();
+      } else {
+        showNotice(data.error || "Không thể xóa bài viết, vui lòng thử lại!", "error");
       }
     } catch (err: any) {
-      showNotice(err.message, "error");
+      showNotice(err.message || "Lỗi kết nối khi xóa tin tức", "error");
     }
   };
 

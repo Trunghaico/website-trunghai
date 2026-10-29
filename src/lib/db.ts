@@ -95,8 +95,13 @@ export async function executeD1Query<T = any>(sql: string, params: any[] = []): 
       if (params && params.length > 0) {
         stmt = stmt.bind(...params);
       }
+      const isMutation = /^\s*(DELETE|INSERT|UPDATE|DROP|CREATE|ALTER)\b/i.test(sql);
+      if (isMutation && typeof stmt.run === "function") {
+        const res = await stmt.run();
+        return (res?.results || []) as T[];
+      }
       const res = await stmt.all();
-      return (res.results || []) as T[];
+      return (res?.results || []) as T[];
     }
   } catch (nativeErr: any) {
     console.warn("Native D1 execution error, falling back to REST API:", nativeErr?.message);
@@ -221,20 +226,40 @@ export const db = {
   async getNews(): Promise<NewsPost[]> {
     if (isCloudflareD1Configured) {
       try {
+        // Tự động dọn dẹp các bài viết lỗi / mồ côi nếu còn tồn tại trong D1
+        await executeD1Query(
+          "DELETE FROM news WHERE id = 'news-chi-thanh-van-phong' OR slug = 'thi-cong-cao-toc-chi-thanh-van-phong' OR thumbnail LIKE '%chi-thanh-van-phong%' OR title LIKE '%Chí Thạnh%'",
+          []
+        ).catch(() => {});
+
         const rows = await executeD1Query<any>("SELECT * FROM news ORDER BY created_at DESC");
-        return rows.map((r) => ({
-          ...r,
-          featured: Boolean(r.featured),
-          published: r.published === undefined || r.published === null ? true : Boolean(r.published),
-        }));
+        return (rows || [])
+          .filter(
+            (r) =>
+              r.id !== "news-chi-thanh-van-phong" &&
+              r.slug !== "thi-cong-cao-toc-chi-thanh-van-phong" &&
+              !String(r.thumbnail || "").includes("chi-thanh-van-phong")
+          )
+          .map((r) => ({
+            ...r,
+            featured: Boolean(r.featured),
+            published: r.published === undefined || r.published === null ? true : Boolean(r.published),
+          }));
       } catch (err) {
         console.warn("Cloudflare D1 query error for news:", err);
       }
     }
-    return memoryStore.news.map((r) => ({
-      ...r,
-      published: r.published === undefined || r.published === null ? true : Boolean(r.published),
-    }));
+    return memoryStore.news
+      .filter(
+        (r) =>
+          r.id !== "news-chi-thanh-van-phong" &&
+          r.slug !== "thi-cong-cao-toc-chi-thanh-van-phong" &&
+          !String(r.thumbnail || "").includes("chi-thanh-van-phong")
+      )
+      .map((r) => ({
+        ...r,
+        published: r.published === undefined || r.published === null ? true : Boolean(r.published),
+      }));
   },
 
   async getNewsBySlug(slug: string): Promise<NewsPost | undefined> {
@@ -286,13 +311,13 @@ export const db = {
     let d1Success = false;
     if (isCloudflareD1Configured) {
       try {
-        await executeD1Query("DELETE FROM news WHERE id = ?", [id]);
+        await executeD1Query("DELETE FROM news WHERE id = ? OR slug = ?", [id, id]);
         d1Success = true;
       } catch (err) {
         console.warn("Cloudflare D1 delete news error:", err);
       }
     }
-    const idx = memoryStore.news.findIndex((n) => n.id === id);
+    const idx = memoryStore.news.findIndex((n) => n.id === id || n.slug === id);
     if (idx >= 0) {
       memoryStore.news.splice(idx, 1);
       return true;
