@@ -220,7 +220,7 @@ function Project3DItem({
 
           {/* Action Footer */}
           <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-            <span className="text-[11px] text-slate-400 font-medium">Trung Hải JSC</span>
+            <span className="text-[11px] text-slate-400 font-medium">Trung Hải Group</span>
             <span className="inline-flex items-center gap-1 text-[#3e4095] font-bold group-hover:translate-x-1 transition-transform">
               <span>Xem chi tiết</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -259,7 +259,7 @@ export default function ProjectsPageClient({
 
   const categories = [
     { id: "all", label: "Tất cả", icon: Layers, count: categoryCounts.all },
-    { id: "ham", label: "Hầm xuyên núi", icon: Mountain, count: categoryCounts.ham },
+    { id: "ham", label: "Đèo & Hầm Núi", icon: Mountain, count: categoryCounts.ham },
     { id: "cau-duong", label: "Cầu & Đường bộ", icon: Route, count: categoryCounts["cau-duong"] },
     { id: "quoc-lo", label: "Quốc lộ & Cao tốc", icon: Milestone, count: categoryCounts["quoc-lo"] },
     { id: "ha-tang", label: "Hạ tầng kỹ thuật", icon: HardHat, count: categoryCounts["ha-tang"] },

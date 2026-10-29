@@ -145,7 +145,7 @@ export default function AdminPage() {
   const [projectForm, setProjectForm] = useState<Partial<Project>>({
     title: "",
     category: "ham",
-    categoryName: "Hầm Xuyên Núi",
+    categoryName: "Đèo & Hầm Núi",
     client: "",
     location: "",
     year: "2026",
@@ -1032,7 +1032,7 @@ export default function AdminPage() {
                           setProjectForm({
                             title: "",
                             category: "ham",
-                            categoryName: "Hầm Xuyên Núi",
+                            categoryName: "Đèo & Hầm Núi",
                             client: "",
                             location: "",
                             year: "2026",
@@ -1244,7 +1244,7 @@ export default function AdminPage() {
                             setProjectForm({
                               title: "",
                               category: "ham",
-                              categoryName: "Hầm Xuyên Núi",
+                              categoryName: "Đèo & Hầm Núi",
                               client: "",
                               location: "",
                               year: "2026",
@@ -1303,7 +1303,7 @@ export default function AdminPage() {
                             onChange={(e) => {
                               const val = e.target.value as any;
                               const map: Record<string, string> = {
-                                ham: "Hầm Xuyên Núi",
+                                ham: "Đèo & Hầm Núi",
                                 "cau-duong": "Cầu & Đường Bộ",
                                 "quoc-lo": "Quốc Lộ & Cao Tốc",
                                 "ha-tang": "Hạ Tầng Kỹ Thuật",
@@ -1312,7 +1312,7 @@ export default function AdminPage() {
                             }}
                             className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
                           >
-                            <option value="ham">Hầm Xuyên Núi</option>
+                            <option value="ham">Đèo & Hầm Núi</option>
                             <option value="cau-duong">Cầu & Đường Bộ</option>
                             <option value="quoc-lo">Quốc Lộ & Cao Tốc</option>
                             <option value="ha-tang">Hạ Tầng Kỹ Thuật</option>

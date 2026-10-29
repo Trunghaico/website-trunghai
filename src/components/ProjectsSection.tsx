@@ -188,7 +188,7 @@ export default function ProjectsSection({ initialProjects }: ProjectsSectionProp
 
   const categories = [
     { id: "all", label: "Tất Cả Công Trình" },
-    { id: "ham", label: "Hầm Xuyên Núi" },
+    { id: "ham", label: "Đèo & Hầm Núi" },
     { id: "cau-duong", label: "Cầu & Đường Bộ" },
     { id: "quoc-lo", label: "Quốc Lộ & Cao Tốc" },
     { id: "ha-tang", label: "Hạ Tầng Kỹ Thuật" },
