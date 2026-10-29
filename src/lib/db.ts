@@ -226,40 +226,20 @@ export const db = {
   async getNews(): Promise<NewsPost[]> {
     if (isCloudflareD1Configured) {
       try {
-        // Tự động dọn dẹp các bài viết lỗi / mồ côi nếu còn tồn tại trong D1
-        await executeD1Query(
-          "DELETE FROM news WHERE id = 'news-chi-thanh-van-phong' OR slug = 'thi-cong-cao-toc-chi-thanh-van-phong' OR thumbnail LIKE '%chi-thanh-van-phong%' OR title LIKE '%Chí Thạnh%'",
-          []
-        ).catch(() => {});
-
         const rows = await executeD1Query<any>("SELECT * FROM news ORDER BY created_at DESC");
-        return (rows || [])
-          .filter(
-            (r) =>
-              r.id !== "news-chi-thanh-van-phong" &&
-              r.slug !== "thi-cong-cao-toc-chi-thanh-van-phong" &&
-              !String(r.thumbnail || "").includes("chi-thanh-van-phong")
-          )
-          .map((r) => ({
-            ...r,
-            featured: Boolean(r.featured),
-            published: r.published === undefined || r.published === null ? true : Boolean(r.published),
-          }));
+        return (rows || []).map((r) => ({
+          ...r,
+          featured: Boolean(r.featured),
+          published: r.published === undefined || r.published === null ? true : Boolean(r.published),
+        }));
       } catch (err) {
         console.warn("Cloudflare D1 query error for news:", err);
       }
     }
-    return memoryStore.news
-      .filter(
-        (r) =>
-          r.id !== "news-chi-thanh-van-phong" &&
-          r.slug !== "thi-cong-cao-toc-chi-thanh-van-phong" &&
-          !String(r.thumbnail || "").includes("chi-thanh-van-phong")
-      )
-      .map((r) => ({
-        ...r,
-        published: r.published === undefined || r.published === null ? true : Boolean(r.published),
-      }));
+    return memoryStore.news.map((r) => ({
+      ...r,
+      published: r.published === undefined || r.published === null ? true : Boolean(r.published),
+    }));
   },
 
   async getNewsBySlug(slug: string): Promise<NewsPost | undefined> {
@@ -295,6 +275,7 @@ export const db = {
         );
       } catch (err) {
         console.warn("Cloudflare D1 save news error:", err);
+        throw err;
       }
     }
 

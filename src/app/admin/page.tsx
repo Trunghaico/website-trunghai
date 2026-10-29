@@ -399,13 +399,16 @@ export default function AdminPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...newsForm, slug: finalSlug }),
       });
-      if (res.ok) {
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && !data.error) {
         showNotice("Đã lưu bài viết thành công!");
         setIsEditingNews(false);
-        loadData();
+        await loadData();
+      } else {
+        showNotice(data.error || "Lỗi khi lưu bài viết, vui lòng thử lại!", "error");
       }
     } catch (err: any) {
-      showNotice(err.message, "error");
+      showNotice(err.message || "Lỗi kết nối khi lưu bài viết", "error");
     }
   };
 
