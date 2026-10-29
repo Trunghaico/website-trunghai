@@ -48,6 +48,7 @@ import {
   Handshake,
 } from "lucide-react";
 import { Project, NewsPost, JobPosting, CompanySettings, HeroSlide, Partner } from "@/types";
+import { compressImageClientSide } from "@/lib/imageCompress";
 
 // Dynamic import for TinyMCE editor to ensure client-side rendering
 const TinyMCEEditor = dynamic(() => import("@/components/TinyMCEEditor"), {
@@ -327,16 +328,17 @@ export default function AdminPage() {
 
     setIsUploading(true);
     try {
+      const processedBlob = await compressImageClientSide(file, 2048, 0.85);
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append("file", processedBlob, file.name);
 
       const res = await fetch("/api/upload", {
         method: "POST",
         body: formData,
       });
 
-      const data = await res.json();
-      if (data.url) {
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.url) {
         setUploadedUrl(data.url);
         if (targetCallback) {
           targetCallback(data.url);

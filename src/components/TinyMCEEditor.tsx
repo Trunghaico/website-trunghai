@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
+import { compressImageClientSide } from "@/lib/imageCompress";
 
 interface TinyMCEEditorProps {
   value: string;
@@ -22,6 +23,7 @@ export default function TinyMCEEditor({
     <div className="tinymce-wrapper rounded-[3px] overflow-hidden border border-slate-200 bg-white shadow-2xs">
       <Editor
         tinymceScriptSrc="https://cdn.jsdelivr.net/npm/tinymce@7/tinymce.min.js"
+        licenseKey="gpl"
         onInit={(_evt, editor) => {
           editorRef.current = editor;
         }}
@@ -99,16 +101,22 @@ export default function TinyMCEEditor({
           file_picker_types: "image",
           images_upload_handler: async (blobInfo: any) => {
             try {
+              // Tự động nén ảnh nếu dung lượng lớn trước khi upload lên Cloudinary
+              const rawBlob = blobInfo.blob();
+              const processedBlob = await compressImageClientSide(rawBlob, 2048, 0.85);
+
               const formData = new FormData();
-              formData.append("file", blobInfo.blob(), blobInfo.filename());
+              formData.append("file", processedBlob, blobInfo.filename() || "image.jpg");
+
               const res = await fetch("/api/upload", {
                 method: "POST",
                 body: formData,
               });
-              if (!res.ok) {
-                throw new Error("Lỗi khi tải ảnh lên máy chủ");
+
+              const data = await res.json().catch(() => ({}));
+              if (!res.ok || !data.url) {
+                throw new Error(data.error || `Tải ảnh thất bại (Mã lỗi ${res.status})`);
               }
-              const data = await res.json();
               return data.url;
             } catch (err: any) {
               throw new Error(err.message || "Upload ảnh thất bại");

@@ -15,6 +15,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Không tìm thấy file tải lên" }, { status: 400 });
     }
 
+    if (file.size > 10 * 1024 * 1024) {
+      return NextResponse.json(
+        { error: "Dung lượng ảnh vượt quá giới hạn 10MB của Cloudinary. Trình duyệt sẽ tự động nén ảnh hoặc bạn có thể chọn ảnh nhỏ hơn." },
+        { status: 400 }
+      );
+    }
+
     // Convert file to base64 buffer for Cloudinary
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
@@ -32,7 +39,7 @@ export async function POST(req: Request) {
       });
     }
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return NextResponse.json({ error: err.message || "Lỗi khi xử lý tải ảnh" }, { status: 500 });
   }
 }
 
