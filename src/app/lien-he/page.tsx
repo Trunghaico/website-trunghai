@@ -15,10 +15,10 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: [
       "Liên hệ Trung Hải",
       "Địa chỉ Công ty Trung Hải",
-      "Trung Hải JSC",
-      "Trụ sở Trung Hải JSC",
+      "Trung Hải",
+      "Trụ sở Trung Hải ",
       "Số điện thoại Trung Hải",
-      "Bản đồ Trung Hải JSC",
+      "Bản đồ Trung Hải",
       "Nhà thầu xây dựng Trung Hải",
     ],
     alternates: {

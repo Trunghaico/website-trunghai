@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: [
       "Tin tức Trung Hải",
       "Sự kiện Trung Hải",
-      "Tiến độ công trình",
+      "Tiến độ công trình", 
       "An toàn lao động",
       "Tin dự án hạ tầng",
       "Tuyển dụng Trung Hải",

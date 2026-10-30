@@ -1885,7 +1885,7 @@ export default function AdminPage() {
                             </label>
                             <p className="text-[11px] text-slate-500 mt-1">
                               {newsForm.featured
-                                ? "Bài viết sẽ xuất hiện tại khu vực Tin tức trên trang chủ."
+                                ? "Bài viết sẽ xuất hiện tại khu vực Tin tức trên trang chủ (Trang chủ hiển thị 6 tin mới nhất)."
                                 : "Ẩn khỏi trang chủ (vẫn xem được trong trang tin tức nếu đang công khai)."}
                             </p>
                           </div>

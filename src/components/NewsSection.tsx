@@ -9,13 +9,42 @@ interface NewsSectionProps {
   initialNews: NewsPost[];
 }
 
-export default function NewsSection({ initialNews }: NewsSectionProps) {
-  // Chỉ hiển thị các bài viết được xuất bản (published !== false) và được bật "Hiển thị trên trang chủ" (featured === true)
-  const featuredNews = initialNews.filter(
-    (post) => Boolean(post.featured) && post.published !== false
-  );
+// Helper chuyển đổi chuỗi ngày sang timestamp (hỗ trợ DD/MM/YYYY hoặc ISO) để sắp xếp bài mới nhất
+function parseDateToTime(dateStr?: string): number {
+  if (!dateStr) return 0;
+  const dmyMatch = dateStr.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (dmyMatch) {
+    const [, day, month, year] = dmyMatch;
+    return new Date(Number(year), Number(month) - 1, Number(day)).getTime();
+  }
+  const timestamp = Date.parse(dateStr);
+  return isNaN(timestamp) ? 0 : timestamp;
+}
 
-  if (featuredNews.length === 0) {
+export default function NewsSection({ initialNews }: NewsSectionProps) {
+  // 1. Chỉ lấy các bài viết đã công khai (published !== false)
+  const publishedNews = initialNews.filter((post) => post.published !== false);
+
+  // 2. Ưu tiên các bài viết được bật "Hiển thị trên trang chủ" (featured === true)
+  const hasFeatured = publishedNews.some((post) => Boolean(post.featured));
+  const candidateNews = hasFeatured
+    ? publishedNews.filter((post) => Boolean(post.featured))
+    : publishedNews;
+
+  // 3. Sắp xếp tin tức mới nhất lên đầu theo ngày đăng hoặc id
+  const sortedNews = [...candidateNews].sort((a, b) => {
+    const timeA = parseDateToTime(a.date);
+    const timeB = parseDateToTime(b.date);
+    if (timeA !== timeB) {
+      return timeB - timeA;
+    }
+    return (b.id || "").localeCompare(a.id || "");
+  });
+
+  // 4. Giới hạn hiển thị đúng 6 tin tức mới nhất ngoài trang chủ (tránh bị dài trang)
+  const displayNews = sortedNews.slice(0, 6);
+
+  if (displayNews.length === 0) {
     return null;
   }
 
@@ -39,7 +68,7 @@ export default function NewsSection({ initialNews }: NewsSectionProps) {
 
         {/* News Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-          {featuredNews.map((post, idx) => (
+          {displayNews.map((post, idx) => (
             <Link
               key={post.id}
               href={`/tin-tuc/${post.slug || post.id}`}
@@ -48,7 +77,7 @@ export default function NewsSection({ initialNews }: NewsSectionProps) {
               <div>
                 <div className="relative h-44 sm:h-48 w-full overflow-hidden bg-slate-100">
                   <Image
-                    src={post.thumbnail}
+                    src={post.thumbnail || "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80"}
                     alt={post.title}
                     fill
                     className="object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
