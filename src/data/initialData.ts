@@ -24,6 +24,26 @@ export const initialCompanySettings: CompanySettings = {
   youtube: "https://youtube.com/@trunghaico",
   profilePdfUrl: "#",
   slideInterval: 5,
+
+  // Cấu hình trang Liên hệ
+  workingHours: "Thứ 2 – Thứ 7: 08:00 – 17:30",
+  workingNote: "Chủ Nhật & các ngày lễ tết nghỉ theo quy định nhà nước. Ban chỉ huy công trường túc trực 24/7.",
+  googleMapsUrl: "https://www.google.com/maps?cid=0x79d9f143bf06960a",
+  googleMapsEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7093.4802225019375!2d106.7340018!3d10.7902063!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175250025dd33df%3A0x79d9f143bf06960a!2zQ8O0bmcgdHkgQ1AgWMOieSBk4buxbmcgQ-G6p3UgxJHGsOG7nW5nIFRow6BuaCBQaMOhdA!5e1!3m2!1svi!2s!4v1791253228303!5m2!1svi!2s",
+  directionGuide: "Vị trí nằm tại khu đô thị An Khánh, thuận tiện di chuyển qua trục Mai Chí Thọ, Xa Lộ Hà Nội và cầu Ba Son.",
+
+  // Chỉ số nổi bật
+  establishedYear: "2012",
+  experienceYears: "15+ Năm",
+  completedProjects: "380+",
+  isoStandard: "ISO 9001:2015",
+
+  // Phòng ban & Bộ phận
+  projectEmail: "info@trunghaico.vn",
+  projectHotline: "0966.700.045",
+  equipmentPhone: "0966.700.045",
+  equipmentAddress: "Trụ sở chính & Kho bãi cơ giới",
+  recruitmentEmail: "tuyendung@trunghaico.vn",
 };
 
 export const initialHeroSlides: HeroSlide[] = [

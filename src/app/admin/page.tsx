@@ -46,6 +46,7 @@ import {
   Clock,
   Play,
   Handshake,
+  Phone,
 } from "lucide-react";
 import { Project, NewsPost, JobPosting, CompanySettings, HeroSlide, Partner } from "@/types";
 import { compressImageClientSide } from "@/lib/imageCompress";
@@ -98,7 +99,8 @@ export default function AdminPage() {
   });
   const [isChangingPassword, setIsChangingPassword] = useState(false);
 
-  const [activeTab, setActiveTab] = useState<"dashboard" | "projects" | "news" | "slides" | "partners" | "jobs" | "media" | "settings">("dashboard");
+  const [activeTab, setActiveTab] = useState<"dashboard" | "projects" | "news" | "slides" | "partners" | "jobs" | "contact" | "media" | "settings">("dashboard");
+  const [isSavingContact, setIsSavingContact] = useState(false);
 
   const [projects, setProjects] = useState<Project[]>([]);
   const [news, setNews] = useState<NewsPost[]>([]);
@@ -741,6 +743,31 @@ export default function AdminPage() {
     }
   };
 
+  // Contact Action
+  const handleSaveContact = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!settings) return;
+    setIsSavingContact(true);
+    try {
+      const res = await fetch("/api/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(settings),
+      });
+      if (res.ok) {
+        showNotice("Đã cập nhật thông tin liên hệ thành công!");
+        loadData();
+      } else {
+        const data = await res.json();
+        showNotice(data.error || "Lỗi khi lưu thông tin liên hệ", "error");
+      }
+    } catch (err: any) {
+      showNotice(err.message || "Lỗi khi lưu thông tin liên hệ", "error");
+    } finally {
+      setIsSavingContact(false);
+    }
+  };
+
   // Filtered lists
   const filteredProjects = projects.filter((p) =>
     projectSearch ? p.title.toLowerCase().includes(projectSearch.toLowerCase()) || p.categoryName.toLowerCase().includes(projectSearch.toLowerCase()) || p.location.toLowerCase().includes(projectSearch.toLowerCase()) : true
@@ -778,6 +805,7 @@ export default function AdminPage() {
     { id: "slides" as const, label: "Slides", icon: Sliders, count: slides.length },
     { id: "partners" as const, label: "Đối tác", icon: Handshake, count: partners.length },
     { id: "jobs" as const, label: "Tuyển dụng", icon: Briefcase, count: jobs.length },
+    { id: "contact" as const, label: "Liên hệ", icon: Phone, count: null },
     { id: "media" as const, label: "Media & Ảnh", icon: ImageIcon, count: null },
     { id: "settings" as const, label: "Cài đặt", icon: Settings, count: null },
   ];
@@ -3284,6 +3312,388 @@ export default function AdminPage() {
                       </div>
                     </div>
                   )}
+                </div>
+              )}
+
+              {/* TAB: CONTACT */}
+              {activeTab === "contact" && settings && (
+                <div className="space-y-6 max-w-5xl">
+                  {/* Header Banner */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 sm:p-5 rounded-[3px] border border-slate-200 shadow-2xs">
+                    <div>
+                      <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                        <Phone className="w-4 h-4 text-[#3e4095]" />
+                        <span>Quản lý thông tin Trang Liên hệ</span>
+                      </h2>
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        Tùy chỉnh trụ sở, đường dây nóng, giờ làm việc, bản đồ Google Maps và thông tin các khối phòng ban
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <Link
+                        href="/lien-he"
+                        target="_blank"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors"
+                      >
+                        <span>Xem trang liên hệ</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
+                  </div>
+
+                  <form onSubmit={handleSaveContact} className="space-y-6">
+                    {/* KHỐI 1: THÔNG TIN TRỤ SỞ VÀ LIÊN LẠC CHÍNH */}
+                    <div className="p-5 rounded-[3px] bg-white border border-slate-200 shadow-2xs space-y-4">
+                      <div className="pb-3 border-b border-slate-100 flex items-center gap-2 text-slate-900 font-bold text-xs uppercase tracking-wide">
+                        <Building2 className="w-4 h-4 text-[#3e4095]" />
+                        <span>1. Thông tin trụ sở chính & Kênh liên lạc</span>
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-semibold text-slate-700 mb-1">
+                          Địa chỉ trụ sở chính (Hiển thị thẻ chính & Chân trang)
+                        </label>
+                        <input
+                          type="text"
+                          value={settings.address || ""}
+                          onChange={(e) => setSettings({ ...settings, address: e.target.value })}
+                          placeholder="12-14 Đường D5, Khu phố 12, Phường An Khánh, Tp. Hồ Chí Minh"
+                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                        <div>
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">
+                            Hotline tư vấn / Dự án (Ưu tiên)
+                          </label>
+                          <input
+                            type="text"
+                            value={settings.hotline || ""}
+                            onChange={(e) => setSettings({ ...settings, hotline: e.target.value })}
+                            placeholder="0966.700.045"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none font-semibold text-[#3e4095]"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">
+                            Số điện thoại bàn / phụ
+                          </label>
+                          <input
+                            type="text"
+                            value={settings.phone || ""}
+                            onChange={(e) => setSettings({ ...settings, phone: e.target.value })}
+                            placeholder="0966.700.045"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">
+                            Hộp thư điện tử chính (Email)
+                          </label>
+                          <input
+                            type="email"
+                            value={settings.email || ""}
+                            onChange={(e) => setSettings({ ...settings, email: e.target.value })}
+                            placeholder="info@trunghaico.vn"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <div>
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">
+                            Thời gian làm việc văn phòng
+                          </label>
+                          <input
+                            type="text"
+                            value={settings.workingHours || ""}
+                            onChange={(e) => setSettings({ ...settings, workingHours: e.target.value })}
+                            placeholder="Thứ 2 – Thứ 7: 08:00 – 17:30"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">
+                            Ghi chú lịch làm việc / Trực công trường
+                          </label>
+                          <input
+                            type="text"
+                            value={settings.workingNote || ""}
+                            onChange={(e) => setSettings({ ...settings, workingNote: e.target.value })}
+                            placeholder="Chủ Nhật & các ngày lễ tết nghỉ theo quy định nhà nước. Ban chỉ huy công trường túc trực 24/7."
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* KHỐI 2: GOOGLE MAPS & CHỈ ĐƯỜNG */}
+                    <div className="p-5 rounded-[3px] bg-white border border-slate-200 shadow-2xs space-y-4">
+                      <div className="pb-3 border-b border-slate-100 flex items-center justify-between">
+                        <div className="flex items-center gap-2 text-slate-900 font-bold text-xs uppercase tracking-wide">
+                          <MapPin className="w-4 h-4 text-[#3e4095]" />
+                          <span>2. Định vị bản đồ Google Maps & Hướng dẫn lộ trình</span>
+                        </div>
+                        {settings.googleMapsUrl && (
+                          <a
+                            href={settings.googleMapsUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center gap-1 text-[11px] text-[#3e4095] hover:underline font-semibold"
+                          >
+                            <span>Mở Google Maps</span>
+                            <ExternalLink className="w-3 h-3" />
+                          </a>
+                        )}
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <div>
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">
+                            Link xem vị trí Google Maps (Khi bấm nút "Mở trong Google Maps" / "Chỉ đường")
+                          </label>
+                          <input
+                            type="url"
+                            value={settings.googleMapsUrl || ""}
+                            onChange={(e) => setSettings({ ...settings, googleMapsUrl: e.target.value })}
+                            placeholder="https://www.google.com/maps?cid=..."
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
+                          />
+                          <p className="text-[11px] text-slate-400 mt-1">
+                            Link dẫn người dùng mở ứng dụng Google Maps trên điện thoại hoặc trình duyệt
+                          </p>
+                        </div>
+
+                        <div>
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">
+                            Mã link nhúng Google Maps iframe (Thuộc tính src trong thẻ embed)
+                          </label>
+                          <input
+                            type="text"
+                            value={settings.googleMapsEmbedUrl || ""}
+                            onChange={(e) => {
+                              let val = e.target.value;
+                              const srcMatch = val.match(/src=["']([^"']+)["']/);
+                              if (srcMatch) {
+                                val = srcMatch[1];
+                              }
+                              setSettings({ ...settings, googleMapsEmbedUrl: val });
+                            }}
+                            placeholder="https://www.google.com/maps/embed?pb=..."
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none font-mono text-[11px]"
+                          />
+                          <p className="text-[11px] text-slate-400 mt-1">
+                            Hệ thống tự động lọc lấy link <code className="bg-slate-100 px-1 py-0.2 rounded">src="..."</code> nếu bạn dán nguyên thẻ nhúng HTML từ Google
+                          </p>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-semibold text-slate-700 mb-1">
+                          Ghi chú hướng dẫn lộ trình di chuyển (Hiển thị chân khung bản đồ)
+                        </label>
+                        <input
+                          type="text"
+                          value={settings.directionGuide || ""}
+                          onChange={(e) => setSettings({ ...settings, directionGuide: e.target.value })}
+                          placeholder="Vị trí nằm tại khu đô thị An Khánh, thuận tiện di chuyển qua trục Mai Chí Thọ, Xa Lộ Hà Nội và cầu Ba Son."
+                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
+                        />
+                      </div>
+
+                      {/* Live Preview Map */}
+                      {settings.googleMapsEmbedUrl && (
+                        <div className="pt-2">
+                          <span className="block text-[11px] font-bold uppercase text-slate-500 mb-1.5">
+                            Xem trước hiển thị bản đồ trực tiếp:
+                          </span>
+                          <div className="h-44 sm:h-56 w-full rounded-[3px] overflow-hidden border border-slate-200 bg-slate-50">
+                            <iframe
+                              title="Google Maps Preview"
+                              src={settings.googleMapsEmbedUrl}
+                              width="100%"
+                              height="100%"
+                              style={{ border: 0 }}
+                              allowFullScreen={false}
+                              loading="lazy"
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* KHỐI 3: THÔNG TIN CÁC KHỐI PHÒNG BAN CHUYÊN MÔN */}
+                    <div className="p-5 rounded-[3px] bg-white border border-slate-200 shadow-2xs space-y-4">
+                      <div className="pb-3 border-b border-slate-100 flex items-center gap-2 text-slate-900 font-bold text-xs uppercase tracking-wide">
+                        <Briefcase className="w-4 h-4 text-[#3e4095]" />
+                        <span>3. Kênh liên hệ các khối & Phòng ban chuyên môn</span>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {/* Cụm 1: Khối Dự Án & Đấu Thầu */}
+                        <div className="p-3.5 rounded-[3px] bg-slate-50/80 border border-slate-200/90 space-y-3">
+                          <div className="font-bold text-xs text-slate-900 flex items-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-[#3e4095]" />
+                            <span>Khối Dự Án & Đấu Thầu</span>
+                          </div>
+                          <div>
+                            <label className="block text-[11px] font-semibold text-slate-600 mb-1">Email dự thầu</label>
+                            <input
+                              type="email"
+                              value={settings.projectEmail || ""}
+                              onChange={(e) => setSettings({ ...settings, projectEmail: e.target.value })}
+                              placeholder="info@trunghaico.vn"
+                              className="w-full px-2.5 py-1.5 rounded-[2px] bg-white border border-slate-200 text-xs text-slate-800 focus:border-[#3e4095] focus:outline-none"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[11px] font-semibold text-slate-600 mb-1">Hotline dự án</label>
+                            <input
+                              type="text"
+                              value={settings.projectHotline || ""}
+                              onChange={(e) => setSettings({ ...settings, projectHotline: e.target.value })}
+                              placeholder="0966.700.045"
+                              className="w-full px-2.5 py-1.5 rounded-[2px] bg-white border border-slate-200 text-xs text-slate-800 focus:border-[#3e4095] focus:outline-none"
+                            />
+                          </div>
+                        </div>
+
+                        {/* Cụm 2: Vật Tư & Máy Móc Cơ Giới */}
+                        <div className="p-3.5 rounded-[3px] bg-slate-50/80 border border-slate-200/90 space-y-3">
+                          <div className="font-bold text-xs text-slate-900 flex items-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-blue-600" />
+                            <span>Vật Tư & Máy Móc Cơ Giới</span>
+                          </div>
+                          <div>
+                            <label className="block text-[11px] font-semibold text-slate-600 mb-1">Địa điểm kho bãi</label>
+                            <input
+                              type="text"
+                              value={settings.equipmentAddress || ""}
+                              onChange={(e) => setSettings({ ...settings, equipmentAddress: e.target.value })}
+                              placeholder="Trụ sở chính & Kho bãi cơ giới"
+                              className="w-full px-2.5 py-1.5 rounded-[2px] bg-white border border-slate-200 text-xs text-slate-800 focus:border-[#3e4095] focus:outline-none"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[11px] font-semibold text-slate-600 mb-1">Liên hệ kỹ thuật thiết bị</label>
+                            <input
+                              type="text"
+                              value={settings.equipmentPhone || ""}
+                              onChange={(e) => setSettings({ ...settings, equipmentPhone: e.target.value })}
+                              placeholder="Liên hệ bộ phận kỹ thuật thiết bị"
+                              className="w-full px-2.5 py-1.5 rounded-[2px] bg-white border border-slate-200 text-xs text-slate-800 focus:border-[#3e4095] focus:outline-none"
+                            />
+                          </div>
+                        </div>
+
+                        {/* Cụm 3: Tuyển Dụng & Nhân Sự */}
+                        <div className="p-3.5 rounded-[3px] bg-slate-50/80 border border-slate-200/90 space-y-3">
+                          <div className="font-bold text-xs text-slate-900 flex items-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-amber-500" />
+                            <span>Tuyển Dụng & Nhân Sự</span>
+                          </div>
+                          <div>
+                            <label className="block text-[11px] font-semibold text-slate-600 mb-1">Email nhận hồ sơ ứng viên</label>
+                            <input
+                              type="email"
+                              value={settings.recruitmentEmail || ""}
+                              onChange={(e) => setSettings({ ...settings, recruitmentEmail: e.target.value })}
+                              placeholder="tuyendung@trunghaico.vn"
+                              className="w-full px-2.5 py-1.5 rounded-[2px] bg-white border border-slate-200 text-xs text-slate-800 focus:border-[#3e4095] focus:outline-none"
+                            />
+                          </div>
+                          <p className="text-[11px] text-slate-400 pt-1">
+                            Ứng viên sẽ gửi CV trực tiếp đến hòm thư này khi xem các vị trí tuyển dụng
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* KHỐI 4: CÁC CHỈ SỐ NỔI BẬT TRÊN THẺ LIÊN HỆ */}
+                    <div className="p-5 rounded-[3px] bg-white border border-slate-200 shadow-2xs space-y-4">
+                      <div className="pb-3 border-b border-slate-100 flex items-center gap-2 text-slate-900 font-bold text-xs uppercase tracking-wide">
+                        <Sparkles className="w-4 h-4 text-[#3e4095]" />
+                        <span>4. Chỉ số năng lực nổi bật (Hiển thị thẻ trên cùng trang Liên hệ)</span>
+                      </div>
+
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+                        <div>
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">Năm thành lập</label>
+                          <input
+                            type="text"
+                            value={settings.establishedYear || ""}
+                            onChange={(e) => setSettings({ ...settings, establishedYear: e.target.value })}
+                            placeholder="2012"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none font-bold"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">Kinh nghiệm</label>
+                          <input
+                            type="text"
+                            value={settings.experienceYears || ""}
+                            onChange={(e) => setSettings({ ...settings, experienceYears: e.target.value })}
+                            placeholder="15+ Năm"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none font-bold text-[#3e4095]"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">Công trình bàn giao</label>
+                          <input
+                            type="text"
+                            value={settings.completedProjects || ""}
+                            onChange={(e) => setSettings({ ...settings, completedProjects: e.target.value })}
+                            placeholder="380+"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none font-bold text-[#3e4095]"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">Hệ thống tiêu chuẩn</label>
+                          <input
+                            type="text"
+                            value={settings.isoStandard || ""}
+                            onChange={(e) => setSettings({ ...settings, isoStandard: e.target.value })}
+                            placeholder="ISO 9001:2015"
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none font-bold text-slate-800"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Action Submit Button */}
+                    <div className="flex items-center justify-between p-4 bg-white rounded-[3px] border border-slate-200 shadow-2xs">
+                      <span className="text-xs text-slate-500">
+                        Mọi thay đổi sẽ được lưu tức thì và đồng bộ tự động lên trang Liên hệ.
+                      </span>
+
+                      <button
+                        type="submit"
+                        disabled={isSavingContact}
+                        className="inline-flex items-center gap-2 px-6 py-2.5 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white font-bold text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all cursor-pointer disabled:opacity-50"
+                      >
+                        {isSavingContact ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <span>Đang lưu...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Check className="w-4 h-4" />
+                            <span>Lưu thông tin liên hệ</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </form>
                 </div>
               )}
 

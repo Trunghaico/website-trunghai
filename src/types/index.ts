@@ -70,6 +70,26 @@ export interface CompanySettings {
   youtube: string;
   profilePdfUrl: string;
   slideInterval?: number;
+
+  // Cấu hình trang Liên hệ
+  workingHours?: string;
+  workingNote?: string;
+  googleMapsUrl?: string;
+  googleMapsEmbedUrl?: string;
+  directionGuide?: string;
+
+  // Chỉ số nổi bật trên thẻ Liên hệ
+  establishedYear?: string;
+  experienceYears?: string;
+  completedProjects?: string;
+  isoStandard?: string;
+
+  // Bộ phận & Khối chuyên môn liên hệ
+  projectEmail?: string;
+  projectHotline?: string;
+  equipmentPhone?: string;
+  equipmentAddress?: string;
+  recruitmentEmail?: string;
 }
 
 export interface User {

@@ -48,9 +48,29 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
     settings.name || "CÔNG TY CỔ PHẦN XÂY DỰNG VÀ ĐẦU TƯ TRUNG HẢI";
 
   const googleMapsEmbedUrl =
+    settings.googleMapsEmbedUrl ||
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7093.4802225019375!2d106.7340018!3d10.7902063!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175250025dd33df%3A0x79d9f143bf06960a!2zQ8O0bmcgdHkgQ1AgWMOieSBk4buxbmcgQ-G6p3UgxJHGsOG7nW5nIFRow6BuaCBQaMOhdA!5e1!3m2!1svi!2s!4v1791253228303!5m2!1svi!2s";
   const googleMapsUrl =
+    settings.googleMapsUrl ||
     "https://www.google.com/maps?cid=0x79d9f143bf06960a";
+  const workingHours = settings.workingHours || "Thứ 2 – Thứ 7: 08:00 – 17:30";
+  const workingNote =
+    settings.workingNote ||
+    "Chủ Nhật & các ngày lễ tết nghỉ theo quy định nhà nước. Ban chỉ huy công trường túc trực 24/7.";
+  const directionGuide =
+    settings.directionGuide ||
+    "Vị trí nằm tại khu đô thị An Khánh, thuận tiện di chuyển qua trục Mai Chí Thọ, Xa Lộ Hà Nội và cầu Ba Son.";
+
+  const establishedYear = settings.establishedYear || "2012";
+  const experienceYears = settings.experienceYears || "15+ Năm";
+  const completedProjects = settings.completedProjects || "380+";
+  const isoStandard = settings.isoStandard || "ISO 9001:2015";
+
+  const projectEmail = settings.projectEmail || email;
+  const projectHotline = settings.projectHotline || hotline;
+  const equipmentPhone = settings.equipmentPhone || "Liên hệ bộ phận kỹ thuật thiết bị";
+  const equipmentAddress = settings.equipmentAddress || "Trụ sở chính & Kho bãi cơ giới";
+  const recruitmentEmail = settings.recruitmentEmail || "tuyendung@trunghaico.vn";
 
   return (
     <div className="bg-slate-50 min-h-screen text-slate-800 pt-28 sm:pt-32 pb-20 selection:bg-[#3e4095] selection:text-white">
@@ -127,7 +147,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
                 Năm Thành Lập
               </div>
               <div className="text-base sm:text-lg font-black text-slate-900 mt-1">
-                2012
+                {establishedYear}
               </div>
             </div>
             <div className="p-3 rounded-[3px] bg-slate-50 border border-slate-100">
@@ -135,7 +155,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
                 Kinh Nghiệm
               </div>
               <div className="text-base sm:text-lg font-black text-[#3e4095] mt-1">
-                15+ Năm
+                {experienceYears}
               </div>
             </div>
             <div className="p-3 rounded-[3px] bg-slate-50 border border-slate-100">
@@ -143,7 +163,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
                 Công Trình Bàn Giao
               </div>
               <div className="text-base sm:text-lg font-black text-[#3e4095] mt-1">
-                380+
+                {completedProjects}
               </div>
             </div>
             <div className="p-3 rounded-[3px] bg-slate-50 border border-slate-100">
@@ -151,7 +171,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
                 Hệ Thống Tiêu Chuẩn
               </div>
               <div className="text-xs sm:text-sm font-bold text-slate-800 mt-1">
-                ISO 9001:2015
+                {isoStandard}
               </div>
             </div>
           </div>
@@ -296,11 +316,10 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
                 Thời Gian Làm Việc
               </h3>
               <div className="text-xs sm:text-[13px] font-bold text-slate-800 mb-1">
-                Thứ 2 – Thứ 7: 08:00 – 17:30
+                {workingHours}
               </div>
               <p className="text-xs text-slate-500 leading-relaxed font-normal mb-4">
-                Chủ Nhật & các ngày lễ tết nghỉ theo quy định nhà nước. Ban chỉ
-                huy công trường túc trực 24/7.
+                {workingNote}
               </p>
             </div>
 
@@ -338,11 +357,11 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
             <div className="text-xs space-y-1.5 text-slate-700">
               <div className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-[#3e4095]" />
-                <span className="font-semibold">{email}</span>
+                <span className="font-semibold">{projectEmail}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-3.5 h-3.5 text-[#3e4095]" />
-                <span>Hotline: {hotline}</span>
+                <span>Hotline: {projectHotline}</span>
               </div>
             </div>
           </div>
@@ -370,11 +389,11 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
             <div className="text-xs space-y-1.5 text-slate-700">
               <div className="flex items-center gap-2">
                 <Building2 className="w-3.5 h-3.5 text-[#3e4095]" />
-                <span>Trụ sở chính & Kho bãi cơ giới</span>
+                <span>{equipmentAddress}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-3.5 h-3.5 text-[#3e4095]" />
-                <span>Liên hệ bộ phận kỹ thuật thiết bị</span>
+                <span>{equipmentPhone}</span>
               </div>
             </div>
           </div>
@@ -401,7 +420,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
             <div className="text-xs space-y-2 text-slate-700">
               <div className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-[#3e4095]" />
-                <span className="font-semibold">tuyendung@trunghaico.vn</span>
+                <span className="font-semibold">{recruitmentEmail}</span>
               </div>
               <Link
                 href="/tuyen-dung"
@@ -462,7 +481,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
             <div className="flex items-center gap-2">
               <Navigation className="w-4 h-4 text-[#3e4095] shrink-0" />
               <span>
-                Vị trí nằm tại khu đô thị An Khánh, thuận tiện di chuyển qua trục Mai Chí Thọ, Xa Lộ Hà Nội và cầu Ba Son.
+                {directionGuide}
               </span>
             </div>
             <a
