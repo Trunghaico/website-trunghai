@@ -13,7 +13,7 @@ export const initialUsers: User[] = [
 
 export const initialCompanySettings: CompanySettings = {
   name: "CÔNG TY CỔ PHẦN XÂY DỰNG VÀ ĐẦU TƯ TRUNG HẢI",
-  shortName: "TRUNG HAI JSC",
+  shortName: "TRUNG HAI",
   slogan: "Tiên phong kiến tạo những công trình giao thông huyết mạch",
   taxCode: "0312019045",
   address: "12-14 Đường D5, Khu phố 12, Phường An Khánh, Tp. Hồ Chí Minh",

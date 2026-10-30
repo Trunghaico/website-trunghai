@@ -170,7 +170,7 @@ export default function RecruitmentPageClient({
               <div className="flex items-center gap-2 flex-wrap mt-0.5">
                 <span className="text-xs text-slate-700">Email nhận CV:</span>
                 <a
-                  href={`mailto:${HR_EMAIL}?subject=Ứng tuyển việc làm - Trung Hải JSC`}
+                  href={`mailto:${HR_EMAIL}?subject=Ứng tuyển việc làm - Trung Hải`}
                   className="text-base sm:text-lg font-extrabold text-[#3e4095] hover:underline cursor-pointer"
                 >
                   {HR_EMAIL}
@@ -198,7 +198,7 @@ export default function RecruitmentPageClient({
               )}
             </button>
             <a
-              href={`mailto:${HR_EMAIL}?subject=Ứng tuyển việc làm - Trung Hải JSC`}
+              href={`mailto:${HR_EMAIL}?subject=Ứng tuyển việc làm - Trung Hải`}
               className="px-4 py-2 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer"
             >
               <Send className="w-3.5 h-3.5" />

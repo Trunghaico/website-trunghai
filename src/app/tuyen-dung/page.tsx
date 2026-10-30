@@ -12,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: `TUYỂN DỤNG NHÂN TÀI | CƠ HỘI NGHỀ NGHIỆP | ${settings.name}`,
     description:
-      "Gia nhập đội ngũ Trung Hải JSC – Đơn vị thi công hạ tầng giao thông, hầm đường bộ, cầu cạn hàng đầu Việt Nam. Cơ hội nghề nghiệp với mức thu nhập cạnh tranh, thưởng tiến độ và chế độ đãi ngộ toàn diện.",
+      "Gia nhập đội ngũ Trung Hải – Đơn vị thi công hạ tầng giao thông, hầm đường bộ, cầu cạn hàng đầu Việt Nam. Cơ hội nghề nghiệp với mức thu nhập cạnh tranh, thưởng tiến độ và chế độ đãi ngộ toàn diện.",
     keywords: [
       "Tuyển dụng Trung Hải",
       "Tuyển dụng kỹ sư cầu đường",
@@ -20,15 +20,15 @@ export async function generateMetadata(): Promise<Metadata> {
       "Tuyển chỉ huy trưởng công trình",
       "Tuyển kỹ sư trắc đạc",
       "Việc làm xây dựng hầm đường bộ",
-      "Trung Hải JSC tuyển dụng",
+      "Trung Hải tuyển dụng",
     ],
     alternates: {
       canonical: "https://trunghaico.vn/tuyen-dung",
     },
     openGraph: {
-      title: `CƠ HỘI NGHỀ NGHIỆP TẠI TRUNG HẢI JSC | ${settings.name}`,
+      title: `CƠ HỘI NGHỀ NGHIỆP TẠI TRUNG HẢI | ${settings.name}`,
       description:
-        "Cơ hội phát triển nghề nghiệp cùng Trung Hải JSC trong các đại công trình hầm và hạ tầng giao thông trọng điểm quốc gia.",
+        "Cơ hội phát triển nghề nghiệp cùng Trung Hải trong các đại công trình hầm và hạ tầng giao thông trọng điểm quốc gia.",
       url: "https://trunghaico.vn/tuyen-dung",
       siteName: settings.name,
       locale: "vi_VN",
@@ -38,7 +38,7 @@ export async function generateMetadata(): Promise<Metadata> {
           url: "/logo.png",
           width: 1200,
           height: 630,
-          alt: "Tuyển dụng Trung Hải JSC",
+          alt: "Tuyển dụng Trung Hải",
         },
       ],
     },
@@ -46,7 +46,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title: `TUYỂN DỤNG NHÂN TÀI | ${settings.name}`,
       description:
-        "Gia nhập đội ngũ kiến tạo những cung đường và đại công trình đất nước cùng Trung Hải JSC.",
+        "Gia nhập đội ngũ kiến tạo những cung đường và đại công trình đất nước cùng Trung Hải.",
       images: ["/logo.png"],
     },
   };
@@ -68,7 +68,7 @@ export default async function RecruitmentPage() {
         "url": "https://trunghaico.vn/tuyen-dung",
         "name": `Cơ Hội Nghề Nghiệp & Tuyển Dụng | ${settings.name}`,
         "description":
-          "Thông tin tuyển dụng kỹ sư cầu đường, chỉ huy trưởng và cán bộ kỹ thuật tại Trung Hải JSC",
+          "Thông tin tuyển dụng kỹ sư cầu đường, chỉ huy trưởng và cán bộ kỹ thuật tại Trung Hải",
         "isPartOf": {
           "@type": "WebSite",
           "@id": "https://trunghaico.vn/#website",

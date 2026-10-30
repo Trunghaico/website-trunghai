@@ -213,7 +213,7 @@ export default function ProjectDetailView({
               <div className="text-sm sm:text-base text-slate-700 leading-relaxed space-y-3 font-normal">
                 <p>{project.description}</p>
                 <p>
-                  Trong suốt quá trình triển khai, Công ty Cổ phần Xây dựng và Đầu tư Trung Hải (Trung Hải JSC) đã huy động toàn bộ nguồn lực cơ giới hiện đại, đội ngũ kỹ sư dày dạn kinh nghiệm và áp dụng các giải pháp thi công tiên tiến nhất nhằm bảo đảm tiến độ, an toàn lao động tuyệt đối và chất lượng công trình đạt chuẩn mực quốc gia.
+                  Trong suốt quá trình triển khai, Công ty Cổ phần Xây dựng và Đầu tư Trung Hải (Trung Hải) đã huy động toàn bộ nguồn lực cơ giới hiện đại, đội ngũ kỹ sư dày dạn kinh nghiệm và áp dụng các giải pháp thi công tiên tiến nhất nhằm bảo đảm tiến độ, an toàn lao động tuyệt đối và chất lượng công trình đạt chuẩn mực quốc gia.
                 </p>
               </div>
             </div>

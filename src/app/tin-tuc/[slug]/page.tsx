@@ -28,14 +28,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!post || post.published === false) {
     return {
-      title: "Không tìm thấy bài viết | Trung Hải JSC",
+      title: "Không tìm thấy bài viết | Trung Hải",
     };
   }
 
   const pageUrl = `https://trunghaico.vn/tin-tuc/${post.slug || post.id}`;
 
   return {
-    title: `${post.title} | Trung Hải JSC`,
+    title: `${post.title} | Trung Hải`,
     description: post.summary,
     openGraph: {
       title: post.title,
@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       ],
       type: "article",
       publishedTime: post.date,
-      authors: [post.author || "Trung Hải JSC"],
+      authors: [post.author || "Trung Hải"],
     },
     twitter: {
       card: "summary_large_image",
@@ -201,7 +201,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
                 </div>
 
                 <div className="text-xs text-slate-400 font-mono">
-                  Bản quyền © Trung Hải JSC
+                  Bản quyền © Trung Hải
                 </div>
               </div>
 

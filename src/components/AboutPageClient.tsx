@@ -257,7 +257,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
       badge: "THIẾT BỊ BÊ TÔNG",
       overlayTitle: "Trạm Bơm & Cốp Pha Nhôm",
       overlaySub: "XE BƠM CẦN 52M & VÁN KHUÔN ĐỒNG BỘ",
-      subText: "TRUNG HẢI JSC • ISO 9001:2015",
+      subText: "TRUNG HẢI • ISO 9001:2015",
       title: "Trạm Bơm & Cốp Pha Nhôm Nhập Khẩu",
       desc: "Xe bơm bê tông cần 52m, hệ ván khuôn cốp pha nhôm liền khối giúp bề mặt bê tông láng mịn không cần trát vữa dày.",
       type: "pump",

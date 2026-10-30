@@ -306,7 +306,7 @@ export default function ProjectsPageClient({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* 1. TOP BREADCRUMB */}
         <nav aria-label="Breadcrumb" className="mb-6">
-          <h1 className="sr-only">Công trình & Dự án - Trung Hải JSC</h1>
+          <h1 className="sr-only">Công trình & Dự án - Trung Hải</h1>
           <ol className="flex items-center flex-wrap gap-1.5 text-xs text-slate-500 font-medium">
             <li className="flex items-center gap-1.5">
               <Link

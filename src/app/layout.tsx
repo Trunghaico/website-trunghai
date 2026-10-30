@@ -11,7 +11,7 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "CÔNG TY CỔ PHẦN XÂY DỰNG VÀ ĐẦU TƯ TRUNG HẢI | TRUNG HAI JSC",
+  title: "CÔNG TY CỔ PHẦN XÂY DỰNG VÀ ĐẦU TƯ TRUNG HẢI | TRUNG HAI",
   description:
     "Nhà thầu hàng đầu Việt Nam về thi công hạ tầng giao thông, hầm đường bộ qua Đèo Cả, Cù Mông, Phước Tượng - Phú Gia, Quốc lộ 1 và các công trình giao thông trọng điểm.",
   icons: {
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     title: "CÔNG TY CỔ PHẦN XÂY DỰNG VÀ ĐẦU TƯ TRUNG HẢI",
     description: "Nhà thầu tiên phong trong xây dựng công trình giao thông trọng điểm quốc gia.",
     url: "https://trunghaico.vn",
-    siteName: "Trung Hải JSC",
+    siteName: "Trung Hải",
     locale: "vi_VN",
     type: "website",
   },
@@ -41,6 +41,18 @@ export default function RootLayout({
   return (
     <html lang="vi" className={`${roboto.variable} ${roboto.className} scroll-smooth`}>
       <body className={`${roboto.className} min-h-screen bg-slate-50 text-slate-800 antialiased selection:bg-[#3e4095] selection:text-white`}>
+        {/* Tự động dọn dẹp các Service Worker rác từ dự án cũ trên localhost */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(regs) {
+                  for (var r of regs) { r.unregister(); }
+                });
+              }
+            `,
+          }}
+        />
         <ScrollObserver />
         {children}
       </body>

@@ -27,13 +27,13 @@ export async function generateMetadata(): Promise<Metadata> {
       description:
         "Tổng hợp các công trình hầm đường bộ, cầu cạn và tuyến cao tốc huyết mạch quốc gia.",
       url: "https://trunghaico.vn/cong-trinh",
-      siteName: "Trung Hải JSC",
+      siteName: "Trung Hải",
       images: [
         {
           url: "https://images.unsplash.com/photo-1541888946425-d0fbb1861564?auto=format&fit=crop&w=1200&q=80",
           width: 1200,
           height: 630,
-          alt: "Công trình tiêu biểu Trung Hải JSC",
+          alt: "Công trình tiêu biểu Trung Hải",
         },
       ],
       locale: "vi_VN",

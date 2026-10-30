@@ -28,7 +28,7 @@ export default function Footer({ settings }: FooterProps) {
               <div className="relative h-16 sm:h-[72px] w-32 sm:w-36 transition-transform duration-300 group-hover:scale-105">
                 <Image
                   src="/logo.png"
-                  alt="Trung Hải JSC Logo"
+                  alt="Trung Hải Logo"
                   fill
                   className="object-contain object-left drop-shadow"
                 />

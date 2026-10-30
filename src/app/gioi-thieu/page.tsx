@@ -10,11 +10,11 @@ export const revalidate = 0;
 export const metadata: Metadata = {
   title: "Giới Thiệu Doanh Nghiệp | CÔNG TY CỔ PHẦN XÂY DỰNG VÀ ĐẦU TƯ TRUNG HẢI",
   description:
-    "Hơn 15 năm hình thành và phát triển. Công ty Cổ phần Xây dựng và Đầu tư Trung Hải (Trung Hải JSC) là tổng thầu uy tín thi công hạ tầng giao thông, hầm đường bộ, dân dụng và công nghiệp hàng đầu Việt Nam.",
+    "Hơn 15 năm hình thành và phát triển. Công ty Cổ phần Xây dựng và Đầu tư Trung Hải (Trung Hải) là tổng thầu uy tín thi công hạ tầng giao thông, hầm đường bộ, dân dụng và công nghiệp hàng đầu Việt Nam.",
   keywords: [
     "giới thiệu Trung Hải",
     "Công ty Cổ phần Xây dựng và Đầu tư Trung Hải",
-    "Trung Hải JSC",
+    "Trung Hải",
     "hồ sơ năng lực Trung Hải",
     "nhà thầu thi công hạ tầng giao thông",
     "thi công hầm đường bộ",
@@ -25,11 +25,11 @@ export const metadata: Metadata = {
     canonical: "https://trunghaico.vn/gioi-thieu",
   },
   openGraph: {
-    title: "Giới Thiệu Doanh Nghiệp | TRUNG HẢI JSC",
+    title: "Giới Thiệu Doanh Nghiệp | TRUNG HẢI",
     description:
       "Hơn 15 năm hình thành và phát triển, hoàn thành hơn 380 công trình trên toàn quốc. Đơn vị tiên phong thi công hạ tầng giao thông trọng điểm.",
     url: "https://trunghaico.vn/gioi-thieu",
-    siteName: "Trung Hải JSC",
+    siteName: "Trung Hải",
     locale: "vi_VN",
     type: "website",
     images: [
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Giới Thiệu Doanh Nghiệp | TRUNG HẢI JSC",
+    title: "Giới Thiệu Doanh Nghiệp | TRUNG HẢI",
     description:
       "Hơn 15 năm kiến tạo diện mạo đô thị và hạ tầng giao thông trọng điểm quốc gia.",
     images: ["/logo.png"],
@@ -68,7 +68,7 @@ export default async function GioiThieuPage() {
           "@type": "WebSite",
           "@id": "https://trunghaico.vn/#website",
           url: "https://trunghaico.vn",
-          name: "Trung Hải JSC",
+          name: "Trung Hải",
         },
         inLanguage: "vi-VN",
       },

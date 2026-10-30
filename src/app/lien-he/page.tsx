@@ -90,7 +90,7 @@ export default async function ContactPage() {
         "@type": "Organization",
         "@id": "https://trunghaico.vn/#organization",
         name: settings.name,
-        alternateName: settings.shortName || "Trung Hải JSC",
+        alternateName: settings.shortName || "Trung Hải",
         url: "https://trunghaico.vn",
         logo: "https://trunghaico.vn/logo.png",
         telephone: settings.hotline || settings.phone || "0966.700.045",

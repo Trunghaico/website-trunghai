@@ -12,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: `LĨNH VỰC HOẠT ĐỘNG | NĂNG LỰC TỔNG THẦU | ${settings.name}`,
     description:
-      "Chuyên môn cốt lõi của Trung Hải JSC: Thi công hầm đường bộ xuyên núi (công nghệ NATM), đường cao tốc, cầu cạn kết cấu phức tạp, gia cố mái dốc taluy chống sạt trượt và hạ tầng kỹ thuật trọng điểm quốc gia.",
+      "Chuyên môn cốt lõi của Trung Hải: Thi công hầm đường bộ xuyên núi (công nghệ NATM), đường cao tốc, cầu cạn kết cấu phức tạp, gia cố mái dốc taluy chống sạt trượt và hạ tầng kỹ thuật trọng điểm quốc gia.",
     keywords: [
       "lĩnh vực hoạt động Trung Hải",
       "thi công hầm đường bộ",
@@ -21,7 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
       "xây dựng cầu cạn",
       "gia cố mái ta luy",
       "xử lý sạt trượt",
-      "Trung Hải JSC",
+      "Trung Hải",
       "năng lực tổng thầu hạ tầng",
     ],
     alternates: {
@@ -40,7 +40,7 @@ export async function generateMetadata(): Promise<Metadata> {
           url: "/logo.png",
           width: 1200,
           height: 630,
-          alt: "Lĩnh vực hoạt động Trung Hải JSC",
+          alt: "Lĩnh vực hoạt động Trung Hải",
         },
       ],
     },
@@ -71,7 +71,7 @@ export default async function LinhVucHoatDongPage() {
           "@type": "WebSite",
           "@id": "https://trunghaico.vn/#website",
           url: "https://trunghaico.vn",
-          name: "Trung Hải JSC",
+          name: "Trung Hải",
         },
         inLanguage: "vi-VN",
       },

@@ -184,7 +184,7 @@ export default function Header({
                 <div className="relative h-12 w-[56px] sm:h-[60px] sm:w-[71px] transition-transform duration-300 group-hover:scale-105">
                   <Image
                     src="/logo.png"
-                    alt="Trung Hải JSC Logo"
+                    alt="Trung Hải Logo"
                     fill
                     priority
                     className="object-contain drop-shadow-sm"

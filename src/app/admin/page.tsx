@@ -1744,7 +1744,7 @@ export default function AdminPage() {
                               https://trunghaico.vn › tin-tuc › {newsForm.slug || "duong-dan-bai-viet"}
                             </div>
                             <div className="text-sm font-semibold text-blue-700 truncate hover:underline cursor-pointer">
-                              {newsForm.title || "Tiêu đề bài viết tin tức"} - Trung Hải JSC
+                              {newsForm.title || "Tiêu đề bài viết tin tức"} - Trung Hải
                             </div>
                             <div className="text-[11px] text-slate-500 line-clamp-2">
                               {newsForm.summary || "Đoạn tóm tắt nội dung bài viết sẽ hiển thị tại đây trên kết quả tìm kiếm Google..."}

@@ -107,7 +107,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
               </div>
               <div className="space-y-1">
                 <span className="inline-block text-[11px] font-extrabold uppercase px-2 py-0.5 rounded-[3px] bg-blue-50 text-[#3e4095]">
-                  {settings.shortName || "TRUNG HAI JSC"}
+                  {settings.shortName || "TRUNG HAI"}
                 </span>
                 <h2 className="text-base sm:text-xl font-black text-slate-900 leading-snug">
                   {companyName}
