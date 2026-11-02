@@ -72,7 +72,7 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
       id="home"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      className="relative w-full h-[54vh] min-h-[400px] max-h-[540px] sm:h-screen sm:min-h-[650px] sm:max-h-[1100px] overflow-hidden bg-slate-950 select-none"
+      className="relative w-full h-[62vh] min-h-[460px] max-h-[580px] sm:h-screen sm:min-h-[650px] sm:max-h-[1100px] overflow-hidden bg-slate-950 select-none"
     >
       {/* Slides Container with Directional Push Slide & Parallax Zoom */}
       <div className="relative w-full h-full overflow-hidden">
@@ -101,11 +101,27 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
               key={slide.id}
               className={`absolute inset-0 transition-all duration-[1200ms] ease-in-out ${transformClass}`}
             >
-              {/* Full Bleed Image with Ken-Burns motion on active */}
-              <div className="relative w-full h-full overflow-hidden">
+              {/* Background Ambient Layer (Mobile only): Làm mờ ảnh để tạo chiều sâu sang trọng, lấp đầy khung viền không để khoảng trống vô hồn */}
+              <div className="absolute inset-0 overflow-hidden sm:hidden pointer-events-none">
+                <Image
+                  src={slide.image}
+                  alt=""
+                  fill
+                  priority={index === 0}
+                  className="object-cover object-center blur-2xl scale-125 opacity-40 brightness-75 select-none"
+                  aria-hidden="true"
+                />
+                <div className="absolute inset-0 bg-slate-950/30" />
+              </div>
+
+              {/* Main Image Layer:
+                  - Trên di động: object-contain, có padding-top chừa Header và padding-bottom chừa khối chữ, hiển thị TRỌN VẸN 100% ẢNH KHÔNG BỊ CẮT MÉP
+                  - Trên máy tính: object-cover tràn viền với hiệu ứng Ken-Burns zoom cinematic
+              */}
+              <div className="relative w-full h-full overflow-hidden flex items-center justify-center pt-20 pb-36 sm:py-0">
                 <div
                   className={`relative w-full h-full transition-transform duration-[3000ms] ease-out ${
-                    isActive ? "scale-105" : "scale-100"
+                    isActive ? "sm:scale-105" : "scale-100"
                   }`}
                 >
                   <Image
@@ -113,70 +129,70 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
                     alt={slide.title || "Công trình Trung Hải"}
                     fill
                     priority={index === 0}
-                    className="object-cover object-center select-none"
+                    className="object-contain sm:object-cover object-center select-none drop-shadow-2xl"
                   />
                 </div>
+              </div>
 
-                {/* Slide Caption Overlay (Tag, Title, Subtitle, Stats) - Giữ ảnh nguyên bản trong trẻo, không phủ lớp xám */}
-                <div className="absolute inset-0 z-20 flex flex-col justify-end pb-12 sm:pb-24 lg:pb-28 pointer-events-none">
-                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pointer-events-auto">
-                    <div
-                      className={`max-w-4xl transition-all duration-700 delay-150 transform ${
-                        isActive
-                          ? "translate-y-0 opacity-100"
-                          : "translate-y-8 opacity-0 pointer-events-none"
-                      }`}
-                    >
-                      {/* Tag badge */}
-                      {slide.tag && (
-                        <div className="mb-1.5 sm:mb-3">
-                          <span className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-0.5 sm:py-1 rounded-[2px] bg-[#3e4095] text-white text-[11px] sm:text-[13px] font-black uppercase tracking-wider shadow-lg shadow-black/50">
-                            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                            <span>{slide.tag}</span>
-                          </span>
-                        </div>
-                      )}
+              {/* Slide Caption Overlay (Tag, Title, Subtitle, Stats) - Nền gradient dịu nhẹ bảo đảm chữ rõ nét không che khuất hình */}
+              <div className="absolute inset-0 z-20 flex flex-col justify-end pb-8 sm:pb-24 lg:pb-28 pointer-events-none bg-gradient-to-t from-slate-950 via-slate-950/70 sm:via-transparent to-transparent">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pointer-events-auto">
+                  <div
+                    className={`max-w-4xl transition-all duration-700 delay-150 transform ${
+                      isActive
+                        ? "translate-y-0 opacity-100"
+                        : "translate-y-8 opacity-0 pointer-events-none"
+                    }`}
+                  >
+                    {/* Tag badge */}
+                    {slide.tag && (
+                      <div className="mb-1 sm:mb-3">
+                        <span className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-3.5 py-0.5 sm:py-1 rounded-[2px] bg-[#3e4095] text-white text-[10px] sm:text-[13px] font-black uppercase tracking-wider shadow-lg shadow-black/50">
+                          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                          <span>{slide.tag}</span>
+                        </span>
+                      </div>
+                    )}
 
-                      {/* Main Title */}
-                      {slide.title && (
-                        <h1 className="text-lg sm:text-3xl md:text-4xl lg:text-5xl font-black text-white uppercase tracking-tight leading-tight sm:leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] [text-shadow:_0_2px_12px_rgb(0_0_0_/_90%)] line-clamp-2 sm:line-clamp-none">
-                          {slide.title}
-                        </h1>
-                      )}
+                    {/* Main Title */}
+                    {slide.title && (
+                      <h1 className="text-base sm:text-3xl md:text-4xl lg:text-5xl font-black text-white uppercase tracking-tight leading-tight sm:leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] [text-shadow:_0_2px_12px_rgb(0_0_0_/_90%)] line-clamp-2 sm:line-clamp-none">
+                        {slide.title}
+                      </h1>
+                    )}
 
-                      {/* Subtitle */}
-                      {slide.subtitle && (
-                        <p className="mt-1 sm:mt-3 text-[11px] sm:text-base lg:text-lg text-white font-medium leading-relaxed max-w-3xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] [text-shadow:_0_1px_8px_rgb(0_0_0_/_90%)] line-clamp-2 sm:line-clamp-3">
-                          {slide.subtitle}
-                        </p>
-                      )}
+                    {/* Subtitle */}
+                    {slide.subtitle && (
+                      <p className="mt-0.5 sm:mt-3 text-[11px] sm:text-base lg:text-lg text-white font-medium leading-relaxed max-w-3xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] [text-shadow:_0_1px_8px_rgb(0_0_0_/_90%)] line-clamp-2 sm:line-clamp-3">
+                        {slide.subtitle}
+                      </p>
+                    )}
 
-                      {/* Stats badge & Project Link */}
-                      {((slide.stats?.label && slide.stats?.value) || slide.projectLink) && (
-                        <div className="mt-2.5 sm:mt-6 flex flex-wrap items-center gap-2 sm:gap-4">
-                          {slide.stats?.label && slide.stats?.value && (
-                            <div className="inline-flex items-center gap-2 px-2.5 sm:px-4 py-1 sm:py-2 rounded-[3px] bg-black/60 backdrop-blur-md border border-white/20 text-white shadow-xl">
-                              <span className="text-[11px] sm:text-sm text-slate-300 font-medium">
-                                {slide.stats.label}:
-                              </span>
-                              <span className="text-xs sm:text-base font-black text-amber-400">
-                                {slide.stats.value}
-                              </span>
-                            </div>
-                          )}
+                    {/* Stats badge & Project Link */}
+                    {((slide.stats?.label && slide.stats?.value) || slide.projectLink) && (
+                      <div className="mt-2 sm:mt-6 flex flex-wrap items-center gap-2 sm:gap-4">
+                        {slide.stats?.label && slide.stats?.value && (
+                          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-0.5 sm:py-2 rounded-[3px] bg-black/60 backdrop-blur-md border border-white/20 text-white shadow-xl">
+                            <span className="text-[10px] sm:text-sm text-slate-300 font-medium">
+                              {slide.stats.label}:
+                            </span>
+                            <span className="text-[11px] sm:text-base font-black text-amber-400">
+                              {slide.stats.value}
+                            </span>
+                          </div>
+                        )}
 
-                          {slide.projectLink && (
-                            <Link
-                              href={slide.projectLink}
-                              className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white text-[11px] sm:text-sm font-bold uppercase tracking-wider shadow-xl shadow-[#3e4095]/30 transition-all hover:gap-3"
-                            >
-                              <span>Khám phá công trình</span>
-                              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                            </Link>
-                          )}
-                        </div>
-                      )}
-                    </div>
+                        {slide.projectLink && (
+                          <Link
+                            href={slide.projectLink}
+                            className="inline-flex items-center gap-1 sm:gap-2 px-2.5 sm:px-5 py-1 sm:py-2.5 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white text-[10px] sm:text-sm font-bold uppercase tracking-wider shadow-xl shadow-[#3e4095]/30 transition-all hover:gap-3"
+                          >
+                            <span>Khám phá công trình</span>
+                            <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
+                          </Link>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -190,7 +206,7 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
         type="button"
         onClick={prevSlide}
         aria-label="Previous Slide"
-        className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/75 hover:bg-[#3e4095] text-slate-800 hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-xl flex items-center justify-center group active:scale-95 cursor-pointer touch-manipulation"
+        className="absolute left-1.5 sm:left-6 top-[40%] sm:top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/40 hover:bg-[#3e4095] text-white sm:bg-white/75 sm:text-slate-800 sm:hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-xl flex items-center justify-center group active:scale-95 cursor-pointer touch-manipulation"
       >
         <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 group-hover:-translate-x-0.5 transition-transform" />
       </button>
@@ -199,13 +215,13 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
         type="button"
         onClick={nextSlide}
         aria-label="Next Slide"
-        className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/75 hover:bg-[#3e4095] text-slate-800 hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-xl flex items-center justify-center group active:scale-95 cursor-pointer touch-manipulation"
+        className="absolute right-1.5 sm:right-6 top-[40%] sm:top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/40 hover:bg-[#3e4095] text-white sm:bg-white/75 sm:text-slate-800 sm:hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-xl flex items-center justify-center group active:scale-95 cursor-pointer touch-manipulation"
       >
         <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform" />
       </button>
 
       {/* Slide Indicators with Touch Targets >= 44px */}
-      <div className="absolute bottom-3.5 sm:bottom-8 left-0 right-0 z-30 flex items-center justify-center gap-1.5 sm:gap-3">
+      <div className="absolute bottom-2.5 sm:bottom-8 left-0 right-0 z-30 flex items-center justify-center gap-1.5 sm:gap-3">
         {slides.map((_, i) => {
           const isCurrent = i === current;
           return (
