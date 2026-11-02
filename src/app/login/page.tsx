@@ -15,9 +15,7 @@ import {
   AlertCircle,
   CheckCircle2,
   ArrowLeft,
-  KeyRound,
   Server,
-  Sparkles,
 } from "lucide-react";
 
 export default function LoginPage() {
@@ -98,12 +96,6 @@ export default function LoginPage() {
       setErrorMessage("Lỗi kết nối máy chủ. Vui lòng thử lại sau!");
       setIsLoading(false);
     }
-  };
-
-  const handleAutoFillDefault = () => {
-    setUsername("admin");
-    setPassword("trunghai@2026");
-    setErrorMessage(null);
   };
 
   if (isCheckingAuth) {
@@ -215,7 +207,7 @@ export default function LoginPage() {
                       type="text"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
-                      placeholder="Nhập tên đăng nhập (ví dụ: admin)"
+                      placeholder="Nhập tên đăng nhập"
                       autoComplete="username"
                       disabled={isLoading}
                       className="w-full pl-10 pr-4 py-2.5 bg-slate-950/80 border border-slate-800 rounded-[3px] text-white text-xs sm:text-sm placeholder-slate-500 focus:outline-none focus:border-[#3e4095] focus:ring-1 focus:ring-[#3e4095] transition-all disabled:opacity-50"
@@ -293,27 +285,6 @@ export default function LoginPage() {
                   )}
                 </button>
               </form>
-
-              {/* Developer / Admin Convenience Helper Box */}
-              <div className="mt-4 pt-3.5 border-t border-slate-800/80">
-                <div className="p-2.5 rounded-[3px] bg-slate-950/60 border border-slate-800/60 flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-2">
-                    <KeyRound className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                    <div className="text-[11px] leading-tight text-slate-400">
-                      <span className="font-semibold text-slate-300">Mặc định: </span>
-                      <code className="text-amber-300/90 font-mono">admin</code> /{" "}
-                      <code className="text-amber-300/90 font-mono">trunghai@2026</code>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handleAutoFillDefault}
-                    className="text-[10px] font-bold text-[#3e4095] hover:text-blue-300 uppercase tracking-wider py-1 px-2 rounded bg-blue-950/40 hover:bg-blue-900/40 border border-blue-800/40 transition-colors whitespace-nowrap cursor-pointer"
-                  >
-                    Điền nhanh
-                  </button>
-                </div>
-              </div>
             </div>
 
             {/* Bottom Footer Note inside card */}

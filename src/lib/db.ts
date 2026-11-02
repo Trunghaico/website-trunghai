@@ -623,6 +623,47 @@ export const db = {
     return user;
   },
 
+  async updateUserProfile(username: string, name: string): Promise<boolean> {
+    if (isCloudflareD1Configured) {
+      try {
+        await executeD1Query("UPDATE users SET name = ? WHERE LOWER(username) = LOWER(?)", [name, username]);
+      } catch (err) {
+        console.warn("Cloudflare D1 update user profile error:", err);
+      }
+    }
+    const user = memoryStore.users.find((u) => u.username.toLowerCase() === username.toLowerCase());
+    if (user) {
+      user.name = name;
+      return true;
+    }
+    return false;
+  },
+
+  async getUsers(): Promise<User[]> {
+    if (isCloudflareD1Configured) {
+      try {
+        const rows = await executeD1Query<any>("SELECT id, username, name, role, created_at FROM users ORDER BY created_at ASC");
+        if (Array.isArray(rows) && rows.length > 0) {
+          return rows.map((r) => ({
+            id: r.id,
+            username: r.username,
+            passwordHash: "",
+            name: r.name,
+            role: r.role || "admin",
+            createdAt: r.created_at,
+          }));
+        }
+      } catch (err) {
+        console.warn("Cloudflare D1 get users error, fallback to memory:", err);
+      }
+    }
+    return memoryStore.users.map((u) => ({
+      ...u,
+      passwordHash: "",
+    }));
+  },
+
+
   // === PARTNERS ===
   async ensurePartnersTable(): Promise<void> {
     if (isCloudflareD1Configured) {

@@ -47,6 +47,10 @@ import {
   Play,
   Handshake,
   Phone,
+  UserCheck,
+  User,
+  ShieldCheck,
+  Lock,
 } from "lucide-react";
 import { Project, NewsPost, JobPosting, CompanySettings, HeroSlide, Partner } from "@/types";
 import { compressImageClientSide } from "@/lib/imageCompress";
@@ -98,8 +102,28 @@ export default function AdminPage() {
     confirmPassword: "",
   });
   const [isChangingPassword, setIsChangingPassword] = useState(false);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const [activeTab, setActiveTab] = useState<"dashboard" | "projects" | "news" | "slides" | "partners" | "jobs" | "contact" | "media" | "settings">("dashboard");
+  // Profile Management State
+  const [profileName, setProfileName] = useState("");
+  const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
+
+  type AdminTabType =
+    | "dashboard"
+    | "projects"
+    | "news"
+    | "slides"
+    | "partners"
+    | "jobs"
+    | "contact"
+    | "media"
+    | "settings"
+    | "account_info"
+    | "account_password";
+
+  const [activeTab, setActiveTab] = useState<AdminTabType>("dashboard");
   const [isSavingContact, setIsSavingContact] = useState(false);
 
   const [projects, setProjects] = useState<Project[]>([]);
@@ -258,6 +282,7 @@ export default function AdminPage() {
           return;
         }
         setCurrentUser(data.user);
+        setProfileName(data.user.name || "");
         loadData();
       } catch (err) {
         router.replace("/login");
@@ -268,6 +293,33 @@ export default function AdminPage() {
 
     checkAuthAndLoadData();
   }, [router]);
+
+  const handleUpdateProfile = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!profileName.trim()) {
+      showNotice("Họ và tên không được để trống", "error");
+      return;
+    }
+    setIsUpdatingProfile(true);
+    try {
+      const res = await fetch("/api/auth/me", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: profileName.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        showNotice(data.error || "Không thể cập nhật thông tin tài khoản", "error");
+        return;
+      }
+      setCurrentUser((prev) => (prev ? { ...prev, name: data.user.name } : data.user));
+      showNotice("Cập nhật thông tin tài khoản thành công!");
+    } catch (err: any) {
+      showNotice(err.message || "Lỗi kết nối máy chủ", "error");
+    } finally {
+      setIsUpdatingProfile(false);
+    }
+  };
 
   const handleLogout = async () => {
     if (!confirm("Bạn có chắc chắn muốn đăng xuất khỏi trang quản trị?")) return;
@@ -808,6 +860,8 @@ export default function AdminPage() {
     { id: "contact" as const, label: "Liên hệ", icon: Phone, count: null },
     { id: "media" as const, label: "Media & Ảnh", icon: ImageIcon, count: null },
     { id: "settings" as const, label: "Cài đặt", icon: Settings, count: null },
+    { id: "account_info" as const, label: "Thông tin tài khoản", icon: UserCheck, count: null },
+    { id: "account_password" as const, label: "Đổi mật khẩu", icon: Key, count: null },
   ];
 
   return (
@@ -857,18 +911,30 @@ export default function AdminPage() {
 
         <div className="flex items-center gap-2 sm:gap-2.5">
           {currentUser && (
-            <div className="flex items-center gap-2 px-2.5 py-1 rounded-[3px] bg-slate-50 border border-slate-200 text-xs">
+            <button
+              onClick={() => setActiveTab("account_info")}
+              title="Xem và chỉnh sửa thông tin tài khoản"
+              className={`flex items-center gap-2 px-2.5 py-1 rounded-[3px] border text-xs transition-colors cursor-pointer ${
+                activeTab === "account_info"
+                  ? "bg-blue-50/80 border-[#3e4095] text-[#3e4095]"
+                  : "bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700"
+              }`}
+            >
               <div className="w-5 h-5 rounded-[2px] bg-[#3e4095] text-white flex items-center justify-center font-bold text-[10px]">
                 {currentUser.username[0]?.toUpperCase() || "A"}
               </div>
-              <span className="font-semibold text-slate-700 hidden sm:inline">{currentUser.name || currentUser.username}</span>
-            </div>
+              <span className="font-semibold hidden sm:inline">{currentUser.name || currentUser.username}</span>
+            </button>
           )}
 
           <button
-            onClick={() => setShowPasswordModal(true)}
+            onClick={() => setActiveTab("account_password")}
             title="Đổi mật khẩu tài khoản"
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[3px] bg-white hover:bg-slate-50 border border-slate-200 text-xs font-medium text-slate-700 transition-colors cursor-pointer"
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[3px] border text-xs font-medium transition-colors cursor-pointer ${
+              activeTab === "account_password"
+                ? "bg-amber-50 border-amber-400 text-amber-900 font-bold"
+                : "bg-white hover:bg-slate-50 border-slate-200 text-slate-700"
+            }`}
           >
             <Key className="w-3.5 h-3.5 text-amber-500" />
             <span className="hidden md:inline">Đổi mật khẩu</span>
@@ -3774,6 +3840,299 @@ export default function AdminPage() {
                         className="px-5 py-2 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white font-semibold text-xs shadow-2xs transition-colors"
                       >
                         Lưu thông tin
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
+
+              {/* TAB: ACCOUNT INFO */}
+              {activeTab === "account_info" && (
+                <div className="space-y-4 max-w-4xl">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                      <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                        <UserCheck className="w-5 h-5 text-[#3e4095]" />
+                        <span>Thông tin tài khoản quản trị</span>
+                      </h2>
+                      <p className="text-xs text-slate-500">Xem và cập nhật thông tin cá nhân của người quản trị hệ thống</p>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setActiveTab("account_password")}
+                        className="px-3 py-1.5 rounded-[3px] bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer"
+                      >
+                        <Key className="w-3.5 h-3.5 text-amber-500" />
+                        <span>Chuyển sang Đổi mật khẩu</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Account Overview Card */}
+                  <div className="p-5 rounded-[3px] bg-gradient-to-r from-slate-900 via-slate-800 to-[#1e2348] text-white border border-slate-800 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-14 h-14 rounded-[3px] bg-[#3e4095] text-white flex items-center justify-center font-black text-2xl shadow-inner border border-white/20">
+                        {currentUser?.username?.[0]?.toUpperCase() || "A"}
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h3 className="text-base font-bold text-white">
+                            {currentUser?.name || "Quản trị viên Trung Hải"}
+                          </h3>
+                          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-[2px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                            Online
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-300 mt-0.5 flex items-center gap-1.5">
+                          <span>Tên đăng nhập:</span>
+                          <span className="font-mono font-semibold text-amber-300">@{currentUser?.username || "admin"}</span>
+                        </p>
+                        <div className="flex items-center gap-3 mt-2 text-[11px] text-slate-300">
+                          <span className="flex items-center gap-1">
+                            <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
+                            <span>Vai trò: Quản trị viên cấp cao ({currentUser?.role || "admin"})</span>
+                          </span>
+                          <span className="text-slate-500">•</span>
+                          <span className="flex items-center gap-1">
+                            <Database className="w-3.5 h-3.5 text-emerald-400" />
+                            <span>Cloudflare D1 Database</span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Form Update Profile */}
+                  <form onSubmit={handleUpdateProfile} className="p-5 rounded-[3px] bg-white border border-slate-200 shadow-2xs space-y-4">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 pb-2 border-b border-slate-100 flex items-center gap-2">
+                      <User className="w-4 h-4 text-[#3e4095]" />
+                      <span>Chỉnh sửa thông tin cá nhân</span>
+                    </h3>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-semibold text-slate-700 mb-1">
+                          Tên tài khoản (Username)
+                        </label>
+                        <div className="relative">
+                          <input
+                            type="text"
+                            value={currentUser?.username || "admin"}
+                            disabled
+                            className="w-full px-3 py-2 rounded-[3px] bg-slate-100 border border-slate-200 text-slate-600 text-xs font-mono cursor-not-allowed"
+                          />
+                          <span className="absolute right-2.5 top-2 text-[10px] uppercase font-bold text-slate-400">
+                            Cố định
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-slate-400 mt-1">Tên tài khoản quản trị chính của hệ thống</p>
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-semibold text-slate-700 mb-1">
+                          Vai trò hệ thống (Role)
+                        </label>
+                        <div className="relative">
+                          <input
+                            type="text"
+                            value={currentUser?.role === "admin" ? "Quản trị viên toàn quyền (Super Admin)" : currentUser?.role || "Quản trị viên"}
+                            disabled
+                            className="w-full px-3 py-2 rounded-[3px] bg-slate-100 border border-slate-200 text-slate-600 text-xs cursor-not-allowed"
+                          />
+                        </div>
+                        <p className="text-[11px] text-slate-400 mt-1">Toàn quyền thêm, sửa, xóa nội dung trên website</p>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">
+                        Họ và tên hiển thị <span className="text-rose-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={profileName}
+                        onChange={(e) => setProfileName(e.target.value)}
+                        placeholder="Nhập họ và tên hiển thị..."
+                        className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
+                        required
+                      />
+                      <p className="text-[11px] text-slate-400 mt-1">Tên hiển thị tại thanh điều hướng và hệ thống quản trị</p>
+                    </div>
+
+                    <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
+                      <button
+                        type="submit"
+                        disabled={isUpdatingProfile}
+                        className="px-5 py-2 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white font-semibold text-xs shadow-2xs transition-colors flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                      >
+                        {isUpdatingProfile ? (
+                          <>
+                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                            <span>Đang lưu...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Check className="w-3.5 h-3.5" />
+                            <span>Lưu thông tin tài khoản</span>
+                          </>
+                        )}
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setActiveTab("account_password")}
+                        className="text-xs text-[#3e4095] hover:underline font-semibold flex items-center gap-1 cursor-pointer"
+                      >
+                        <span>Đổi mật khẩu tài khoản</span>
+                        <ArrowLeft className="w-3 h-3 rotate-180" />
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
+
+              {/* TAB: ACCOUNT PASSWORD */}
+              {activeTab === "account_password" && (
+                <div className="space-y-4 max-w-2xl">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                      <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                        <Key className="w-5 h-5 text-amber-500" />
+                        <span>Đổi mật khẩu tài khoản</span>
+                      </h2>
+                      <p className="text-xs text-slate-500">Cập nhật mật khẩu bảo vệ cho tài khoản quản trị viên</p>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab("account_info")}
+                      className="px-3 py-1.5 rounded-[3px] bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer self-start sm:self-auto"
+                    >
+                      <UserCheck className="w-3.5 h-3.5 text-[#3e4095]" />
+                      <span>Xem thông tin tài khoản</span>
+                    </button>
+                  </div>
+
+                  <form onSubmit={handleChangePassword} className="p-5 rounded-[3px] bg-white border border-slate-200 shadow-2xs space-y-4">
+                    {/* Security Alert Notice */}
+                    <div className="p-3.5 rounded-[3px] bg-blue-50/70 border border-blue-200/80 text-blue-900 text-xs flex items-start gap-2.5">
+                      <ShieldCheck className="w-4 h-4 text-[#3e4095] shrink-0 mt-0.5" />
+                      <div className="leading-relaxed">
+                        Mật khẩu mới yêu cầu tối thiểu <span className="font-bold">6 ký tự</span>. Hãy sử dụng mật khẩu an toàn kết hợp chữ cái và chữ số để bảo vệ website.
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">
+                        Mật khẩu hiện tại <span className="text-rose-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                          <Lock className="w-3.5 h-3.5" />
+                        </div>
+                        <input
+                          type={showCurrentPassword ? "text" : "password"}
+                          value={passwordForm.currentPassword}
+                          onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
+                          placeholder="Nhập mật khẩu đang dùng..."
+                          className="w-full pl-9 pr-10 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
+                          required
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                          tabIndex={-1}
+                          className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
+                          title={showCurrentPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
+                        >
+                          {showCurrentPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">
+                        Mật khẩu mới (tối thiểu 6 ký tự) <span className="text-rose-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                          <Key className="w-3.5 h-3.5" />
+                        </div>
+                        <input
+                          type={showNewPassword ? "text" : "password"}
+                          value={passwordForm.newPassword}
+                          onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
+                          placeholder="Nhập mật khẩu mới..."
+                          className="w-full pl-9 pr-10 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
+                          required
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowNewPassword(!showNewPassword)}
+                          tabIndex={-1}
+                          className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
+                          title={showNewPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
+                        >
+                          {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">
+                        Xác nhận lại mật khẩu mới <span className="text-rose-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                          <Key className="w-3.5 h-3.5" />
+                        </div>
+                        <input
+                          type={showConfirmPassword ? "text" : "password"}
+                          value={passwordForm.confirmPassword}
+                          onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
+                          placeholder="Nhập lại mật khẩu mới..."
+                          className="w-full pl-9 pr-10 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#3e4095] focus:outline-none"
+                          required
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          tabIndex={-1}
+                          className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
+                          title={showConfirmPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
+                        >
+                          {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
+                      <button
+                        type="submit"
+                        disabled={isChangingPassword}
+                        className="px-5 py-2 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white font-semibold text-xs shadow-2xs transition-colors flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                      >
+                        {isChangingPassword ? (
+                          <>
+                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                            <span>Đang xử lý đổi mật khẩu...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Key className="w-3.5 h-3.5" />
+                            <span>Cập nhật mật khẩu mới</span>
+                          </>
+                        )}
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setPasswordForm({ currentPassword: "", newPassword: "", confirmPassword: "" })}
+                        className="text-xs text-slate-500 hover:text-slate-700 transition-colors cursor-pointer"
+                      >
+                        Làm trống
                       </button>
                     </div>
                   </form>
