@@ -54,10 +54,11 @@ import {
   PanelTop,
   PanelBottom,
 } from "lucide-react";
-import { Project, NewsPost, JobPosting, CompanySettings, HeroSlide, Partner } from "@/types";
+import { Project, NewsPost, JobPosting, CompanySettings, HeroSlide, Partner, CloudinaryUsageData } from "@/types";
 import { compressImageClientSide } from "@/lib/imageCompress";
 import AdminHeaderEditor from "@/components/admin/AdminHeaderEditor";
 import AdminFooterEditor from "@/components/admin/AdminFooterEditor";
+import AdminCloudinaryStorage from "@/components/admin/AdminCloudinaryStorage";
 
 // Dynamic import for TinyMCE editor to ensure client-side rendering
 const TinyMCEEditor = dynamic(() => import("@/components/TinyMCEEditor"), {
@@ -141,6 +142,7 @@ export default function AdminPage() {
   const [jobs, setJobs] = useState<JobPosting[]>([]);
   const [settings, setSettings] = useState<CompanySettings | null>(null);
   const [slideInterval, setSlideInterval] = useState<number>(5);
+  const [cloudinaryUsage, setCloudinaryUsage] = useState<CloudinaryUsageData | null>(null);
 
   const [loading, setLoading] = useState(true);
   const [notice, setNotice] = useState<{ type: "success" | "error"; text: string } | null>(null);
@@ -268,6 +270,13 @@ export default function AdminPage() {
         setSettings(setRes);
         if (setRes.slideInterval) setSlideInterval(Number(setRes.slideInterval) || 5);
       }
+
+      fetch("/api/cloudinary/usage")
+        .then((r) => r.json())
+        .then((usage) => {
+          if (usage && !usage.error) setCloudinaryUsage(usage);
+        })
+        .catch(() => {});
     } catch (err) {
       console.error("Failed to load admin data:", err);
     } finally {
@@ -944,7 +953,7 @@ export default function AdminPage() {
     { id: "partners" as const, label: "Đối tác", icon: Handshake, count: partners.length },
     { id: "jobs" as const, label: "Tuyển dụng", icon: Briefcase, count: jobs.length },
     { id: "contact" as const, label: "Liên hệ", icon: Phone, count: null },
-    { id: "media" as const, label: "Media & Ảnh", icon: ImageIcon, count: null },
+    { id: "media" as const, label: "Dung lượng Media", icon: CloudRain, count: null },
     { id: "settings" as const, label: "Cài đặt", icon: Settings, count: null },
     { id: "account_info" as const, label: "Thông tin tài khoản", icon: UserCheck, count: null },
     { id: "account_password" as const, label: "Đổi mật khẩu", icon: Key, count: null },
@@ -1361,20 +1370,41 @@ export default function AdminPage() {
                       </div>
                     </div>
 
-                    <div className="p-4 rounded-[3px] bg-white border border-slate-200/90 shadow-2xs flex items-start gap-3">
-                      <div className="p-2 rounded-[3px] bg-cyan-50 text-cyan-600 border border-cyan-100 shrink-0">
+                    <div
+                      onClick={() => setActiveTab("media")}
+                      className="p-4 rounded-[3px] bg-white border border-slate-200/90 shadow-2xs flex items-start gap-3 hover:border-cyan-400 hover:shadow-xs cursor-pointer transition-all group"
+                      title="Bấm để xem chi tiết và quản lý dung lượng Cloudinary"
+                    >
+                      <div className="p-2 rounded-[3px] bg-cyan-50 text-cyan-600 border border-cyan-100 shrink-0 group-hover:scale-105 transition-transform">
                         <CloudRain className="w-4 h-4" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
-                          <h4 className="text-xs font-bold text-slate-800">Cloudinary CDN Media</h4>
-                          <span className="text-[10px] font-bold text-cyan-600 bg-cyan-50 px-1.5 py-0.2 rounded-[2px] border border-cyan-200">
-                            Tự động nén WebP
+                          <h4 className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                            <span>Dung lượng Cloudinary</span>
+                            <span className="text-[10px] text-cyan-600 font-normal group-hover:underline">Chi tiết &rarr;</span>
+                          </h4>
+                          <span className="text-[10px] font-bold text-cyan-700 bg-cyan-50 px-1.5 py-0.2 rounded-[2px] border border-cyan-200">
+                            {cloudinaryUsage ? `${cloudinaryUsage.storage.percentUsed}% đã dùng` : "25 GB"}
                           </span>
                         </div>
-                        <p className="text-[11px] text-slate-500 mt-1">
-                          Tối ưu hóa hình ảnh công trình và phân phối qua CDN tốc độ cao.
-                        </p>
+
+                        {/* Mini progress bar */}
+                        <div className="mt-2 w-full h-1.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                          <div
+                            className="h-full bg-cyan-600 rounded-full transition-all duration-500"
+                            style={{ width: `${Math.max(2, Math.min(100, cloudinaryUsage?.storage?.percentUsed || 4))}%` }}
+                          />
+                        </div>
+
+                        <div className="flex items-center justify-between text-[10px] text-slate-500 mt-1.5">
+                          <span>
+                            Đã dùng: <strong className="text-slate-800">{cloudinaryUsage?.storage?.usedFormatted || "0 MB"}</strong>
+                          </span>
+                          <span>
+                            Còn trống: <strong className="text-emerald-700 font-bold">{cloudinaryUsage?.storage?.remainingFormatted || "25 GB"}</strong>
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -3422,65 +3452,13 @@ export default function AdminPage() {
                 </div>
               )}
 
-              {/* TAB: MEDIA & CLOUDINARY */}
-              {activeTab === "media" && (
-                <div className="space-y-4 max-w-4xl">
-                  <div>
-                    <h2 className="text-base font-bold text-slate-900">Tải ảnh lên CDN</h2>
-                    <p className="text-xs text-slate-500">Tải hình ảnh để nhận liên kết trực tiếp dùng cho bài viết và dự án</p>
-                  </div>
-
-                  {/* Uploader Box */}
-                  <div className="p-8 rounded-[3px] bg-white border-2 border-dashed border-slate-300 hover:border-[#3e4095] text-center space-y-3 transition-colors">
-                    <div className="w-12 h-12 rounded-[3px] bg-blue-50 text-[#3e4095] border border-blue-100 flex items-center justify-center mx-auto">
-                      <ImageIcon className="w-6 h-6" />
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-bold text-slate-800">Chọn ảnh từ thiết bị</h4>
-                      <p className="text-[11px] text-slate-400 mt-0.5">Hỗ trợ PNG, JPG, WEBP</p>
-                    </div>
-                    <div>
-                      <label className="inline-flex items-center gap-1.5 px-4 py-2 rounded-[3px] bg-[#3e4095] hover:bg-[#2d2f70] text-white font-semibold text-xs cursor-pointer shadow-2xs transition-colors">
-                        <Upload className="w-3.5 h-3.5" />
-                        <span>{isUploading ? "Đang xử lý tải lên..." : "Chọn tệp ảnh"}</span>
-                        <input type="file" accept="image/*" className="hidden" onChange={(e) => handleFileUpload(e)} />
-                      </label>
-                    </div>
-                  </div>
-
-                  {/* Upload result */}
-                  {uploadedUrl && (
-                    <div className="p-4 rounded-[3px] bg-white border border-slate-200 shadow-2xs space-y-3">
-                      <div className="text-xs font-bold text-emerald-700 flex items-center gap-1.5">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                        <span>Đã tạo liên kết CDN thành công:</span>
-                      </div>
-                      <div className="flex gap-2">
-                        <input
-                          type="text"
-                          readOnly
-                          value={uploadedUrl}
-                          className="flex-1 px-3 py-1.5 rounded-[3px] bg-slate-50 border border-slate-200 text-slate-800 text-xs font-mono"
-                        />
-                        <button
-                          onClick={() => {
-                            navigator.clipboard.writeText(uploadedUrl);
-                            setCopiedLink(true);
-                            showNotice("Đã sao chép link ảnh vào bộ nhớ tạm!");
-                            setTimeout(() => setCopiedLink(false), 2000);
-                          }}
-                          className="px-3 py-1.5 rounded-[3px] bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold flex items-center gap-1.5 cursor-pointer"
-                        >
-                          {copiedLink ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                          <span>{copiedLink ? "Đã copy" : "Copy link"}</span>
-                        </button>
-                      </div>
-                      <div className="relative h-44 w-full sm:w-72 rounded-[2px] overflow-hidden border border-slate-200">
-                        <Image src={uploadedUrl} alt="Preview" fill className="object-cover" />
-                      </div>
-                    </div>
-                  )}
-                </div>
+              {/* TAB: MEDIA & CLOUDINARY STORAGE */}
+              {activeTab === "media" && settings && (
+                <AdminCloudinaryStorage
+                  settings={settings}
+                  onUploadImage={handleUploadSingleImage}
+                  isUploadingImage={isUploading}
+                />
               )}
 
               {/* TAB: HEADER */}

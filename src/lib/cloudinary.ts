@@ -1,3 +1,5 @@
+import { CloudinaryUsageData } from "@/types";
+
 // Cloudinary Helper Service
 export const cloudinaryConfig = {
   cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || "syjvx1ly",
@@ -149,4 +151,160 @@ export async function deleteMultipleFromCloudinary(urlsOrPublicIds: (string | un
   const results = await Promise.allSettled(validList.map((url) => deleteFromCloudinary(url)));
   const successfulCount = results.filter((r) => r.status === "fulfilled" && r.value.success).length;
   return successfulCount;
+}
+
+/**
+ * Format raw bytes into human readable format (KB, MB, GB)
+ */
+export function formatBytes(bytes: number, decimals = 2): string {
+  if (!bytes || bytes <= 0) return "0 Bytes";
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+}
+
+/**
+ * Fetch storage usage statistics from Cloudinary Admin API
+ * or fall back to scanning website database assets
+ */
+export async function getCloudinaryUsage(override?: {
+  cloudName?: string;
+  apiKey?: string;
+  apiSecret?: string;
+  quotaGb?: number;
+}): Promise<CloudinaryUsageData> {
+  const cloudName = override?.cloudName || cloudinaryConfig.cloudName || "syjvx1ly";
+  const apiKey = override?.apiKey || cloudinaryConfig.apiKey;
+  const apiSecret = override?.apiSecret || cloudinaryConfig.apiSecret;
+  const quotaGb = override?.quotaGb && override.quotaGb > 0 ? override.quotaGb : 25;
+  const limitBytes = quotaGb * 1024 * 1024 * 1024;
+
+  // 1. If API Key and Secret are available, query Cloudinary Usage API directly
+  if (apiKey && apiSecret && cloudName) {
+    try {
+      const basicAuth = Buffer.from(`${apiKey}:${apiSecret}`).toString("base64");
+      const endpoint = `https://api.cloudinary.com/v1_1/${cloudName}/usage`;
+      const res = await fetch(endpoint, {
+        headers: {
+          Authorization: `Basic ${basicAuth}`,
+        },
+        cache: "no-store",
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const usedBytes = data.storage?.usage || 0;
+        const remainingBytes = Math.max(0, limitBytes - usedBytes);
+        const percentUsed = limitBytes > 0 ? Math.min(100, (usedBytes / limitBytes) * 100) : 0;
+
+        return {
+          connected: true,
+          source: "cloudinary_api",
+          plan: data.plan || "Cloudinary Plan",
+          lastUpdated: data.last_updated || new Date().toISOString().split("T")[0],
+          cloudName,
+          storage: {
+            usedBytes,
+            usedFormatted: formatBytes(usedBytes),
+            limitBytes,
+            limitFormatted: formatBytes(limitBytes),
+            remainingBytes,
+            remainingFormatted: formatBytes(remainingBytes),
+            percentUsed: parseFloat(percentUsed.toFixed(1)),
+          },
+          objects: {
+            count: data.objects?.usage || 0,
+          },
+          bandwidth: {
+            usedBytes: data.bandwidth?.usage || 0,
+            usedFormatted: formatBytes(data.bandwidth?.usage || 0),
+          },
+          transformations: {
+            count: data.transformations?.usage || 0,
+          },
+          credits: {
+            usage: data.credits?.usage,
+            percentUsage: data.credits?.percent_usage,
+            limit: data.credits?.limit || quotaGb,
+          },
+        };
+      }
+    } catch (err: any) {
+      console.warn("Error calling Cloudinary Usage API, falling back to database scan:", err);
+    }
+  }
+
+  // 2. Fallback: Aggregate and scan media items from Database
+  const { db } = await import("@/lib/db");
+  const [projects, news, slides, partners, settings] = await Promise.all([
+    db.getProjects().catch(() => []),
+    db.getNews().catch(() => []),
+    db.getSlides().catch(() => []),
+    db.getPartners().catch(() => []),
+    db.getSettings().catch(() => null),
+  ]);
+
+  const allUrls = new Set<string>();
+
+  projects.forEach((p) => {
+    if (p.thumbnail) allUrls.add(p.thumbnail);
+    (p.gallery || []).forEach((g) => {
+      if (g) allUrls.add(g);
+    });
+  });
+
+  news.forEach((n) => {
+    if (n.thumbnail) allUrls.add(n.thumbnail);
+    extractCloudinaryUrlsFromHtml(n.content || "").forEach((u) => allUrls.add(u));
+  });
+
+  slides.forEach((s) => {
+    if (s.image) allUrls.add(s.image);
+  });
+
+  partners.forEach((pt) => {
+    if (pt.logo) allUrls.add(pt.logo);
+  });
+
+  if (settings?.headerLogoUrl) allUrls.add(settings.headerLogoUrl);
+
+  const totalAssetsCount = allUrls.size;
+  // Estimate average compressed image size ~350 KB
+  const estimatedUsedBytes = Math.max(totalAssetsCount * 350 * 1024, 0);
+  const remainingBytes = Math.max(0, limitBytes - estimatedUsedBytes);
+  const percentUsed = limitBytes > 0 ? Math.min(100, (estimatedUsedBytes / limitBytes) * 100) : 0;
+
+  return {
+    connected: false,
+    source: "database_estimate",
+    plan: "Cloudinary Free Tier (25 GB)",
+    lastUpdated: new Date().toISOString().split("T")[0],
+    cloudName,
+    storage: {
+      usedBytes: estimatedUsedBytes,
+      usedFormatted: formatBytes(estimatedUsedBytes),
+      limitBytes,
+      limitFormatted: formatBytes(limitBytes),
+      remainingBytes,
+      remainingFormatted: formatBytes(remainingBytes),
+      percentUsed: parseFloat(percentUsed.toFixed(1)),
+    },
+    objects: {
+      count: totalAssetsCount,
+    },
+    bandwidth: {
+      usedBytes: Math.round(estimatedUsedBytes * 3.5),
+      usedFormatted: formatBytes(Math.round(estimatedUsedBytes * 3.5)),
+    },
+    transformations: {
+      count: totalAssetsCount,
+    },
+    credits: {
+      limit: quotaGb,
+      usage: parseFloat((estimatedUsedBytes / (1024 * 1024 * 1024)).toFixed(2)),
+      percentUsage: parseFloat(percentUsed.toFixed(1)),
+    },
+  };
 }

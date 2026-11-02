@@ -118,6 +118,45 @@ export interface CompanySettings {
   footerMapAddress?: string;
   footerQuickLinksJson?: string;
   footerProjectsLinksJson?: string;
+
+  // Cấu hình Cloudinary Storage
+  cloudinaryCloudName?: string;
+  cloudinaryApiKey?: string;
+  cloudinaryApiSecret?: string;
+  cloudinaryQuotaGb?: number;
+}
+
+export interface CloudinaryUsageData {
+  connected: boolean;
+  source: "cloudinary_api" | "database_estimate";
+  plan?: string;
+  lastUpdated?: string;
+  cloudName: string;
+  storage: {
+    usedBytes: number;
+    usedFormatted: string;
+    limitBytes: number;
+    limitFormatted: string;
+    remainingBytes: number;
+    remainingFormatted: string;
+    percentUsed: number;
+  };
+  objects: {
+    count: number;
+  };
+  bandwidth?: {
+    usedBytes: number;
+    usedFormatted: string;
+  };
+  transformations?: {
+    count: number;
+  };
+  credits?: {
+    usage?: number;
+    percentUsage?: number;
+    limit?: number;
+  };
+  error?: string;
 }
 
 export interface User {

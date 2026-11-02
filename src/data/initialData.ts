@@ -99,6 +99,12 @@ export const initialCompanySettings: CompanySettings = {
     { name: "Hầm Phước Tượng - Phú Gia", href: "/#projects" },
     { name: "Mở rộng QL1 Khánh Hòa", href: "/#projects" },
   ]),
+
+  // Cấu hình Cloudinary Storage
+  cloudinaryCloudName: "syjvx1ly",
+  cloudinaryApiKey: "",
+  cloudinaryApiSecret: "",
+  cloudinaryQuotaGb: 25,
 };
 
 export const initialHeroSlides: HeroSlide[] = [
