@@ -42,7 +42,7 @@ export default function Footer({ settings }: FooterProps) {
               <div>
                 Mã số doanh nghiệp: <span className="text-white font-bold">{settings.taxCode || "0310001821"}</span>
               </div>
-              <div className="text-slate-400 text-xs sm:text-sm">Cấp bởi: Sở Kế hoạch và Đầu tư TP. Hồ Chí Minh</div>
+              <div className="text-slate-400 text-xs sm:text-sm">Cấp bởi: Thuế cơ sở 1 Thành phố Hồ Chí Minh</div>
             </div>
           </div>
 
