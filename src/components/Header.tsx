@@ -323,17 +323,17 @@ export default function Header({
                 </a>
               </div>
 
-              {/* Mobile Hamburger Button (pinned right, call button removed on mobile) */}
+              {/* Mobile Hamburger Button (pinned right, touch target >= 44x44px) */}
               <div className="flex items-center gap-2 lg:hidden ml-auto">
                 <button
                   type="button"
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  className={`p-2.5 rounded-lg transition-colors ${
+                  className={`w-11 h-11 flex items-center justify-center rounded-lg transition-all touch-manipulation cursor-pointer active:scale-95 ${
                     isSolid
                       ? "text-slate-700 hover:bg-slate-100"
                       : "text-white hover:bg-white/20"
                   }`}
-                  aria-label="Toggle Navigation"
+                  aria-label="Mở/Đóng Menu Điều Hướng"
                 >
                   {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                 </button>
@@ -356,7 +356,7 @@ export default function Header({
           {/* Drawer container with slide-in animation from right */}
           <div className="fixed top-0 right-0 bottom-0 w-[78%] max-w-[320px] bg-white p-4 sm:p-5 flex flex-col justify-between shadow-2xl z-10 overflow-y-auto animate-drawer-in">
             <div>
-              {/* Header: Chỉ có nhãn Menu tinh tế và nút đóng bo góc 3px */}
+              {/* Header: Chỉ có nhãn Menu tinh tế và nút đóng bo góc 3px (Touch target >= 44px) */}
               <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
                   Menu
@@ -364,10 +364,10 @@ export default function Header({
                 <button
                   type="button"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-7 h-7 rounded-[3px] bg-slate-100 hover:bg-blue-50 text-slate-500 hover:text-[#3e4095] flex items-center justify-center transition-colors"
+                  className="w-10 h-10 rounded-[3px] bg-slate-100 hover:bg-blue-50 text-slate-500 hover:text-[#3e4095] flex items-center justify-center transition-colors touch-manipulation cursor-pointer active:scale-95"
                   aria-label="Đóng menu"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="w-5 h-5" />
                 </button>
               </div>
 
@@ -453,11 +453,11 @@ export default function Header({
               </div>
             </div>
 
-            {/* Footer with hotline and info: gọn gàng, rounded-[3px] */}
-            <div className="pt-3 border-t border-slate-100 mt-4 space-y-2">
+            {/* Footer with hotline and info: chuẩn touch target >= 44px và safe-area cho iPhone */}
+            <div className="pt-3 border-t border-slate-100 mt-4 space-y-2 pb-6 safe-bottom">
               <a
                 href={`tel:${hotline.replace(/\s+/g, "")}`}
-                className="flex items-center justify-center gap-2 w-full py-2.5 text-xs font-bold text-white bg-[#3e4095] hover:bg-[#2d2f70] rounded-[3px] shadow-sm shadow-[#3e4095]/25 active:scale-98 transition-all"
+                className="flex items-center justify-center gap-2 w-full min-h-[44px] py-2.5 text-xs font-bold text-white bg-[#3e4095] hover:bg-[#2d2f70] rounded-[3px] shadow-sm shadow-[#3e4095]/25 active:scale-98 transition-all touch-manipulation"
               >
                 <Phone className="w-3.5 h-3.5 fill-current animate-phone-ring" />
                 <span>Hotline: {hotline}</span>

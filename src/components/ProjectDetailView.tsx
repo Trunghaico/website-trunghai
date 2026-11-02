@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -36,6 +36,8 @@ export default function ProjectDetailView({
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const touchStartXRef = useRef<number | null>(null);
+  const touchStartYRef = useRef<number | null>(null);
 
   const currentUrl = `https://trunghaico.vn/cong-trinh/${project.slug}`;
 
@@ -44,13 +46,47 @@ export default function ProjectDetailView({
     setIsLightboxOpen(true);
   };
 
-  const nextImage = () => {
+  const nextImage = useCallback(() => {
     setSelectedImageIndex((prev) => (prev + 1) % allImages.length);
+  }, [allImages.length]);
+
+  const prevImage = useCallback(() => {
+    setSelectedImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
+  }, [allImages.length]);
+
+  // Touch Swipe Handlers for Lightbox on Mobile/iPad
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartXRef.current = e.touches[0].clientX;
+    touchStartYRef.current = e.touches[0].clientY;
   };
 
-  const prevImage = () => {
-    setSelectedImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartXRef.current === null || touchStartYRef.current === null) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartXRef.current;
+    const deltaY = e.changedTouches[0].clientY - touchStartYRef.current;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 40) {
+      if (deltaX < 0) {
+        nextImage();
+      } else {
+        prevImage();
+      }
+    }
+    touchStartXRef.current = null;
+    touchStartYRef.current = null;
   };
+
+  // Keyboard navigation when Lightbox is active
+  useEffect(() => {
+    if (!isLightboxOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsLightboxOpen(false);
+      if (e.key === "ArrowRight") nextImage();
+      if (e.key === "ArrowLeft") prevImage();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isLightboxOpen, nextImage, prevImage]);
 
   return (
     <div className="bg-slate-50 min-h-screen text-slate-800 pt-28 sm:pt-32 pb-20 selection:bg-[#3e4095] selection:text-white">
@@ -294,13 +330,17 @@ export default function ProjectDetailView({
       {/* Lightbox Modal for Fullscreen Image Viewing */}
       {isLightboxOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 select-none"
           onClick={() => setIsLightboxOpen(false)}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
+          {/* Close button with Touch Target >= 44x44px and Safe-Area Support */}
           <button
             type="button"
             onClick={() => setIsLightboxOpen(false)}
-            className="absolute top-4 right-4 p-2 text-white/80 hover:text-white bg-white/10 rounded-full transition-colors z-50 cursor-pointer"
+            className="absolute top-3 right-3 sm:top-5 sm:right-5 w-11 h-11 text-white/80 hover:text-white bg-white/10 hover:bg-[#3e4095] rounded-full transition-all z-50 flex items-center justify-center cursor-pointer active:scale-95 touch-manipulation shadow-lg"
+            aria-label="Đóng xem ảnh"
           >
             <X className="w-6 h-6" />
           </button>
@@ -313,7 +353,7 @@ export default function ProjectDetailView({
               src={allImages[selectedImageIndex]}
               alt={project.title}
               fill
-              className="object-contain"
+              className="object-contain pointer-events-none"
             />
 
             {allImages.length > 1 && (
@@ -321,14 +361,16 @@ export default function ProjectDetailView({
                 <button
                   type="button"
                   onClick={prevImage}
-                  className="absolute left-2 p-2 bg-black/50 hover:bg-[#3e4095] text-white rounded-full transition-colors cursor-pointer"
+                  className="absolute left-2 sm:left-4 w-11 h-11 sm:w-12 sm:h-12 bg-black/60 hover:bg-[#3e4095] text-white rounded-full transition-all flex items-center justify-center cursor-pointer active:scale-95 touch-manipulation shadow-xl"
+                  aria-label="Ảnh trước"
                 >
                   <ChevronLeft className="w-6 h-6" />
                 </button>
                 <button
                   type="button"
                   onClick={nextImage}
-                  className="absolute right-2 p-2 bg-black/50 hover:bg-[#3e4095] text-white rounded-full transition-colors cursor-pointer"
+                  className="absolute right-2 sm:right-4 w-11 h-11 sm:w-12 sm:h-12 bg-black/60 hover:bg-[#3e4095] text-white rounded-full transition-all flex items-center justify-center cursor-pointer active:scale-95 touch-manipulation shadow-xl"
+                  aria-label="Ảnh kế tiếp"
                 >
                   <ChevronRight className="w-6 h-6" />
                 </button>

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import ScrollObserver from "@/components/ScrollObserver";
@@ -9,6 +9,14 @@ const roboto = Roboto({
   variable: "--font-roboto",
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+  themeColor: "#18202c",
+};
 
 export const metadata: Metadata = {
   title: "CÔNG TY CỔ PHẦN XÂY DỰNG VÀ ĐẦU TƯ TRUNG HẢI | TRUNG HAI",

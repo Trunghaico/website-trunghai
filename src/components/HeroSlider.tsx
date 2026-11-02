@@ -15,6 +15,8 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState<"next" | "prev">("next");
   const prevIndexRef = useRef(0);
+  const touchStartXRef = useRef<number | null>(null);
+  const touchStartYRef = useRef<number | null>(null);
 
   const total = slides.length;
 
@@ -29,6 +31,29 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
     prevIndexRef.current = current;
     setCurrent((prev) => (prev - 1 + total) % total);
   }, [current, total]);
+
+  // Touch Swipe Handlers for mobile & tablet
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartXRef.current = e.touches[0].clientX;
+    touchStartYRef.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartXRef.current === null || touchStartYRef.current === null) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartXRef.current;
+    const deltaY = e.changedTouches[0].clientY - touchStartYRef.current;
+
+    // Chỉ kích hoạt swipe ngang nếu chuyển động ngang lớn hơn chuyển động dọc và vượt ngưỡng 40px
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 40) {
+      if (deltaX < 0) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+    }
+    touchStartXRef.current = null;
+    touchStartYRef.current = null;
+  };
 
   const intervalMs = Math.max(2, intervalSeconds) * 1000;
 
@@ -45,7 +70,9 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
   return (
     <section
       id="home"
-      className="relative w-full h-[52vh] min-h-[380px] max-h-[520px] sm:h-screen sm:min-h-[650px] sm:max-h-[1100px] overflow-hidden bg-slate-950"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      className="relative w-full h-[54vh] min-h-[400px] max-h-[540px] sm:h-screen sm:min-h-[650px] sm:max-h-[1100px] overflow-hidden bg-slate-950 select-none"
     >
       {/* Slides Container with Directional Push Slide & Parallax Zoom */}
       <div className="relative w-full h-full overflow-hidden">
@@ -158,27 +185,27 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
         })}
       </div>
 
-      {/* Navigation Arrows */}
+      {/* Navigation Arrows with Touch Target >= 44x44px */}
       <button
         type="button"
         onClick={prevSlide}
         aria-label="Previous Slide"
-        className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3.5 rounded-full bg-white/70 hover:bg-[#3e4095] text-slate-800 hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-xl flex items-center justify-center group active:scale-95"
+        className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/75 hover:bg-[#3e4095] text-slate-800 hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-xl flex items-center justify-center group active:scale-95 cursor-pointer touch-manipulation"
       >
-        <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6 group-hover:-translate-x-0.5 transition-transform" />
+        <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 group-hover:-translate-x-0.5 transition-transform" />
       </button>
 
       <button
         type="button"
         onClick={nextSlide}
         aria-label="Next Slide"
-        className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3.5 rounded-full bg-white/70 hover:bg-[#3e4095] text-slate-800 hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-xl flex items-center justify-center group active:scale-95"
+        className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/75 hover:bg-[#3e4095] text-slate-800 hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-xl flex items-center justify-center group active:scale-95 cursor-pointer touch-manipulation"
       >
-        <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform" />
+        <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform" />
       </button>
 
-      {/* Slide Indicators with Animated Progress Fill */}
-      <div className="absolute bottom-3.5 sm:bottom-8 left-0 right-0 z-30 flex items-center justify-center gap-2 sm:gap-3">
+      {/* Slide Indicators with Touch Targets >= 44px */}
+      <div className="absolute bottom-3.5 sm:bottom-8 left-0 right-0 z-30 flex items-center justify-center gap-1.5 sm:gap-3">
         {slides.map((_, i) => {
           const isCurrent = i === current;
           return (
@@ -190,15 +217,19 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
                 setCurrent(i);
               }}
               aria-label={`Go to slide ${i + 1}`}
-              className={`relative overflow-hidden transition-all duration-500 rounded-full ${
-                isCurrent
-                  ? "w-8 sm:w-16 h-1.5 sm:h-2.5 bg-white/40 shadow-lg"
-                  : "w-1.5 sm:w-2.5 h-1.5 sm:h-2.5 bg-white/50 hover:bg-white/90"
-              }`}
+              className="py-3 px-1 cursor-pointer flex items-center justify-center touch-manipulation"
             >
-              {isCurrent && (
-                <span className="absolute inset-0 bg-[#3e4095] rounded-full animate-slide-progress" />
-              )}
+              <span
+                className={`relative block overflow-hidden transition-all duration-500 rounded-full ${
+                  isCurrent
+                    ? "w-8 sm:w-16 h-1.5 sm:h-2.5 bg-white/40 shadow-lg"
+                    : "w-2 sm:w-2.5 h-2 sm:h-2.5 bg-white/50 hover:bg-white/90"
+                }`}
+              >
+                {isCurrent && (
+                  <span className="absolute inset-0 bg-[#3e4095] rounded-full animate-slide-progress" />
+                )}
+              </span>
             </button>
           );
         })}
