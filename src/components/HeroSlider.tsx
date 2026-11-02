@@ -72,7 +72,7 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
       id="home"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      className="relative w-full h-[38vh] min-h-[250px] max-h-[330px] sm:h-screen sm:min-h-[650px] sm:max-h-[1100px] overflow-hidden bg-slate-950 select-none"
+      className="relative w-full h-[36vh] min-h-[240px] max-h-[320px] sm:h-screen sm:min-h-[650px] sm:max-h-[1100px] overflow-hidden bg-slate-900 select-none"
     >
       {/* Slides Container with Directional Push Slide & Parallax Zoom */}
       <div className="relative w-full h-full overflow-hidden">
@@ -101,27 +101,11 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
               key={slide.id}
               className={`absolute inset-0 transition-all duration-[1200ms] ease-in-out ${transformClass}`}
             >
-              {/* Background Ambient Layer (Mobile only): Làm mờ ảnh để tạo chiều sâu sang trọng, lấp đầy khung viền không để khoảng trống vô hồn */}
-              <div className="absolute inset-0 overflow-hidden sm:hidden pointer-events-none">
-                <Image
-                  src={slide.image}
-                  alt=""
-                  fill
-                  priority={index === 0}
-                  className="object-cover object-center blur-2xl scale-125 opacity-40 brightness-75 select-none"
-                  aria-hidden="true"
-                />
-                <div className="absolute inset-0 bg-slate-950/30" />
-              </div>
-
-              {/* Main Image Layer:
-                  - Trên di động: object-contain gọn gàng, hiển thị trọn vẹn 100% ảnh mà không chiếm nhiều diện tích
-                  - Trên máy tính: object-cover tràn viền với hiệu ứng Ken-Burns zoom cinematic
-              */}
-              <div className="relative w-full h-full overflow-hidden flex items-center justify-center pt-14 pb-14 sm:py-0">
+              {/* Ảnh slide full tràn khung 100%, sáng rõ nguyên bản, KHÔNG phủ màn tối */}
+              <div className="relative w-full h-full overflow-hidden">
                 <div
                   className={`relative w-full h-full transition-transform duration-[3000ms] ease-out ${
-                    isActive ? "sm:scale-105" : "scale-100"
+                    isActive ? "scale-105" : "scale-100"
                   }`}
                 >
                   <Image
@@ -129,13 +113,13 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
                     alt={slide.title || "Công trình Trung Hải"}
                     fill
                     priority={index === 0}
-                    className="object-contain sm:object-cover object-center select-none drop-shadow-xl"
+                    className="object-cover object-center select-none"
                   />
                 </div>
               </div>
 
-              {/* Slide Caption Overlay (Tag, Title, Stats) - Tinh giản gọn gàng trên mobile, không choán chỗ */}
-              <div className="absolute inset-0 z-20 flex flex-col justify-end pb-3 sm:pb-24 lg:pb-28 pointer-events-none bg-gradient-to-t from-slate-950 via-slate-950/70 sm:via-transparent to-transparent">
+              {/* Slide Caption Overlay (Tag, Title, Stats) - Giữ ảnh 100% trong trẻo, không phủ màn tối */}
+              <div className="absolute inset-0 z-20 flex flex-col justify-end pb-3 sm:pb-24 lg:pb-28 pointer-events-none">
                 <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 w-full pointer-events-auto">
                   <div
                     className={`max-w-4xl transition-all duration-700 delay-150 transform ${
@@ -147,7 +131,7 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
                     {/* Tag badge */}
                     {slide.tag && (
                       <div className="mb-0.5 sm:mb-3">
-                        <span className="inline-flex items-center gap-1 sm:gap-2 px-1.5 sm:px-3.5 py-0.5 sm:py-1 rounded-[2px] bg-[#3e4095] text-white text-[9px] sm:text-[13px] font-bold uppercase tracking-wider shadow-md">
+                        <span className="inline-flex items-center gap-1 sm:gap-2 px-1.5 sm:px-3.5 py-0.5 sm:py-1 rounded-[2px] bg-[#3e4095] text-white text-[9px] sm:text-[13px] font-bold uppercase tracking-wider shadow-lg shadow-black/60">
                           <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                           <span>{slide.tag}</span>
                         </span>
@@ -156,7 +140,7 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
 
                     {/* Main Title */}
                     {slide.title && (
-                      <h1 className="text-xs sm:text-3xl md:text-4xl lg:text-5xl font-black text-white uppercase tracking-tight leading-snug sm:leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] [text-shadow:_0_2px_8px_rgb(0_0_0_/_90%)] line-clamp-1 sm:line-clamp-none">
+                      <h1 className="text-xs sm:text-3xl md:text-4xl lg:text-5xl font-black text-white uppercase tracking-tight leading-snug sm:leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] [text-shadow:_0_2px_10px_rgb(0_0_0_/_95%)] line-clamp-1 sm:line-clamp-none">
                         {slide.title}
                       </h1>
                     )}
@@ -172,7 +156,7 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
                     {((slide.stats?.label && slide.stats?.value) || slide.projectLink) && (
                       <div className="mt-1 sm:mt-6 flex flex-wrap items-center gap-1.5 sm:gap-4">
                         {slide.stats?.label && slide.stats?.value && (
-                          <div className="hidden xs:inline-flex items-center gap-1 sm:gap-2 px-1.5 sm:px-4 py-0.5 sm:py-2 rounded-[2px] bg-black/60 backdrop-blur-md border border-white/20 text-white shadow-md">
+                          <div className="hidden xs:inline-flex items-center gap-1 sm:gap-2 px-1.5 sm:px-4 py-0.5 sm:py-2 rounded-[2px] bg-black/70 backdrop-blur-md border border-white/20 text-white shadow-lg">
                             <span className="text-[9px] sm:text-sm text-slate-300 font-medium">
                               {slide.stats.label}:
                             </span>
@@ -185,7 +169,7 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
                         {slide.projectLink && (
                           <Link
                             href={slide.projectLink}
-                            className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-5 py-0.5 sm:py-2.5 rounded-[2px] bg-[#3e4095] hover:bg-[#2d2f70] text-white text-[9px] sm:text-sm font-bold uppercase tracking-wider shadow-md transition-all hover:gap-3"
+                            className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-5 py-0.5 sm:py-2.5 rounded-[2px] bg-[#3e4095] hover:bg-[#2d2f70] text-white text-[9px] sm:text-sm font-bold uppercase tracking-wider shadow-lg shadow-black/50 transition-all hover:gap-3"
                           >
                             <span>Khám phá</span>
                             <ArrowRight className="w-2.5 h-2.5 sm:w-4 sm:h-4" />
@@ -206,7 +190,7 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
         type="button"
         onClick={prevSlide}
         aria-label="Previous Slide"
-        className="absolute left-1 sm:left-6 top-[45%] sm:top-1/2 -translate-y-1/2 z-30 w-8 h-8 sm:w-12 sm:h-12 rounded-full bg-black/40 hover:bg-[#3e4095] text-white sm:bg-white/75 sm:text-slate-800 sm:hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-lg flex items-center justify-center group active:scale-95 cursor-pointer touch-manipulation"
+        className="absolute left-1.5 sm:left-6 top-1/2 -translate-y-1/2 z-30 w-8 h-8 sm:w-12 sm:h-12 rounded-full bg-white/80 hover:bg-[#3e4095] text-slate-800 hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-lg flex items-center justify-center group active:scale-95 cursor-pointer touch-manipulation"
       >
         <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6 group-hover:-translate-x-0.5 transition-transform" />
       </button>
@@ -215,13 +199,13 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
         type="button"
         onClick={nextSlide}
         aria-label="Next Slide"
-        className="absolute right-1 sm:right-6 top-[45%] sm:top-1/2 -translate-y-1/2 z-30 w-8 h-8 sm:w-12 sm:h-12 rounded-full bg-black/40 hover:bg-[#3e4095] text-white sm:bg-white/75 sm:text-slate-800 sm:hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-lg flex items-center justify-center group active:scale-95 cursor-pointer touch-manipulation"
+        className="absolute right-1.5 sm:right-6 top-1/2 -translate-y-1/2 z-30 w-8 h-8 sm:w-12 sm:h-12 rounded-full bg-white/80 hover:bg-[#3e4095] text-slate-800 hover:text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-lg flex items-center justify-center group active:scale-95 cursor-pointer touch-manipulation"
       >
         <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform" />
       </button>
 
       {/* Slide Indicators with Touch Targets >= 44px */}
-      <div className="absolute bottom-1 sm:bottom-8 left-0 right-0 z-30 flex items-center justify-center gap-1 sm:gap-3">
+      <div className="absolute bottom-1.5 sm:bottom-8 left-0 right-0 z-30 flex items-center justify-center gap-1 sm:gap-3">
         {slides.map((_, i) => {
           const isCurrent = i === current;
           return (
