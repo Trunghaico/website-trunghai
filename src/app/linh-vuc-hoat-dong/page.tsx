@@ -109,6 +109,7 @@ export default async function LinhVucHoatDongPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Header
+        settings={settings}
         hotline={settings.hotline}
         phoneDisplay={settings.phone}
         address={settings.address}

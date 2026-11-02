@@ -51,9 +51,13 @@ import {
   User,
   ShieldCheck,
   Lock,
+  PanelTop,
+  PanelBottom,
 } from "lucide-react";
 import { Project, NewsPost, JobPosting, CompanySettings, HeroSlide, Partner } from "@/types";
 import { compressImageClientSide } from "@/lib/imageCompress";
+import AdminHeaderEditor from "@/components/admin/AdminHeaderEditor";
+import AdminFooterEditor from "@/components/admin/AdminFooterEditor";
 
 // Dynamic import for TinyMCE editor to ensure client-side rendering
 const TinyMCEEditor = dynamic(() => import("@/components/TinyMCEEditor"), {
@@ -112,6 +116,8 @@ export default function AdminPage() {
 
   type AdminTabType =
     | "dashboard"
+    | "header"
+    | "footer"
     | "projects"
     | "news"
     | "slides"
@@ -125,6 +131,8 @@ export default function AdminPage() {
 
   const [activeTab, setActiveTab] = useState<AdminTabType>("dashboard");
   const [isSavingContact, setIsSavingContact] = useState(false);
+  const [isSavingHeader, setIsSavingHeader] = useState(false);
+  const [isSavingFooter, setIsSavingFooter] = useState(false);
 
   const [projects, setProjects] = useState<Project[]>([]);
   const [news, setNews] = useState<NewsPost[]>([]);
@@ -820,6 +828,82 @@ export default function AdminPage() {
     }
   };
 
+  // Header Save Action
+  const handleSaveHeader = async (updated: Partial<CompanySettings>) => {
+    if (!settings) return;
+    setIsSavingHeader(true);
+    try {
+      const merged = { ...settings, ...updated };
+      const res = await fetch("/api/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(merged),
+      });
+      if (res.ok) {
+        setSettings(merged);
+        showNotice("Đã lưu cấu hình Header thành công!");
+        loadData();
+      } else {
+        const data = await res.json();
+        showNotice(data.error || "Lỗi khi lưu cấu hình Header", "error");
+      }
+    } catch (err: any) {
+      showNotice(err.message || "Lỗi khi lưu cấu hình Header", "error");
+    } finally {
+      setIsSavingHeader(false);
+    }
+  };
+
+  // Footer Save Action
+  const handleSaveFooter = async (updated: Partial<CompanySettings>) => {
+    if (!settings) return;
+    setIsSavingFooter(true);
+    try {
+      const merged = { ...settings, ...updated };
+      const res = await fetch("/api/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(merged),
+      });
+      if (res.ok) {
+        setSettings(merged);
+        showNotice("Đã lưu cấu hình Footer thành công!");
+        loadData();
+      } else {
+        const data = await res.json();
+        showNotice(data.error || "Lỗi khi lưu cấu hình Footer", "error");
+      }
+    } catch (err: any) {
+      showNotice(err.message || "Lỗi khi lưu cấu hình Footer", "error");
+    } finally {
+      setIsSavingFooter(false);
+    }
+  };
+
+  // Upload Single Image for Header/Footer
+  const handleUploadSingleImage = async (file: File): Promise<string | null> => {
+    try {
+      const processedBlob = await compressImageClientSide(file, 2048, 0.85);
+      const formData = new FormData();
+      formData.append("file", processedBlob, file.name);
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.url) {
+        showNotice("Đã tải ảnh lên thành công!");
+        return data.url;
+      } else {
+        showNotice(data.error || "Không thể tải ảnh", "error");
+        return null;
+      }
+    } catch (err: any) {
+      showNotice(err.message || "Lỗi tải ảnh", "error");
+      return null;
+    }
+  };
+
   // Filtered lists
   const filteredProjects = projects.filter((p) =>
     projectSearch ? p.title.toLowerCase().includes(projectSearch.toLowerCase()) || p.categoryName.toLowerCase().includes(projectSearch.toLowerCase()) || p.location.toLowerCase().includes(projectSearch.toLowerCase()) : true
@@ -852,6 +936,8 @@ export default function AdminPage() {
 
   const sidebarItems = [
     { id: "dashboard" as const, label: "Tổng quan", icon: LayoutDashboard, count: null },
+    { id: "header" as const, label: "Header", icon: PanelTop, count: null },
+    { id: "footer" as const, label: "Footer", icon: PanelBottom, count: null },
     { id: "projects" as const, label: "Công trình", icon: FolderKanban, count: projects.length },
     { id: "news" as const, label: "Tin tức", icon: Newspaper, count: news.length },
     { id: "slides" as const, label: "Slides", icon: Sliders, count: slides.length },
@@ -1236,6 +1322,22 @@ export default function AdminPage() {
                       >
                         <Upload className="w-3.5 h-3.5 text-slate-500" />
                         <span>Tải ảnh lên</span>
+                      </button>
+
+                      <button
+                        onClick={() => setActiveTab("header")}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-white hover:bg-slate-50 border border-slate-200 text-[#3e4095] text-xs font-semibold transition-colors"
+                      >
+                        <PanelTop className="w-3.5 h-3.5 text-[#3e4095]" />
+                        <span>Sửa Header</span>
+                      </button>
+
+                      <button
+                        onClick={() => setActiveTab("footer")}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-white hover:bg-slate-50 border border-slate-200 text-[#3e4095] text-xs font-semibold transition-colors"
+                      >
+                        <PanelBottom className="w-3.5 h-3.5 text-[#3e4095]" />
+                        <span>Sửa Footer (Bản đồ)</span>
                       </button>
                     </div>
                   </div>
@@ -3379,6 +3481,26 @@ export default function AdminPage() {
                     </div>
                   )}
                 </div>
+              )}
+
+              {/* TAB: HEADER */}
+              {activeTab === "header" && settings && (
+                <AdminHeaderEditor
+                  settings={settings}
+                  onSave={handleSaveHeader}
+                  isSaving={isSavingHeader}
+                  onUploadImage={handleUploadSingleImage}
+                  isUploadingImage={isUploading}
+                />
+              )}
+
+              {/* TAB: FOOTER */}
+              {activeTab === "footer" && settings && (
+                <AdminFooterEditor
+                  settings={settings}
+                  onSave={handleSaveFooter}
+                  isSaving={isSavingFooter}
+                />
               )}
 
               {/* TAB: CONTACT */}

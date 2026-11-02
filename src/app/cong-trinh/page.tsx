@@ -104,7 +104,7 @@ export default async function ProjectsPage() {
 
       <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col selection:bg-[#3e4095] selection:text-white">
         {/* Navigation Header */}
-        <Header hotline={settings.hotline || settings.phone} />
+        <Header settings={settings} hotline={settings.hotline || settings.phone} />
 
         {/* Main Content Area */}
         <main className="flex-1">

@@ -118,7 +118,7 @@ export default async function RecruitmentPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Header hotline={settings.hotline || settings.phone} />
+      <Header settings={settings} hotline={settings.hotline || settings.phone} />
       <main className="flex-1">
         <RecruitmentPageClient
           initialJobs={allJobs}

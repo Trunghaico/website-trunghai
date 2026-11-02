@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Phone, ChevronRight, ChevronDown } from "lucide-react";
+import { CompanySettings } from "@/types";
 
 interface HeaderProps {
   hotline?: string;
@@ -12,6 +13,7 @@ interface HeaderProps {
   address?: string;
   workingHours?: string;
   email?: string;
+  settings?: CompanySettings;
 }
 
 interface NavItem {
@@ -20,12 +22,29 @@ interface NavItem {
   children?: { name: string; href: string }[];
 }
 
+const DEFAULT_NAV_LINKS: NavItem[] = [
+  { name: "Trang chủ", href: "/" },
+  {
+    name: "Giới thiệu",
+    href: "/gioi-thieu",
+    children: [
+      { name: "Tổng quan doanh nghiệp", href: "/gioi-thieu" },
+      { name: "Lĩnh vực hoạt động", href: "/linh-vuc-hoat-dong" },
+    ],
+  },
+  { name: "Công trình", href: "/cong-trinh" },
+  { name: "Tin tức", href: "/tin-tuc" },
+  { name: "Tuyển dụng", href: "/tuyen-dung" },
+  { name: "Liên hệ", href: "/lien-he" },
+];
+
 export default function Header({
   hotline = "0966.700.045",
   phoneDisplay = "0966.700.045",
   address = "12-14 Đường D5, Khu phố 12, Phường An Khánh, Tp. Hồ Chí Minh",
   workingHours = "Thứ 2 – Thứ 6: 08:00 – 17:30",
   email = "info@trunghaico.vn",
+  settings,
 }: HeaderProps) {
   const pathname = usePathname();
   const isHomePage = pathname === "/" || pathname === "";
@@ -33,6 +52,36 @@ export default function Header({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
   const [mobileAboutOpen, setMobileAboutOpen] = useState(true);
+
+  // Dynamic values derived from settings with fallback to props
+  const currentAddress =
+    settings?.headerAddress || address || settings?.address || "12-14 Đường D5, Khu phố 12, Phường An Khánh, Tp. Hồ Chí Minh";
+  const currentWorkingHours =
+    settings?.headerWorkingHours || workingHours || settings?.workingHours || "Thứ 2 – Thứ 6: 08:00 – 17:30";
+  const currentPhoneDisplay =
+    settings?.headerPhoneDisplay ||
+    phoneDisplay ||
+    (settings?.phone && settings?.hotline ? `${settings.phone} / ${settings.hotline}` : (settings?.phone || settings?.hotline || "0966.700.045"));
+  const currentEmail =
+    settings?.headerEmail || email || settings?.email || "info@trunghaico.vn";
+  const currentHotline =
+    settings?.headerHotline || hotline || settings?.hotline || settings?.phone || "0966.700.045";
+  const currentLogoUrl =
+    settings?.headerLogoUrl || "/logo.png";
+  const currentCtaText =
+    settings?.headerCtaText || "Hotline 24/7";
+
+  const navLinks = useMemo<NavItem[]>(() => {
+    if (settings?.headerNavItemsJson) {
+      try {
+        const parsed = JSON.parse(settings.headerNavItemsJson);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      } catch {
+        // Fallback
+      }
+    }
+    return DEFAULT_NAV_LINKS;
+  }, [settings?.headerNavItemsJson]);
 
   useEffect(() => {
     setAboutDropdownOpen(false);
@@ -62,26 +111,10 @@ export default function Header({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navLinks: NavItem[] = [
-    { name: "Trang chủ", href: "/" },
-    {
-      name: "Giới thiệu",
-      href: "/gioi-thieu",
-      children: [
-        { name: "Tổng quan doanh nghiệp", href: "/gioi-thieu" },
-        { name: "Lĩnh vực hoạt động", href: "/linh-vuc-hoat-dong" },
-      ],
-    },
-    { name: "Công trình", href: "/cong-trinh" },
-    { name: "Tin tức", href: "/tin-tuc" },
-    { name: "Tuyển dụng", href: "/tuyen-dung" },
-    { name: "Liên hệ", href: "/lien-he" },
-  ];
-
   // Header should be solid on subpages or when scrolled
   const isSolid = isScrolled || (pathname !== "/" && pathname !== "");
 
-  const phoneParts = phoneDisplay.split("/").map((p) => p.trim());
+  const phoneParts = currentPhoneDisplay.split("/").map((p) => p.trim());
 
   return (
     <>
@@ -89,10 +122,11 @@ export default function Header({
         {/* Topbar: Only appears on Homepage, disappears smoothly on scroll */}
         {isHomePage && (
           <div
-            className={`w-full bg-[#18202c] text-slate-300 text-xs sm:text-[13px] border-b border-white/[0.08] transition-all duration-300 ease-in-out overflow-hidden z-20 ${isScrolled
+            className={`w-full bg-[#18202c] text-slate-300 text-xs sm:text-[13px] border-b border-white/[0.08] transition-all duration-300 ease-in-out overflow-hidden z-20 ${
+              isScrolled
                 ? "max-h-0 opacity-0 -translate-y-full py-0 border-b-0 pointer-events-none"
                 : "max-h-12 opacity-100 translate-y-0 py-1.5 sm:py-2"
-              }`}
+            }`}
           >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex items-center justify-between gap-4">
@@ -108,7 +142,7 @@ export default function Header({
                     >
                       <path d="M12 2C7.58 2 4 5.58 4 10c0 5.25 8 13 8 13s8-7.75 8-13c0-4.42-3.58-8-8-8zm0 11c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z" />
                     </svg>
-                    <span className="truncate">{address}</span>
+                    <span className="truncate">{currentAddress}</span>
                   </div>
                   <div className="hidden md:flex items-center gap-1.5 sm:gap-2 shrink-0 text-slate-300/90">
                     <svg
@@ -120,7 +154,7 @@ export default function Header({
                     >
                       <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm1 5a1 1 0 1 0-2 0v4.586l3.293 3.293a1 1 0 0 0 1.414-1.414L13 10.586V7z" />
                     </svg>
-                    <span>{workingHours}</span>
+                    <span>{currentWorkingHours}</span>
                   </div>
                 </div>
 
@@ -153,10 +187,10 @@ export default function Header({
                       <path d="M3 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H3zm0 2.2 9 5.625L21 7.2V17H3V7.2zM12 11.125 4.6 6.5h14.8L12 11.125z" />
                     </svg>
                     <a
-                      href={`mailto:${email}`}
+                      href={`mailto:${currentEmail}`}
                       className="hover:text-white transition-colors"
                     >
-                      {email}
+                      {currentEmail}
                     </a>
                   </div>
                 </div>
@@ -167,10 +201,11 @@ export default function Header({
 
         {/* Main Navbar */}
         <div
-          className={`relative w-full transition-all duration-300 ease-in-out ${isSolid
+          className={`relative w-full transition-all duration-300 ease-in-out ${
+            isSolid
               ? "bg-white shadow-md border-b-2 border-[#3e4095] py-2 sm:py-2.5"
               : "bg-transparent py-2.5 sm:py-3.5 border-b border-white/10"
-            }`}
+          }`}
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="relative flex items-center justify-between gap-4 min-h-[50px] sm:min-h-[56px]">
@@ -181,7 +216,7 @@ export default function Header({
               >
                 <div className="relative h-14 w-[66px] sm:h-[72px] sm:w-[85px] transition-transform duration-300 group-hover:scale-105">
                   <Image
-                    src="/logo.png"
+                    src={currentLogoUrl}
                     alt="Trung Hải Logo"
                     fill
                     priority
@@ -193,10 +228,8 @@ export default function Header({
               {/* Desktop Navigation - Centered Exactly in the Middle */}
               <nav className="hidden lg:flex items-center space-x-1 xl:space-x-2.5 2xl:space-x-4 absolute left-1/2 -translate-x-1/2">
                 {navLinks.map((item) => {
-                  if (item.children) {
-                    const isDropdownActive =
-                      pathname.startsWith("/gioi-thieu") ||
-                      pathname.startsWith("/linh-vuc-hoat-dong");
+                  if (item.children && item.children.length > 0) {
+                    const isDropdownActive = item.children.some((child) => pathname.startsWith(child.href));
 
                     return (
                       <div
@@ -208,37 +241,41 @@ export default function Header({
                         <button
                           type="button"
                           onClick={() => setAboutDropdownOpen(!aboutDropdownOpen)}
-                          className={`group/btn relative whitespace-nowrap px-3 xl:px-4 py-1.5 text-[13px] xl:text-[14px] 2xl:text-[15px] uppercase tracking-wider font-bold transition-all duration-300 rounded-[3px] hover:text-[#3e4095] flex items-center gap-1.5 cursor-pointer ${isDropdownActive
+                          className={`group/btn relative whitespace-nowrap px-3 xl:px-4 py-1.5 text-[13px] xl:text-[14px] 2xl:text-[15px] uppercase tracking-wider font-bold transition-all duration-300 rounded-[3px] hover:text-[#3e4095] flex items-center gap-1.5 cursor-pointer ${
+                            isDropdownActive
                               ? "text-[#3e4095] font-bold"
                               : isSolid
-                                ? "text-slate-700 hover:bg-slate-50"
-                                : "text-white drop-shadow hover:text-[#3e4095]"
-                            }`}
+                              ? "text-slate-700 hover:bg-slate-50"
+                              : "text-white drop-shadow hover:text-[#3e4095]"
+                          }`}
                         >
                           <span>{item.name}</span>
                           <ChevronDown
-                            className={`w-3.5 h-3.5 xl:w-4 xl:h-4 transition-transform duration-200 ${aboutDropdownOpen
+                            className={`w-3.5 h-3.5 xl:w-4 xl:h-4 transition-transform duration-200 ${
+                              aboutDropdownOpen
                                 ? "rotate-180 text-[#3e4095]"
                                 : isDropdownActive
-                                  ? "text-[#3e4095]"
-                                  : isSolid
-                                    ? "text-slate-400 group-hover/btn:text-[#3e4095]"
-                                    : "text-white/80 group-hover/btn:text-[#3e4095]"
-                              }`}
+                                ? "text-[#3e4095]"
+                                : isSolid
+                                ? "text-slate-400 group-hover/btn:text-[#3e4095]"
+                                : "text-white/80 group-hover/btn:text-[#3e4095]"
+                            }`}
                           />
                           {/* Animated underline micro-interaction */}
                           <span
-                            className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[#3e4095] rounded-full transition-all duration-300 ease-out ${isDropdownActive || aboutDropdownOpen ? "w-4/5" : "w-0 group-hover/btn:w-4/5"
-                              }`}
+                            className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[#3e4095] rounded-full transition-all duration-300 ease-out ${
+                              isDropdownActive || aboutDropdownOpen ? "w-4/5" : "w-0 group-hover/btn:w-4/5"
+                            }`}
                           />
                         </button>
 
                         {/* Dropdown Menu */}
                         <div
-                          className={`absolute left-0 top-full pt-1.5 min-w-[225px] transition-all duration-200 z-50 ${aboutDropdownOpen
+                          className={`absolute left-0 top-full pt-1.5 min-w-[225px] transition-all duration-200 z-50 ${
+                            aboutDropdownOpen
                               ? "opacity-100 translate-y-0 pointer-events-auto"
                               : "opacity-0 -translate-y-2 pointer-events-none"
-                            }`}
+                          }`}
                         >
                           <div className="bg-white rounded-[3px] border border-slate-200 shadow-xl shadow-slate-900/10 py-1.5 overflow-hidden">
                             {item.children.map((sub) => {
@@ -249,15 +286,14 @@ export default function Header({
                                   key={sub.name}
                                   href={sub.href}
                                   onClick={() => setAboutDropdownOpen(false)}
-                                  className={`flex items-center justify-between px-4 py-2.5 text-[13px] sm:text-sm font-semibold transition-all ${isSubActive
+                                  className={`flex items-center justify-between px-4 py-2.5 text-[13px] sm:text-sm font-semibold transition-all ${
+                                    isSubActive
                                       ? "text-[#3e4095] bg-blue-50/70 font-bold"
                                       : "text-slate-700 hover:text-[#3e4095] hover:bg-blue-50/50"
-                                    }`}
+                                  }`}
                                 >
                                   <span>{sub.name}</span>
-                                  {isSubActive && (
-                                    <span className="w-1.5 h-1.5 rounded-full bg-[#3e4095]" />
-                                  )}
+                                  {isSubActive && <span className="w-1.5 h-1.5 rounded-full bg-[#3e4095]" />}
                                 </Link>
                               );
                             })}
@@ -276,18 +312,20 @@ export default function Header({
                     <Link
                       key={item.name}
                       href={item.href}
-                      className={`group relative whitespace-nowrap px-3 xl:px-4 py-1.5 text-[13px] xl:text-[14px] 2xl:text-[15px] uppercase tracking-wider font-bold transition-all duration-300 rounded-[3px] hover:text-[#3e4095] ${isActive
+                      className={`group relative whitespace-nowrap px-3 xl:px-4 py-1.5 text-[13px] xl:text-[14px] 2xl:text-[15px] uppercase tracking-wider font-bold transition-all duration-300 rounded-[3px] hover:text-[#3e4095] ${
+                        isActive
                           ? "text-[#3e4095] font-bold"
                           : isSolid
-                            ? "text-slate-700 hover:bg-slate-50"
-                            : "text-white drop-shadow hover:text-[#3e4095]"
-                        }`}
+                          ? "text-slate-700 hover:bg-slate-50"
+                          : "text-white drop-shadow hover:text-[#3e4095]"
+                      }`}
                     >
                       <span>{item.name}</span>
                       {/* Animated underline micro-interaction */}
                       <span
-                        className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[#3e4095] rounded-full transition-all duration-300 ease-out ${isActive ? "w-4/5" : "w-0 group-hover:w-4/5"
-                          }`}
+                        className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[#3e4095] rounded-full transition-all duration-300 ease-out ${
+                          isActive ? "w-4/5" : "w-0 group-hover:w-4/5"
+                        }`}
                       />
                     </Link>
                   );
@@ -297,8 +335,8 @@ export default function Header({
               {/* Compact Call Button with Brand Blue (#3e4095) */}
               <div className="hidden lg:flex items-center shrink-0 z-10">
                 <a
-                  href={`tel:${hotline.replace(/\s+/g, "")}`}
-                  title={`Gọi ngay: ${hotline}`}
+                  href={`tel:${currentHotline.replace(/\s+/g, "")}`}
+                  title={`Gọi ngay: ${currentHotline}`}
                   className="whitespace-nowrap flex items-center gap-2.5 px-4 py-1.5 text-xs xl:text-[13px] font-bold rounded-full transition-all duration-300 shadow-md shadow-[#3e4095]/30 hover:shadow-lg hover:shadow-[#3e4095]/45 hover:scale-105 group bg-[#3e4095] hover:bg-[#2d2f70] text-white border border-white/20"
                 >
                   {/* Ringing Phone Icon with Pulse Beacon */}
@@ -309,20 +347,30 @@ export default function Header({
                     </div>
                   </div>
 
-                  {/* Only Phone Number */}
-                  <span className="tracking-tight font-extrabold text-xs xl:text-[13px] text-white drop-shadow-sm">{hotline}</span>
+                  {/* Hotline number with optional CTA text */}
+                  <div className="flex flex-col text-left leading-tight">
+                    {currentCtaText && (
+                      <span className="text-[10px] text-amber-300 uppercase tracking-wider font-semibold">
+                        {currentCtaText}
+                      </span>
+                    )}
+                    <span className="tracking-tight font-extrabold text-xs xl:text-[13px] text-white drop-shadow-sm">
+                      {currentHotline}
+                    </span>
+                  </div>
                 </a>
               </div>
 
-              {/* Mobile Hamburger Button (pinned right, touch target >= 44x44px) */}
+              {/* Mobile Hamburger Button */}
               <div className="flex items-center gap-2 lg:hidden ml-auto">
                 <button
                   type="button"
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  className={`w-11 h-11 flex items-center justify-center rounded-lg transition-all touch-manipulation cursor-pointer active:scale-95 ${isSolid
+                  className={`w-11 h-11 flex items-center justify-center rounded-lg transition-all touch-manipulation cursor-pointer active:scale-95 ${
+                    isSolid
                       ? "text-slate-700 hover:bg-slate-100"
                       : "text-white hover:bg-white/20"
-                    }`}
+                  }`}
                   aria-label="Mở/Đóng Menu Điều Hướng"
                 >
                   {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -333,7 +381,7 @@ export default function Header({
         </div>
       </header>
 
-      {/* Mobile Drawer Navigation (Gọn gàng, border-radius 3px, có animation slide-in) */}
+      {/* Mobile Drawer Navigation */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-[100] lg:hidden">
           {/* Backdrop with smooth fade-in */}
@@ -346,10 +394,10 @@ export default function Header({
           {/* Drawer container with slide-in animation from right */}
           <div className="fixed top-0 right-0 bottom-0 w-[78%] max-w-[320px] bg-white p-4 sm:p-5 flex flex-col justify-between shadow-2xl z-10 overflow-y-auto animate-drawer-in">
             <div>
-              {/* Header: Chỉ có nhãn Menu tinh tế và nút đóng bo góc 3px (Touch target >= 44px) */}
+              {/* Header */}
               <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                  Menu
+                  Menu Điều Hướng
                 </span>
                 <button
                   type="button"
@@ -361,28 +409,28 @@ export default function Header({
                 </button>
               </div>
 
-              {/* Navigation Menu List: Không icon, bo góc rounded-[3px], gọn gàng */}
+              {/* Navigation Menu List */}
               <div className="mt-3 flex flex-col space-y-1">
                 {navLinks.map((item) => {
-                  if (item.children) {
-                    const isDropdownActive =
-                      pathname.startsWith("/gioi-thieu") ||
-                      pathname.startsWith("/linh-vuc-hoat-dong");
+                  if (item.children && item.children.length > 0) {
+                    const isDropdownActive = item.children.some((child) => pathname.startsWith(child.href));
 
                     return (
                       <div key={item.name} className="flex flex-col">
                         <button
                           type="button"
                           onClick={() => setMobileAboutOpen(!mobileAboutOpen)}
-                          className={`flex items-center justify-between px-3.5 py-2.5 rounded-[3px] text-[13px] uppercase tracking-wider font-bold transition-all ${isDropdownActive
+                          className={`flex items-center justify-between px-3.5 py-2.5 rounded-[3px] text-[13px] uppercase tracking-wider font-bold transition-all ${
+                            isDropdownActive
                               ? "text-[#3e4095] bg-blue-50/70 font-bold border-l-2 border-[#3e4095]"
                               : "text-slate-700 hover:text-[#3e4095] hover:bg-slate-50"
-                            }`}
+                          }`}
                         >
                           <span>{item.name}</span>
                           <ChevronDown
-                            className={`w-3.5 h-3.5 transition-transform duration-200 ${mobileAboutOpen ? "rotate-180 text-[#3e4095]" : "text-slate-400"
-                              }`}
+                            className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                              mobileAboutOpen ? "rotate-180 text-[#3e4095]" : "text-slate-400"
+                            }`}
                           />
                         </button>
 
@@ -396,10 +444,11 @@ export default function Header({
                                   key={sub.name}
                                   href={sub.href}
                                   onClick={() => setMobileMenuOpen(false)}
-                                  className={`flex items-center justify-between px-3 py-2 rounded-[3px] text-[13px] font-medium transition-all ${isSubActive
+                                  className={`flex items-center justify-between px-3 py-2 rounded-[3px] text-[13px] font-medium transition-all ${
+                                    isSubActive
                                       ? "text-[#3e4095] bg-blue-50/60 font-bold"
                                       : "text-slate-600 hover:text-[#3e4095] hover:bg-slate-50"
-                                    }`}
+                                  }`}
                                 >
                                   <span>{sub.name}</span>
                                   {isSubActive ? (
@@ -426,10 +475,11 @@ export default function Header({
                       key={item.name}
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`flex items-center justify-between px-3.5 py-2.5 rounded-[3px] text-[13px] uppercase tracking-wider font-bold transition-all ${isActive
+                      className={`flex items-center justify-between px-3.5 py-2.5 rounded-[3px] text-[13px] uppercase tracking-wider font-bold transition-all ${
+                        isActive
                           ? "text-[#3e4095] bg-blue-50/70 font-bold border-l-2 border-[#3e4095]"
                           : "text-slate-700 hover:text-[#3e4095] hover:bg-slate-50"
-                        }`}
+                      }`}
                     >
                       <span>{item.name}</span>
                       <ChevronRight className={`w-3.5 h-3.5 ${isActive ? "text-[#3e4095]" : "text-slate-300"}`} />
@@ -439,18 +489,18 @@ export default function Header({
               </div>
             </div>
 
-            {/* Footer with hotline and info: chuẩn touch target >= 44px và safe-area cho iPhone */}
+            {/* Footer with hotline and info */}
             <div className="pt-3 border-t border-slate-100 mt-4 space-y-2 pb-6 safe-bottom">
               <a
-                href={`tel:${hotline.replace(/\s+/g, "")}`}
+                href={`tel:${currentHotline.replace(/\s+/g, "")}`}
                 className="flex items-center justify-center gap-2 w-full min-h-[44px] py-2.5 text-xs font-bold text-white bg-[#3e4095] hover:bg-[#2d2f70] rounded-[3px] shadow-sm shadow-[#3e4095]/25 active:scale-98 transition-all touch-manipulation"
               >
                 <Phone className="w-3.5 h-3.5 fill-current animate-phone-ring" />
-                <span>Hotline: {hotline}</span>
+                <span>Hotline: {currentHotline}</span>
               </a>
 
               <p className="text-[11px] text-slate-400 text-center truncate px-1">
-                {address}
+                {currentAddress}
               </p>
             </div>
           </div>

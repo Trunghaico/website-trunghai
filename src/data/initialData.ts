@@ -44,6 +44,61 @@ export const initialCompanySettings: CompanySettings = {
   equipmentPhone: "0966.700.045",
   equipmentAddress: "Trụ sở chính & Kho bãi cơ giới",
   recruitmentEmail: "tuyendung@trunghaico.vn",
+
+  // Cấu hình Header mặc định
+  headerLogoUrl: "/logo.png",
+  headerAddress: "12-14 Đường D5, Khu phố 12, Phường An Khánh, Tp. Hồ Chí Minh",
+  headerWorkingHours: "Thứ 2 – Thứ 6: 08:00 – 17:30",
+  headerPhoneDisplay: "0966.700.045",
+  headerHotline: "0966.700.045",
+  headerEmail: "info@trunghaico.vn",
+  headerCtaText: "Hotline 24/7",
+  headerNavItemsJson: JSON.stringify([
+    { name: "Trang chủ", href: "/" },
+    {
+      name: "Giới thiệu",
+      href: "/gioi-thieu",
+      children: [
+        { name: "Tổng quan doanh nghiệp", href: "/gioi-thieu" },
+        { name: "Lĩnh vực hoạt động", href: "/linh-vuc-hoat-dong" },
+      ],
+    },
+    { name: "Công trình", href: "/cong-trinh" },
+    { name: "Tin tức", href: "/tin-tuc" },
+    { name: "Tuyển dụng", href: "/tuyen-dung" },
+    { name: "Liên hệ", href: "/lien-he" },
+  ]),
+
+  // Cấu hình Footer mặc định
+  footerCompanyName: "CÔNG TY CỔ PHẦN XÂY DỰNG VÀ ĐẦU TƯ TRUNG HẢI",
+  footerDescription: "Đơn vị tiên phong thi công các công trình hầm xuyên núi, hạ tầng giao thông đường bộ, cầu cạn và các tuyến quốc lộ trọng điểm quốc gia.",
+  footerTaxAuthority: "Cấp bởi: Thuế cơ sở 1 Thành phố Hồ Chí Minh",
+  footerAddress: "12-14 Đường D5, Khu phố 12, Phường An Khánh, Tp. Hồ Chí Minh",
+  footerPhone: "0966.700.045",
+  footerHotline: "0966.700.045",
+  footerEmail: "info@trunghaico.vn",
+  footerCopyright: "© 2026 CÔNG TY CỔ PHẦN XÂY DỰNG VÀ ĐẦU TƯ TRUNG HẢI. All rights reserved.",
+  footerIsoCertification: "Tiêu chuẩn ISO 9001:2015 & OHSAS 18001",
+  footerShowMap: true,
+  footerMapTitle: "Vị Trí Trụ Sở",
+  footerMapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7093.4802225019375!2d106.7340018!3d10.7902063!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175250025dd33df%3A0x79d9f143bf06960a!2zQ8O0bmcgdHkgQ1AgWMOieSBk4buxbmcgQ-G6p3UgxJHGsOG7nW5nIFRow6BuaCBQaMOhdA!5e1!3m2!1svi!2s!4v1791253228303!5m2!1svi!2s",
+  footerMapUrl: "https://www.google.com/maps?cid=0x79d9f143bf06960a",
+  footerMapAddress: "12-14 Đường D5, P. An Khánh, TP. Thủ Đức, TP. HCM",
+  footerQuickLinksJson: JSON.stringify([
+    { name: "Trang chủ", href: "/" },
+    { name: "Giới thiệu doanh nghiệp", href: "/gioi-thieu" },
+    { name: "Lĩnh vực hoạt động", href: "/linh-vuc-hoat-dong" },
+    { name: "Công trình tiêu biểu", href: "/cong-trinh" },
+    { name: "Tin tức & Sự kiện", href: "/tin-tuc" },
+    { name: "Cơ hội tuyển dụng", href: "/tuyen-dung" },
+    { name: "Liên hệ hợp tác", href: "/lien-he" },
+  ]),
+  footerProjectsLinksJson: JSON.stringify([
+    { name: "Hầm Đèo Cả & Cổ Mã", href: "/#projects" },
+    { name: "Hầm đường bộ Cù Mông", href: "/#projects" },
+    { name: "Hầm Phước Tượng - Phú Gia", href: "/#projects" },
+    { name: "Mở rộng QL1 Khánh Hòa", href: "/#projects" },
+  ]),
 };
 
 export const initialHeroSlides: HeroSlide[] = [

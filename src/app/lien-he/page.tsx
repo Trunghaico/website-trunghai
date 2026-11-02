@@ -117,6 +117,7 @@ export default async function ContactPage() {
       <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col selection:bg-[#3e4095] selection:text-white">
         {/* Navigation Header */}
         <Header
+          settings={settings}
           hotline={settings.hotline || settings.phone}
           phoneDisplay={settings.phone && settings.hotline ? `${settings.phone} / ${settings.hotline}` : settings.hotline}
           address={settings.address}

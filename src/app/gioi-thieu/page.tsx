@@ -118,7 +118,7 @@ export default async function GioiThieuPage() {
 
       <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col selection:bg-[#3e4095] selection:text-white">
         {/* Header điều hướng */}
-        <Header hotline={settings.hotline || settings.phone} />
+        <Header settings={settings} hotline={settings.hotline || settings.phone} />
 
         {/* Nội dung chính chuẩn Semantic */}
         <main className="flex-1">

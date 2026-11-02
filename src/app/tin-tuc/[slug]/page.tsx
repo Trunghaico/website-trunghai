@@ -98,7 +98,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col selection:bg-[#3e4095] selection:text-white">
       {/* Sticky Header */}
-      <Header hotline={settings.hotline || settings.phone} />
+      <Header settings={settings} hotline={settings.hotline || settings.phone} />
 
       {/* Main Container */}
       <main className="flex-1 pt-24 sm:pt-28 pb-12 sm:pb-16">

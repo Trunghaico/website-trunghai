@@ -155,6 +155,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Header
+        settings={settings}
         hotline={settings.hotline}
         phoneDisplay={settings.phone}
         address={settings.address}

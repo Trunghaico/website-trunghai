@@ -90,6 +90,34 @@ export interface CompanySettings {
   equipmentPhone?: string;
   equipmentAddress?: string;
   recruitmentEmail?: string;
+
+  // Cấu hình Header
+  headerLogoUrl?: string;
+  headerAddress?: string;
+  headerWorkingHours?: string;
+  headerPhoneDisplay?: string;
+  headerHotline?: string;
+  headerEmail?: string;
+  headerCtaText?: string;
+  headerNavItemsJson?: string;
+
+  // Cấu hình Footer
+  footerCompanyName?: string;
+  footerDescription?: string;
+  footerTaxAuthority?: string;
+  footerAddress?: string;
+  footerPhone?: string;
+  footerHotline?: string;
+  footerEmail?: string;
+  footerCopyright?: string;
+  footerIsoCertification?: string;
+  footerShowMap?: boolean | string;
+  footerMapTitle?: string;
+  footerMapEmbedUrl?: string;
+  footerMapUrl?: string;
+  footerMapAddress?: string;
+  footerQuickLinksJson?: string;
+  footerProjectsLinksJson?: string;
 }
 
 export interface User {
