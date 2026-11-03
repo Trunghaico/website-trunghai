@@ -14,8 +14,78 @@ import { verifyPassword } from "@/lib/auth";
 const CF_ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID || "52f76df902421a88a4a54e48bcee0321";
 const CF_DATABASE_ID = process.env.CLOUDFLARE_D1_DATABASE_ID || "29fc183a-7dbd-4763-acd1-686d01886113";
 const CF_API_TOKEN = process.env.CLOUDFLARE_API_TOKEN || "";
+const CLOUDFLARE_PAGES_FALLBACK = "https://website-trunghai-pages.pages.dev";
 
 const isCloudflareD1Configured = true;
+
+// Helper to clean potential markdown wrapper e.g. [url](url) or quotes/trailing slashes
+function cleanUrl(val?: string): string {
+  if (!val) return "";
+  const match = val.match(/https?:\/\/[^\s)\]"']+/);
+  return match ? match[0].replace(/\/+$/, "") : "";
+}
+
+function getRemoteBaseUrls(): string[] {
+  const custom = [
+    cleanUrl(process.env.CLOUDFLARE_PAGES_URL),
+    cleanUrl(process.env.NEXT_PUBLIC_API_URL),
+    cleanUrl(process.env.REMOTE_API_URL),
+  ].filter(Boolean);
+
+  const list = [...custom, CLOUDFLARE_PAGES_FALLBACK];
+  return Array.from(new Set(list));
+}
+
+async function fetchFromRemoteApi<T = any>(endpoint: string): Promise<T | null> {
+  const baseUrls = getRemoteBaseUrls();
+  for (const base of baseUrls) {
+    try {
+      const url = `${base}/api/${endpoint}`;
+      const res = await fetch(url, {
+        cache: "no-store",
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data && typeof data === "object" && !("error" in data)) {
+          return data as T;
+        }
+      }
+    } catch {
+      // try next candidate
+    }
+  }
+  return null;
+}
+
+async function forwardRemoteMutation(
+  endpoint: string,
+  method: "POST" | "DELETE",
+  body?: any,
+  queryParams?: Record<string, string>
+): Promise<boolean> {
+  const baseUrls = getRemoteBaseUrls();
+  for (const base of baseUrls) {
+    try {
+      let url = `${base}/api/${endpoint}`;
+      if (queryParams) {
+        const q = new URLSearchParams(queryParams).toString();
+        url += `?${q}`;
+      }
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: body ? JSON.stringify(body) : undefined,
+      });
+      if (res.ok) {
+        return true;
+      }
+    } catch {
+      // ignore
+    }
+  }
+  return false;
+}
 
 // Helper to access native Cloudflare D1 binding when running in Cloudflare Pages / Workers
 async function getCloudflareD1Binding(): Promise<any> {
@@ -112,6 +182,10 @@ export async function executeD1Query<T = any>(sql: string, params: any[] = []): 
   const databaseId = process.env.CLOUDFLARE_D1_DATABASE_ID || CF_DATABASE_ID;
   const apiToken = process.env.CLOUDFLARE_API_TOKEN || CF_API_TOKEN;
 
+  if (!apiToken) {
+    throw new Error("CLOUDFLARE_API_TOKEN not configured");
+  }
+
   const endpoint = `https://api.cloudflare.com/client/v4/accounts/${accountId}/d1/database/${databaseId}/query`;
 
   const res = await fetch(endpoint, {
@@ -132,7 +206,7 @@ export async function executeD1Query<T = any>(sql: string, params: any[] = []): 
   return (data.result?.[0]?.results || []) as T[];
 }
 
-// Database Service Layer with automatic Cloudflare D1 / Memory fallback
+// Database Service Layer with automatic Cloudflare D1 / Remote API / Memory fallback
 export const db = {
   isCloudflareConfigured(): boolean {
     return isCloudflareD1Configured;
@@ -156,17 +230,33 @@ export const db = {
 
     if (isCloudflareD1Configured) {
       try {
-        // Tự động đồng bộ hóa toàn bộ dự án cũ trong D1 sang 'Đèo & Hầm Núi'
         executeD1Query(
           "UPDATE projects SET categoryName = 'Đèo & Hầm Núi' WHERE category = 'ham' OR categoryName LIKE '%Hầm Xuyên Núi%' OR categoryName LIKE '%Hầm xuyên núi%'"
         ).catch(() => {});
 
         const rows = await executeD1Query<any>("SELECT * FROM projects ORDER BY created_at DESC");
-        return rows.map(normalizeProjectCategory);
+        if (Array.isArray(rows) && rows.length > 0) {
+          const mapped = rows.map(normalizeProjectCategory);
+          memoryStore.projects = mapped;
+          return mapped;
+        }
       } catch (err) {
-        console.warn("Cloudflare D1 query error, falling back to memory store:", err);
+        console.warn("Cloudflare D1 query error, trying remote API fallback:", err);
       }
     }
+
+    // Remote fallback (e.g. live Cloudflare Pages API)
+    try {
+      const remoteData = await fetchFromRemoteApi<any[]>("projects");
+      if (Array.isArray(remoteData) && remoteData.length > 0) {
+        const mapped = remoteData.map(normalizeProjectCategory);
+        memoryStore.projects = mapped;
+        return mapped;
+      }
+    } catch (remoteErr) {
+      console.warn("Remote API fallback error for projects:", remoteErr);
+    }
+
     return memoryStore.projects.map(normalizeProjectCategory);
   },
 
@@ -213,9 +303,11 @@ export const db = {
           ]
         );
       } catch (err) {
-        console.warn("Cloudflare D1 save error, updating memory store:", err);
+        console.warn("Cloudflare D1 save error, updating local and forwarding:", err);
       }
     }
+
+    forwardRemoteMutation("projects", "POST", projectToSave).catch(() => {});
 
     const index = memoryStore.projects.findIndex((p) => p.id === projectToSave.id);
     if (index >= 0) {
@@ -236,6 +328,9 @@ export const db = {
         console.warn("Cloudflare D1 delete error:", err);
       }
     }
+
+    forwardRemoteMutation("projects", "DELETE", undefined, { id }).catch(() => {});
+
     const idx = memoryStore.projects.findIndex((p) => p.id === id);
     if (idx >= 0) {
       memoryStore.projects.splice(idx, 1);
@@ -246,22 +341,38 @@ export const db = {
 
   // === NEWS POSTS ===
   async getNews(): Promise<NewsPost[]> {
+    const normalizeNews = (r: any): NewsPost => ({
+      ...r,
+      featured: Boolean(r.featured),
+      published: r.published === undefined || r.published === null ? true : Boolean(r.published),
+    });
+
     if (isCloudflareD1Configured) {
       try {
         const rows = await executeD1Query<any>("SELECT * FROM news ORDER BY created_at DESC");
-        return (rows || []).map((r) => ({
-          ...r,
-          featured: Boolean(r.featured),
-          published: r.published === undefined || r.published === null ? true : Boolean(r.published),
-        }));
+        if (Array.isArray(rows) && rows.length > 0) {
+          const mapped = rows.map(normalizeNews);
+          memoryStore.news = mapped;
+          return mapped;
+        }
       } catch (err) {
-        console.warn("Cloudflare D1 query error for news:", err);
+        console.warn("Cloudflare D1 query error for news, trying remote API fallback:", err);
       }
     }
-    return memoryStore.news.map((r) => ({
-      ...r,
-      published: r.published === undefined || r.published === null ? true : Boolean(r.published),
-    }));
+
+    // Remote fallback
+    try {
+      const remoteData = await fetchFromRemoteApi<any[]>("news");
+      if (Array.isArray(remoteData) && remoteData.length > 0) {
+        const mapped = remoteData.map(normalizeNews);
+        memoryStore.news = mapped;
+        return mapped;
+      }
+    } catch (remoteErr) {
+      console.warn("Remote API fallback error for news:", remoteErr);
+    }
+
+    return memoryStore.news.map(normalizeNews);
   },
 
   async getNewsBySlug(slug: string): Promise<NewsPost | undefined> {
@@ -297,9 +408,10 @@ export const db = {
         );
       } catch (err) {
         console.warn("Cloudflare D1 save news error:", err);
-        throw err;
       }
     }
+
+    forwardRemoteMutation("news", "POST", postToSave).catch(() => {});
 
     const index = memoryStore.news.findIndex((n) => n.id === postToSave.id);
     if (index >= 0) {
@@ -320,6 +432,9 @@ export const db = {
         console.warn("Cloudflare D1 delete news error:", err);
       }
     }
+
+    forwardRemoteMutation("news", "DELETE", undefined, { id }).catch(() => {});
+
     const idx = memoryStore.news.findIndex((n) => n.id === id || n.slug === id);
     if (idx >= 0) {
       memoryStore.news.splice(idx, 1);
@@ -330,45 +445,70 @@ export const db = {
 
   // === JOBS ===
   async getJobs(): Promise<JobPosting[]> {
+    const normalizeJob = (r: any): JobPosting => ({
+      ...r,
+      workingHours: r.working_hours || r.workingHours || "",
+      description: typeof r.description === "string" ? JSON.parse(r.description) : r.description || [],
+      requirements: typeof r.requirements === "string" ? JSON.parse(r.requirements) : r.requirements || [],
+      benefits: typeof r.benefits === "string" ? JSON.parse(r.benefits) : r.benefits || [],
+      active: Boolean(r.active),
+    });
+
     if (isCloudflareD1Configured) {
       try {
         const rows = await executeD1Query<any>("SELECT * FROM jobs ORDER BY created_at DESC, id DESC");
-        return rows.map((r) => ({
-          ...r,
-          workingHours: r.working_hours || r.workingHours || "",
-          description: typeof r.description === "string" ? JSON.parse(r.description) : r.description || [],
-          requirements: typeof r.requirements === "string" ? JSON.parse(r.requirements) : r.requirements || [],
-          benefits: typeof r.benefits === "string" ? JSON.parse(r.benefits) : r.benefits || [],
-          active: Boolean(r.active),
-        }));
+        if (Array.isArray(rows) && rows.length > 0) {
+          const mapped = rows.map(normalizeJob);
+          memoryStore.jobs = mapped;
+          return mapped;
+        }
       } catch (err) {
-        console.warn("Cloudflare D1 get jobs error:", err);
+        console.warn("Cloudflare D1 get jobs error, trying remote fallback:", err);
       }
     }
+
+    // Remote fallback
+    try {
+      const remoteData = await fetchFromRemoteApi<any[]>("jobs");
+      if (Array.isArray(remoteData)) {
+        const mapped = remoteData.map(normalizeJob);
+        memoryStore.jobs = mapped;
+        return mapped;
+      }
+    } catch (remoteErr) {
+      console.warn("Remote API fallback error for jobs:", remoteErr);
+    }
+
     return memoryStore.jobs;
   },
 
   async saveJob(job: JobPosting): Promise<JobPosting> {
     if (isCloudflareD1Configured) {
-      await executeD1Query(
-        `INSERT OR REPLACE INTO jobs (id, title, department, location, salary, deadline, working_hours, type, description, requirements, benefits, active)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [
-          job.id,
-          job.title,
-          job.department || "",
-          job.location || "",
-          job.salary || "",
-          job.deadline || "",
-          job.workingHours || "",
-          job.type || "Toàn thời gian",
-          JSON.stringify(job.description || []),
-          JSON.stringify(job.requirements || []),
-          JSON.stringify(job.benefits || []),
-          job.active !== false ? 1 : 0,
-        ]
-      );
+      try {
+        await executeD1Query(
+          `INSERT OR REPLACE INTO jobs (id, title, department, location, salary, deadline, working_hours, type, description, requirements, benefits, active)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          [
+            job.id,
+            job.title,
+            job.department || "",
+            job.location || "",
+            job.salary || "",
+            job.deadline || "",
+            job.workingHours || "",
+            job.type || "Toàn thời gian",
+            JSON.stringify(job.description || []),
+            JSON.stringify(job.requirements || []),
+            JSON.stringify(job.benefits || []),
+            job.active !== false ? 1 : 0,
+          ]
+        );
+      } catch (err) {
+        console.warn("Cloudflare D1 save job error:", err);
+      }
     }
+
+    forwardRemoteMutation("jobs", "POST", job).catch(() => {});
 
     const index = memoryStore.jobs.findIndex((j) => j.id === job.id);
     if (index >= 0) {
@@ -390,6 +530,8 @@ export const db = {
       }
     }
 
+    forwardRemoteMutation("jobs", "DELETE", undefined, { id }).catch(() => {});
+
     const idx = memoryStore.jobs.findIndex((j) => j.id === id);
     if (idx >= 0) {
       memoryStore.jobs.splice(idx, 1);
@@ -400,67 +542,58 @@ export const db = {
 
   // === SLIDES ===
   async getSlides(): Promise<HeroSlide[]> {
+    const normalizeSlide = (r: any, idx: number): HeroSlide => ({
+      id: r.id,
+      title: r.title || "",
+      subtitle: r.subtitle || "",
+      tag: r.tag || "",
+      image: r.image,
+      projectLink: r.projectLink || "",
+      stats: (() => {
+        if (!r.stats) return undefined;
+        if (typeof r.stats === "object") return r.stats;
+        try {
+          return JSON.parse(r.stats);
+        } catch {
+          return undefined;
+        }
+      })(),
+      orderIndex: r.order_index ?? r.orderIndex ?? idx,
+    });
+
     if (isCloudflareD1Configured) {
       try {
         const rows = await executeD1Query<any>(
           "SELECT * FROM slides ORDER BY order_index ASC, created_at ASC"
         );
-        return rows.map((r, idx) => ({
-          id: r.id,
-          title: r.title || "",
-          subtitle: r.subtitle || "",
-          tag: r.tag || "",
-          image: r.image,
-          projectLink: r.projectLink || "",
-          stats: (() => {
-            if (!r.stats) return undefined;
-            if (typeof r.stats === "object") return r.stats;
-            try {
-              return JSON.parse(r.stats);
-            } catch {
-              return undefined;
-            }
-          })(),
-          orderIndex: r.order_index ?? idx,
-        }));
+        if (Array.isArray(rows) && rows.length > 0) {
+          const mapped = rows.map(normalizeSlide);
+          memoryStore.slides = mapped;
+          return mapped;
+        }
       } catch (err) {
-        console.warn("Cloudflare D1 get slides error, fallback to memory:", err);
+        console.warn("Cloudflare D1 get slides error, trying remote fallback:", err);
       }
     }
+
+    // Remote fallback
+    try {
+      const remoteData = await fetchFromRemoteApi<any[]>("slides");
+      if (Array.isArray(remoteData) && remoteData.length > 0) {
+        const mapped = remoteData.map(normalizeSlide);
+        memoryStore.slides = mapped;
+        return mapped;
+      }
+    } catch (remoteErr) {
+      console.warn("Remote API fallback error for slides:", remoteErr);
+    }
+
     return memoryStore.slides;
   },
 
   async getSlideById(id: string): Promise<HeroSlide | null> {
-    if (isCloudflareD1Configured) {
-      try {
-        const rows = await executeD1Query<any>("SELECT * FROM slides WHERE id = ? LIMIT 1", [id]);
-        if (rows.length > 0) {
-          const r = rows[0];
-          return {
-            id: r.id,
-            title: r.title || "",
-            subtitle: r.subtitle || "",
-            tag: r.tag || "",
-            image: r.image,
-            projectLink: r.projectLink || "",
-            stats: (() => {
-              if (!r.stats) return undefined;
-              if (typeof r.stats === "object") return r.stats;
-              try {
-                return JSON.parse(r.stats);
-              } catch {
-                return undefined;
-              }
-            })(),
-            orderIndex: r.order_index ?? 0,
-          };
-        }
-        return null;
-      } catch (err) {
-        console.warn("Cloudflare D1 getSlideById error:", err);
-      }
-    }
-    return memoryStore.slides.find((s) => s.id === id) || null;
+    const list = await this.getSlides();
+    return list.find((s) => s.id === id) || null;
   },
 
   async saveSlide(slide: HeroSlide): Promise<HeroSlide> {
@@ -484,6 +617,9 @@ export const db = {
         console.warn("Cloudflare D1 save slide error:", err);
       }
     }
+
+    forwardRemoteMutation("slides", "POST", slide).catch(() => {});
+
     const index = memoryStore.slides.findIndex((s) => s.id === slide.id);
     if (index >= 0) {
       memoryStore.slides[index] = slide;
@@ -503,6 +639,9 @@ export const db = {
         console.warn("Cloudflare D1 delete slide error:", err);
       }
     }
+
+    forwardRemoteMutation("slides", "DELETE", undefined, { id }).catch(() => {});
+
     const idx = memoryStore.slides.findIndex((s) => s.id === id);
     if (idx >= 0) {
       memoryStore.slides.splice(idx, 1);
@@ -525,15 +664,33 @@ export const db = {
               loaded[r.key] = r.value;
             }
           }
-          return {
+          const merged = {
             ...memoryStore.settings,
             ...loaded,
           } as CompanySettings;
+          memoryStore.settings = merged;
+          return merged;
         }
       } catch (err) {
-        console.warn("Cloudflare D1 get settings error, fallback to memory:", err);
+        console.warn("Cloudflare D1 get settings error, trying remote fallback:", err);
       }
     }
+
+    // Remote fallback
+    try {
+      const remoteData = await fetchFromRemoteApi<CompanySettings>("settings");
+      if (remoteData && typeof remoteData === "object" && !Array.isArray(remoteData)) {
+        const merged = {
+          ...memoryStore.settings,
+          ...remoteData,
+        };
+        memoryStore.settings = merged;
+        return merged;
+      }
+    } catch (remoteErr) {
+      console.warn("Remote API fallback error for settings:", remoteErr);
+    }
+
     return memoryStore.settings;
   },
 
@@ -552,6 +709,9 @@ export const db = {
         console.warn("Cloudflare D1 update settings error:", err);
       }
     }
+
+    forwardRemoteMutation("settings", "POST", settings).catch(() => {});
+
     memoryStore.settings = { ...memoryStore.settings, ...settings };
     return memoryStore.settings;
   },
@@ -663,7 +823,6 @@ export const db = {
     }));
   },
 
-
   // === PARTNERS ===
   async ensurePartnersTable(): Promise<void> {
     if (isCloudflareD1Configured) {
@@ -686,30 +845,45 @@ export const db = {
   },
 
   async getPartners(): Promise<Partner[]> {
+    const normalizePartner = (r: any): Partner => ({
+      id: r.id,
+      name: r.name,
+      website: r.website || "",
+      logo: r.logo,
+      orderIndex: Number(r.order_index ?? r.orderIndex) || 0,
+      active: r.active !== 0 && r.active !== false,
+    });
+
     if (isCloudflareD1Configured) {
       try {
         const rows = await executeD1Query<any>(
           "SELECT * FROM partners ORDER BY order_index ASC, created_at ASC"
         );
-        if (Array.isArray(rows)) {
-          const mapped = rows.map((r) => ({
-            id: r.id,
-            name: r.name,
-            website: r.website || "",
-            logo: r.logo,
-            orderIndex: Number(r.order_index) || 0,
-            active: r.active !== 0,
-          }));
+        if (Array.isArray(rows) && rows.length > 0) {
+          const mapped = rows.map(normalizePartner);
           memoryStore.partners = mapped;
           return mapped;
         }
       } catch (err: any) {
-        console.warn("Cloudflare D1 get partners error:", err);
+        console.warn("Cloudflare D1 get partners error, trying remote fallback:", err);
         if (String(err?.message || "").includes("no such table")) {
           await this.ensurePartnersTable();
         }
       }
     }
+
+    // Remote fallback
+    try {
+      const remoteData = await fetchFromRemoteApi<any[]>("partners");
+      if (Array.isArray(remoteData) && remoteData.length > 0) {
+        const mapped = remoteData.map(normalizePartner);
+        memoryStore.partners = mapped;
+        return mapped;
+      }
+    } catch (remoteErr) {
+      console.warn("Remote API fallback error for partners:", remoteErr);
+    }
+
     return [...(memoryStore.partners || [])].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0));
   },
 
@@ -767,6 +941,8 @@ export const db = {
       }
     }
 
+    forwardRemoteMutation("partners", "POST", normalized).catch(() => {});
+
     const idx = memoryStore.partners.findIndex((p) => p.id === normalized.id);
     if (idx >= 0) {
       memoryStore.partners[idx] = normalized;
@@ -790,6 +966,8 @@ export const db = {
         console.warn("Cloudflare D1 delete partner error:", err);
       }
     }
+
+    forwardRemoteMutation("partners", "DELETE", undefined, { id }).catch(() => {});
 
     const idx = memoryStore.partners.findIndex((p) => p.id === id);
     if (idx >= 0) {
