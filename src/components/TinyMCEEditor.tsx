@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
-import { compressImageClientSide } from "@/lib/imageCompress";
+import { uploadImageDirectly } from "@/lib/imageCompress";
 
 interface TinyMCEEditorProps {
   value: string;
@@ -101,23 +101,9 @@ export default function TinyMCEEditor({
           file_picker_types: "image",
           images_upload_handler: async (blobInfo: any) => {
             try {
-              // Tự động nén ảnh nếu dung lượng lớn trước khi upload lên Cloudinary
               const rawBlob = blobInfo.blob();
-              const processedBlob = await compressImageClientSide(rawBlob, 2048, 0.85);
-
-              const formData = new FormData();
-              formData.append("file", processedBlob, blobInfo.filename() || "image.jpg");
-
-              const res = await fetch("/api/upload", {
-                method: "POST",
-                body: formData,
-              });
-
-              const data = await res.json().catch(() => ({}));
-              if (!res.ok || !data.url) {
-                throw new Error(data.error || `Tải ảnh thất bại (Mã lỗi ${res.status})`);
-              }
-              return data.url;
+              const url = await uploadImageDirectly(rawBlob, blobInfo.filename() || "image.jpg");
+              return url;
             } catch (err: any) {
               throw new Error(err.message || "Upload ảnh thất bại");
             }

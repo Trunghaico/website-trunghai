@@ -76,3 +76,64 @@ export async function compressImageClientSide(
     img.src = objectUrl;
   });
 }
+
+/**
+ * Tải ảnh trực tiếp lên Cloudinary từ trình duyệt (hoặc fallback qua /api/upload)
+ * Giải quyết triệt để lỗi 413 Payload Too Large của Vercel (giới hạn 4.5MB).
+ */
+export async function uploadImageDirectly(
+  file: File | Blob,
+  fileName?: string
+): Promise<string> {
+  const name = fileName || (file instanceof File ? file.name : "image.jpg");
+
+  // 1. Tự động nén ảnh tại client nếu dung lượng lớn
+  let blobToUpload: Blob = file;
+  try {
+    blobToUpload = await compressImageClientSide(file, 2048, 0.85);
+  } catch (err) {
+    console.warn("Client compress error, using original file:", err);
+  }
+
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || "syjvx1ly";
+  const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "trunghai_uploads";
+
+  // 2. Ưu tiên tải trực tiếp từ trình duyệt lên Cloudinary (bỏ qua máy chủ Vercel)
+  if (cloudName && uploadPreset) {
+    try {
+      const endpoint = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
+      const formData = new FormData();
+      formData.append("file", blobToUpload, name);
+      formData.append("upload_preset", uploadPreset);
+      formData.append("folder", "trunghai_media");
+
+      const response = await fetch(endpoint, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const resData = await response.json();
+        if (resData.secure_url) {
+          return resData.secure_url;
+        }
+      }
+    } catch (directErr) {
+      console.warn("Direct upload to Cloudinary failed, falling back to /api/upload:", directErr);
+    }
+  }
+
+  // 3. Fallback: Nếu upload trực tiếp không thành công, gửi qua API nội bộ /api/upload
+  const formData = new FormData();
+  formData.append("file", blobToUpload, name);
+  const res = await fetch("/api/upload", {
+    method: "POST",
+    body: formData,
+  });
+
+  const data = await res.json().catch(() => ({}));
+  if (res.ok && data.url) {
+    return data.url;
+  }
+  throw new Error(data.error || (res.status === 413 ? "Ảnh quá lớn (vượt quá 4.5MB của Vercel)" : `Tải ảnh thất bại (${res.status})`));
+}

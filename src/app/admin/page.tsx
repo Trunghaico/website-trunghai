@@ -55,7 +55,7 @@ import {
   PanelBottom,
 } from "lucide-react";
 import { Project, NewsPost, JobPosting, CompanySettings, HeroSlide, Partner, CloudinaryUsageData } from "@/types";
-import { compressImageClientSide } from "@/lib/imageCompress";
+import { compressImageClientSide, uploadImageDirectly } from "@/lib/imageCompress";
 import AdminHeaderEditor from "@/components/admin/AdminHeaderEditor";
 import AdminFooterEditor from "@/components/admin/AdminFooterEditor";
 import AdminCloudinaryStorage from "@/components/admin/AdminCloudinaryStorage";
@@ -399,25 +399,12 @@ export default function AdminPage() {
 
     setIsUploading(true);
     try {
-      const processedBlob = await compressImageClientSide(file, 2048, 0.85);
-      const formData = new FormData();
-      formData.append("file", processedBlob, file.name);
-
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await res.json().catch(() => ({}));
-      if (res.ok && data.url) {
-        setUploadedUrl(data.url);
-        if (targetCallback) {
-          targetCallback(data.url);
-        }
-        showNotice("Đã tải ảnh lên thành công!");
-      } else {
-        showNotice(data.error || "Không thể tải ảnh", "error");
+      const url = await uploadImageDirectly(file);
+      setUploadedUrl(url);
+      if (targetCallback) {
+        targetCallback(url);
       }
+      showNotice("Đã tải ảnh lên thành công!");
     } catch (err: any) {
       showNotice(err.message || "Lỗi tải file", "error");
     } finally {
@@ -892,21 +879,9 @@ export default function AdminPage() {
   // Upload Single Image for Header/Footer
   const handleUploadSingleImage = async (file: File): Promise<string | null> => {
     try {
-      const processedBlob = await compressImageClientSide(file, 2048, 0.85);
-      const formData = new FormData();
-      formData.append("file", processedBlob, file.name);
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-      const data = await res.json().catch(() => ({}));
-      if (res.ok && data.url) {
-        showNotice("Đã tải ảnh lên thành công!");
-        return data.url;
-      } else {
-        showNotice(data.error || "Không thể tải ảnh", "error");
-        return null;
-      }
+      const url = await uploadImageDirectly(file);
+      showNotice("Đã tải ảnh lên thành công!");
+      return url;
     } catch (err: any) {
       showNotice(err.message || "Lỗi tải ảnh", "error");
       return null;
@@ -2462,19 +2437,12 @@ export default function AdminPage() {
                                 const file = e.target.files?.[0];
                                 if (!file) return;
                                 setIsUploading(true);
-                                const formData = new FormData();
-                                formData.append("file", file);
                                 try {
-                                  const res = await fetch("/api/upload", { method: "POST", body: formData });
-                                  const data = await res.json();
-                                  if (data.url) {
-                                    setSlideForm((prev) => ({ ...prev, image: data.url }));
-                                    showNotice("Tải ảnh slide lên Cloudinary thành công!");
-                                  } else {
-                                    showNotice(data.error || "Lỗi tải ảnh", "error");
-                                  }
+                                  const url = await uploadImageDirectly(file);
+                                  setSlideForm((prev) => ({ ...prev, image: url }));
+                                  showNotice("Tải ảnh slide lên Cloudinary thành công!");
                                 } catch (err: any) {
-                                  showNotice(err.message, "error");
+                                  showNotice(err.message || "Lỗi tải ảnh", "error");
                                 } finally {
                                   setIsUploading(false);
                                 }
@@ -2857,19 +2825,12 @@ export default function AdminPage() {
                                   const file = e.target.files?.[0];
                                   if (!file) return;
                                   setIsUploading(true);
-                                  const formData = new FormData();
-                                  formData.append("file", file);
                                   try {
-                                    const res = await fetch("/api/upload", { method: "POST", body: formData });
-                                    const data = await res.json();
-                                    if (data.url) {
-                                      setPartnerForm((prev) => ({ ...prev, logo: data.url }));
-                                      showNotice("Tải logo đối tác lên thành công!");
-                                    } else {
-                                      showNotice(data.error || "Lỗi tải ảnh", "error");
-                                    }
+                                    const url = await uploadImageDirectly(file);
+                                    setPartnerForm((prev) => ({ ...prev, logo: url }));
+                                    showNotice("Tải logo đối tác lên thành công!");
                                   } catch (err: any) {
-                                    showNotice(err.message, "error");
+                                    showNotice(err.message || "Lỗi tải ảnh", "error");
                                   } finally {
                                     setIsUploading(false);
                                   }
